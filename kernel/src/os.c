@@ -59,7 +59,7 @@ sem_t fill;
       P(&empty);
       printf("(");
       #ifdef _DEBUG
-      printf("\n");
+      printf("from %s\n",current->name);
       #endif
       V(&fill);
     }
@@ -72,7 +72,7 @@ sem_t fill;
       P(&fill);
       printf(")");
       #ifdef _DEBUG
-      printf("\n");
+      printf("from %s\n",current->name);
       #endif
       V(&empty);
     }

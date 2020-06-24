@@ -62,6 +62,7 @@ sem_t fill;
       printf("from %s\n",current->name);
       #endif
       V(&fill);
+      _yield();
     }
   }
 
@@ -75,6 +76,7 @@ sem_t fill;
       printf("from %s\n",current->name);
       #endif
       V(&empty);
+      _yield();
     }
   }
 #endif

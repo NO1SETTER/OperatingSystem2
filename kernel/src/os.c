@@ -137,10 +137,10 @@ void sp_lockinit(spinlock_t* lk,const char *name)
 _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
       _intr_write(0);
-      printf("CPU#%d Schedule\n",_cpu());
+      //printf("CPU#%d Schedule\n",_cpu());
       if(!current)
         {
-          printf("No thread on this CPU yet\n");
+          //printf("No thread on this CPU yet\n");
           current=all_thread[0];//暂时的
         }
       else
@@ -156,7 +156,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
          break;
       }while((current->id)%_ncpu()!=_cpu()||current->status!=T_RUNNING);
       assert(current);
-      printf("Current id =%d:%p\n",currents[_cpu()]->id,(void *)current);
+      //printf("Current id =%d:%p\n",currents[_cpu()]->id,(void *)current);
       return current->ctx;
 }
 
@@ -267,12 +267,12 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     task->next=all_thread[0];
   }
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
-  printf("stack at [%x,%x)\n",task->stack,task->stack+STACK_SIZE);
+  //printf("stack at [%x,%x)\n",task->stack,task->stack+STACK_SIZE);
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
   all_thread[thread_num++]=task;//添加到所有线程中
   active_thread[active_num++]=task->id;//添加到活跃线程中
-  printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
+  //printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
   return 0;
 }
 

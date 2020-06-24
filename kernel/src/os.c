@@ -288,6 +288,13 @@ static void kmt_teardown(task_t *task)
   kfree_safe(task->stack);
 }
 
+void print_task()
+{
+  printf("Active:");
+  for(int i=0;i<active_num;i++)
+  printf("%s ",all_thread[active_thread[i]]->name);
+  printf("\n");
+}
 
 static void sem_init(sem_t *sem, const char *name, int value)
 {
@@ -349,7 +356,7 @@ static void sem_wait(sem_t *sem)
 
     sp_unlock(&thread_ctrl_lock);
     sp_unlock(&sem->lock);
-
+    print_task();
     _intr_write(1);
     _yield();
     return;
@@ -381,6 +388,7 @@ static void sem_signal(sem_t *sem)
     }
   sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);
+  print_task();
   _intr_write(1);
 }
 

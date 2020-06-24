@@ -3,6 +3,8 @@
 #define _DEBUG
 #define P kmt->sem_wait
 #define V kmt->sem_signal
+#define current currents[_cpu()]
+
 static void sem_init(sem_t *sem, const char *name, int value);
 static void sem_wait(sem_t *sem);
 static void sem_signal(sem_t *sem);
@@ -131,28 +133,10 @@ void sp_lockinit(spinlock_t* lk,const char *name)
   lk->locked=0;
 }
 
-#define current currents[_cpu()]
+
 _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
-      /*if(current==NULL)
-      {
-        current=all_thread[active_thread[0]];
-      }
-      else
-      {
-        current->ctx = c;
-        current=all_thread[active_thread[rand()%active_num]]; 
-      }
-      assert(current);
-      //printf("task %s running on CPU#%d\n",current->name,_cpu());
-      return current->ctx;*/
-        for(int i=0;i<9;i++)
-  {
-    task_t* task=all_thread[i];
-    printf(" task %d:%s :%p\n",task->id,task->name,(void *)task);
-  }
       _intr_write(0);
-      while(1);
       printf("CPU#%d Schedule\n",_cpu());
       if(!current)
         {

@@ -177,6 +177,7 @@ _Context* cyield(_Event ev,_Context* c)
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
+  current->ctx=context;
   _Context *pre=context; 
   _Context *next = NULL;
   struct EVENT *ptr=evhead->next;

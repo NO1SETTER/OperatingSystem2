@@ -163,13 +163,17 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
          break;
       }while((current->id)%_ncpu()!=_cpu()||current->status!=T_RUNNING);
       assert(current);
+      #ifdef _DEBUG
       printf("Schedule to %s\n",current->name);
+      #endif
       return current->ctx;
 }
 
 _Context* cyield(_Event ev,_Context* c)
 {
+  #ifdef _DEBUG
   printf("Yield\n");
+  #endif
   _yield();
   return NULL;
 }
@@ -360,7 +364,9 @@ static void sem_wait(sem_t *sem)
 
     sp_unlock(&thread_ctrl_lock);
     sp_unlock(&sem->lock);
-    print_task();
+    #ifdef _DEBUG
+      print_task();
+    #endif
     _intr_write(1);
     _yield();
     return;
@@ -393,7 +399,9 @@ static void sem_signal(sem_t *sem)
     }
   sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);
-  print_task();
+  #ifdef _DEBUG
+    print_task();
+  #endif
   _intr_write(1);
 }
 

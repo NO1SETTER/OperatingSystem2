@@ -1,6 +1,6 @@
 #include <common.h>
 #define STACK_SIZE 4096
-#define _DEBUG
+//#define _DEBUG
 #define P kmt->sem_wait
 #define V kmt->sem_signal
 #define current currents[_cpu()]
@@ -305,7 +305,6 @@ static void sem_wait(sem_t *sem)
   if(sem->val<0) 
   {
     task_t * cur=currents[_cpu()];
-    printf("CPU#%d\n",_cpu());
     if(sem->wnum==0)
     {
       sem->waiter[sem->wnum++]=cur->id;

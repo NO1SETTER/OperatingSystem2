@@ -274,7 +274,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   printf("stack at [%x,%x)\n",task->stack,task->stack+STACK_SIZE);
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
-  //上下文存在栈顶,task中的ctx指针也指向该位置
+  //上下文存在于栈顶,task中的ctx指针指向该位置
   all_thread[thread_num++]=task;//添加到所有线程中
   active_thread[active_num++]=task->id;//添加到活跃线程中
   printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
@@ -390,6 +390,7 @@ void*kalloc_safe(size_t size)
   _intr_write(0);
   void *ret = pmm->alloc(size);
   if (i) _intr_write(1);
+  printf("ALLOC%p\n",ret);
   return ret;
 }
 

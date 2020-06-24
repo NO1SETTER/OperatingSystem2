@@ -159,7 +159,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
         current=current->next;
         if(rec==current)//转了一圈都没找到
           reschedule=1;
-        if(reschedule&&current->status)//由于指定队列内的都被阻塞,允许调度指定队列外的线程
+        if(reschedule&&current->status==T_RUNNING)//由于指定队列内的都被阻塞,允许调度指定队列外的线程
          break;
       }while((current->id)%_ncpu()!=_cpu()||current->status!=T_RUNNING);
       assert(current);
@@ -321,6 +321,7 @@ static void sem_wait(sem_t *sem)
   if(sem->val<0) 
   {
     task_t * cur=currents[_cpu()];
+    cur->status=T_WAITING;
     if(sem->wnum==0)
     {
       sem->waiter[sem->wnum++]=cur->id;
@@ -382,6 +383,7 @@ static void sem_signal(sem_t *sem)
     {
       int no=rand()%sem->wnum;
       active_thread[active_num++]=sem->waiter[no];
+      all_thread[sem->waiter[no]]->status=T_RUNNING;
       #ifdef _DEBUG
       printf("%s activated\n",all_thread[sem->waiter[no]]->name);
       #endif

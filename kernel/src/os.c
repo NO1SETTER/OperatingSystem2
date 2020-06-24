@@ -299,7 +299,7 @@ static void sem_wait(sem_t *sem)
   sp_lock(&thread_ctrl_lock);
   sem->val--;
   #ifdef _DEBUG
-  printf("Task %d on CPU#%d\n",current->id,_cpu());
+  printf("Task %s on CPU#%d\n",current->name,_cpu());
   printf("wait:%s->val = %d\n",sem->name,sem->val);
   #endif
   if(sem->val<0) 
@@ -360,7 +360,7 @@ static void sem_signal(sem_t *sem)
   sp_lock(&thread_ctrl_lock);
   sem->val++;
   #ifdef _DEBUG
-  printf("Task %d on CPU#%d\n",current->id,_cpu());
+  printf("%s on CPU#%d\n",current->name,_cpu());
   printf("signal:%s->val = %d\n",sem->name,sem->val);
   #endif
     if(sem->wnum)

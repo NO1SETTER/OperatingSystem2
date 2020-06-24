@@ -145,7 +145,13 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       assert(current);
       //printf("task %s running on CPU#%d\n",current->name,_cpu());
       return current->ctx;*/
+        for(int i=0;i<9;i++)
+  {
+    task_t* task=all_thread[i];
+    printf(" task %d:%s :%p\n",task->id,task->name,(void *)task);
+  }
       _intr_write(0);
+      while(1);
       printf("CPU#%d Schedule\n",_cpu());
       task_t* current=currents[_cpu()];
       if(!current)

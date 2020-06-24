@@ -115,11 +115,6 @@ static void os_run() {
   /*for (const char *s = "Hello World from CPU #*\n"; *s; s++) {
     _putc(*s == '*' ? '0' + _cpu() : *s);
   }*/
-  for(int i=0;i<9;i++)
-  {
-    task_t* task=all_thread[i];
-    printf(" task %d:%s :%p\n",task->id,task->name,(void *)task);
-  }
   _intr_write(1);
   while (1);
 }

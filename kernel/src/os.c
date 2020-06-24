@@ -156,7 +156,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
          break;
       }while((current->id)%_ncpu()!=_cpu()||current->status!=T_RUNNING);
       assert(current);
-            printf("Current id =%d:%p\n",currents[_cpu()]->id,(void *)current);
+      printf("Current id =%d:%p\n",currents[_cpu()]->id,(void *)current);
       return current->ctx;
 }
 
@@ -309,8 +309,7 @@ static void sem_wait(sem_t *sem)
     {
       sem->waiter[sem->wnum++]=cur->id;
       #ifdef _DEBUG
-      printf("t");
-      //printf("%task_%d blocked\n",cur->id);
+      printf("%task_%d blocked\n",cur->id);
       #endif
     }
     else

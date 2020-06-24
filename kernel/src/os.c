@@ -1,6 +1,6 @@
 #include <common.h>
 #define STACK_SIZE 4096
-//#define _DEBUG
+#define _DEBUG
 #define P kmt->sem_wait
 #define V kmt->sem_signal
 #define current currents[_cpu()]
@@ -62,7 +62,7 @@ sem_t fill;
       printf("from %s\n",current->name);
       #endif
       V(&fill);
-      _yield();
+     // _yield();
     }
   }
 
@@ -76,7 +76,7 @@ sem_t fill;
       printf("from %s\n",current->name);
       #endif
       V(&empty);
-      _yield();
+   //   _yield();
     }
   }
 #endif

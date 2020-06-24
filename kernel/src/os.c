@@ -161,7 +161,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
          break;
       }while((current->id)%_ncpu()!=_cpu()||current->status!=T_RUNNING);
       assert(current);
-            printf("Current id =%d\n",currents[_cpu()]->id);
+            printf("Current id =%d:%p\n",currents[_cpu()]->id,(void *)current);
       return current->ctx;
 }
 
@@ -266,7 +266,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
   strcpy(task->name,name);//名字
   task->status=T_RUNNING;//状态
   task->id=thread_num;//id设置为当前进程数
-  printf(" task %d:%s created\n",task->id,task->name);
+  printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
   if(thread_num > 0)
   {
     all_thread[thread_num-1]->next=task;//设置链表形成环路

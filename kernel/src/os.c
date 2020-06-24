@@ -272,7 +272,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     task->next=all_thread[0];
   }
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
-  printf("stack at [%x,%x)\n",task->ctx+1,task->stack+STACK_SIZE);
+  printf("stack at [%x,%x)\n",task->stack,task->stack+STACK_SIZE);
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   all_thread[thread_num++]=task;//添加到所有线程中
   active_thread[active_num++]=task->id;//添加到活跃线程中

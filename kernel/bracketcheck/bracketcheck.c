@@ -15,10 +15,11 @@ fgets(buffer,1024,fp);
 
 char c;
 int bra=0;
-while(c=fgetc(fp))
+while((c=fgetc(fp))!=EOF)
 {
 if(c=='(') bra++;
 else if(c==')') bra--;
+if(c=='('||c==')')
 printf("%c val=%d\n",c,bra);
 assert(bra>=0&&bra<=5);
 }

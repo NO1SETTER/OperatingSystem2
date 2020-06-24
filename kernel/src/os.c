@@ -299,6 +299,7 @@ static void sem_wait(sem_t *sem)
   sp_lock(&thread_ctrl_lock);
   sem->val--;
   #ifdef _DEBUG
+  printf("Task %d on CPU#%d\n",current->id,_cpu());
   printf("wait:%s->val = %d\n",sem->name,sem->val);
   #endif
   if(sem->val<0) 

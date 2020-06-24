@@ -1,6 +1,6 @@
 #include <common.h>
 #define STACK_SIZE 4096
-#define _DEBUG
+//#define _DEBUG
 #define P kmt->sem_wait
 #define V kmt->sem_signal
 #define current currents[_cpu()]

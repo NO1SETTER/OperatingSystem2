@@ -110,8 +110,8 @@ static void os_run() {
     task_t* task=all_thread[i];
     printf(" task %d:%s :%p\n",task->id,task->name,(void *)task);
   }
-  _intr_write(0);
-  while (1) ;
+  _intr_write(1);
+  while (1);
 }
 
 void sp_lock(spinlock_t* lk)

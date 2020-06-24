@@ -8,7 +8,7 @@
 enum t_status {
   T_NEW = 1, // 新创建，还未执行过
   T_RUNNING, // 已经执行过
-  T_WAITING, // 在 co_wait 上等待
+  T_WAITING, // 在sem上等待
   T_DEAD,    // 已经结束，但还未释放资源
 };
 

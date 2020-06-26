@@ -161,7 +161,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       }while((current->id)%_ncpu()!=_cpu()||current->status!=T_RUNNING);
       assert(current);
       #ifdef _DEBUG
-      printf("Schedule to %s\n",current->name);
+      printf("CPU#%d Schedule to %s\n",_cpu(),current->name);
       #endif
       return current->ctx;
 }

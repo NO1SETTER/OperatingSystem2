@@ -195,7 +195,6 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     next=pre;
   //panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");
-  _intr_write(1);
   return next;
 }
 

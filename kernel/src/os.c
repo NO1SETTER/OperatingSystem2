@@ -177,7 +177,7 @@ _Context* cyield(_Event ev,_Context* c)
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
   _intr_write(0);
-  printf("CPU#%d:trap\n",_cpu());
+  printf("Task %d on CPU#%d:trap\n",current->id,_cpu());
   current->ctx=context;
   _Context *pre=context; 
   _Context *next = NULL;
@@ -195,7 +195,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     next=pre;
   //panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");
-  printf("CPU#%d:before ret\n",_cpu());
+  printf("Task %d on CPU#%d:before ret\n",current->id,_cpu());
   return next;
 }
 

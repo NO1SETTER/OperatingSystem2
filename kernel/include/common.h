@@ -34,7 +34,7 @@ struct task
     struct task* next;//指向all_thread[id+1]
     _Context *ctx;//貌似只要保证它指向栈顶就ok了，上面的可以不管分配在哪里
   };
-  uint8_t stack[8192];
+  uint8_t stack[4096];
 };//管理一个线程的信息
 task_t* currents[MAX_CPU];
 task_t* all_thread[105];

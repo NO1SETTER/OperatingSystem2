@@ -139,9 +139,8 @@ void sp_lockinit(spinlock_t* lk,const char *name)
 
 _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
-  
       _intr_write(0);
-      //printf("CPU#%d Schedule\n",_cpu());
+      printf("CPU#%d Schedule\n",_cpu());
       if(!current)
         {
           //printf("No thread on this CPU yet\n");
@@ -159,6 +158,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
         if(reschedule&&current->status==T_RUNNING)//由于指定队列内的都被阻塞,允许调度指定队列外的线程
          break;
       }while((current->id)%_ncpu()!=_cpu()||current->status!=T_RUNNING);
+      //理解:是某个CPU在调用schedule,这里不是在切换CPU,而是为该CPU找到合适的task
       assert(current);
       #ifdef _DEBUG
       printf("CPU#%d Schedule to %s\n",_cpu(),current->name);

@@ -139,7 +139,6 @@ void sp_lockinit(spinlock_t* lk,const char *name)
 
 _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
-      _intr_write(0);
       printf("CPU#%d Schedule\n",_cpu());
       if(!current)
         {
@@ -178,6 +177,7 @@ _Context* cyield(_Event ev,_Context* c)
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
+  _intr_write(0);
   current->ctx=context;
   _Context *pre=context; 
   _Context *next = NULL;
@@ -195,6 +195,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     next=pre;
   //panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");
+  _intr_write(1);
   return next;
 }
 

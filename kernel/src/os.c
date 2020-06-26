@@ -163,7 +163,6 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       #ifdef _DEBUG
       printf("CPU#%d Schedule to %s\n",_cpu(),current->name);
       #endif
-      _intr_write(1);
       return current->ctx;
 }
 

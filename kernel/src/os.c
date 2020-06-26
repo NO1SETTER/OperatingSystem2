@@ -176,6 +176,7 @@ _Context* cyield(_Event ev,_Context* c)
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
+  _intr_write(0);
   current->ctx=context;
   _Context *pre=context; 
   _Context *next = NULL;
@@ -183,7 +184,6 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   while(ptr)
   {
     if (ptr->event == _EVENT_NULL || ptr->event == ev.event) {
-      _intr_write(1);
       _Context *r = ptr->handler(ev, context);
       //panic_on(r && next, "returning multiple contexts");
       if (r) next = r;

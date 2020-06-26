@@ -261,8 +261,8 @@ void kill(int id)//running->dead
 static void kmt_init()
 {
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");
-  on_irq(0,_EVENT_YIELD,schedule);
-  on_irq(1,_EVENT_IRQ_TIMER,cyield);
+  on_irq(0,_EVENT_YIELD,NULL);
+  on_irq(1,_EVENT_IRQ_TIMER,schedule);
 }
 
 //task提前分配好,那么我们用一个指针数组管理所有这些分配好的task

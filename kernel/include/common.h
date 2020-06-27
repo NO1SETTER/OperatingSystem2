@@ -38,7 +38,9 @@ struct task
 };//管理一个线程的信息
 task_t* currents[MAX_CPU];
 task_t* all_thread[105];
-int active_thread[105];//只记录线程的id,id对应它在all_thread中的位置
+int active_thread[105];
+//只记录线程的id,id对应它在all_thread中的位置
+//状态均为T_READY或T_RUNNING
 
 extern int thread_num;
 extern int active_num;

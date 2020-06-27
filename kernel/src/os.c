@@ -326,13 +326,12 @@ static void sem_wait(sem_t *sem)
   #endif
   if(sem->val<0) 
   {
-    task_t * cur=currents[_cpu()];
-    cur->status=T_WAITING;
+    current->status=T_WAITING;
     if(sem->wnum==0)
     {
-      sem->waiter[sem->wnum++]=cur->id;
+      sem->waiter[sem->wnum++]=current->id;
       #ifdef _DEBUG
-      printf("%s blocked\n",cur->name);
+      printf("%s blocked\n",current->name);
       #endif
     }
     else
@@ -340,19 +339,19 @@ static void sem_wait(sem_t *sem)
       int judge=1;
       for(int i=0;i<sem->wnum;i++)
       {
-        if(sem->waiter[i]==cur->id) judge=0;
+        if(sem->waiter[i]==current->id) judge=0;
       }
       if(judge) {
-        sem->waiter[sem->wnum++]=cur->id;
+        sem->waiter[sem->wnum++]=current->id;
         #ifdef _DEBUG
-        printf("%s blocked\n",cur->name);
+        printf("%s blocked\n",current->name);
         #endif
         }
     }
     int pos=-1;
     for(int i=0;i<active_num;i++)
     {
-      if(active_thread[i]==cur->id)
+      if(active_thread[i]==current->id)
       {
         pos=i;break;
       }

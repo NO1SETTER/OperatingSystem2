@@ -6,9 +6,9 @@
 //#define DEV_ENABLE
 #define MAX_CPU 8
 enum t_status {
-  T_NEW = 1, // 新创建，还未执行过
-  T_RUNNING, // 已经执行过
-  T_WAITING, // 在sem上等待
+  T_READY = 1, // 活跃状态,且没有在任何一个CPU上运行 
+  T_RUNNING,   // 活跃状态,但正在某个CPU上运行
+  T_WAITING,   // 阻塞状态,在sem上等待
   T_DEAD,    // 已经结束，但还未释放资源
 };
 

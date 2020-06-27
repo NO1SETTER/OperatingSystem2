@@ -142,22 +142,26 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       printf("CPU#%d Schedule\n",_cpu());
       if(!current)
         {
-          //printf("No thread on this CPU yet\n");
           current=all_thread[0];//暂时的
         }
       else
-        current->ctx=c;
+        {
+          current->ctx=c;
+          current->status=T_READY;//此时current也属于可被调度的线程,设置READY
+        }
+      
       task_t* rec=current;
       int reschedule=0;
       do{
         current=current->next;
-        if(rec==current)//转了一圈都没找到
+        if(rec==current)//转了一轮都没找到
           reschedule=1;
-        if(reschedule&&current->status==T_RUNNING)//由于指定队列内的都被阻塞,允许调度指定队列外的线程
+        if(reschedule&&current->status==T_READY)//由于指定队列内的都被阻塞,允许调度指定队列外的线程
          break;
-      }while((current->id)%_ncpu()!=_cpu()||current->status!=T_RUNNING);
+      }while((current->id)%_ncpu()!=_cpu()||current->status!=T_READY);
       //理解:是某个CPU在调用schedule,这里不是在切换CPU,而是为该CPU找到合适的task
-      assert(current);
+        assert(current);
+      current->status=T_RUNNING;//被选中的线程设置RUNNING
       #ifdef _DEBUG
       printf("CPU#%d Schedule to %s\n",_cpu(),current->name);
       #endif
@@ -270,7 +274,7 @@ static void kmt_init()
 //_Area{*start,*end;},
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
   strcpy(task->name,name);//名字
-  task->status=T_RUNNING;//状态
+  task->status=T_READY;//状态
   task->id=thread_num;//id设置为当前进程数
   if(thread_num > 0)
   {
@@ -387,7 +391,7 @@ static void sem_signal(sem_t *sem)
     {
       int no=rand()%sem->wnum;
       active_thread[active_num++]=sem->waiter[no];
-      all_thread[sem->waiter[no]]->status=T_RUNNING;
+      all_thread[sem->waiter[no]]->status=T_READY;//刚恢复活跃的线程一定尚未被调度
       #ifdef _DEBUG
       printf("%s activated\n",all_thread[sem->waiter[no]]->name);
       #endif

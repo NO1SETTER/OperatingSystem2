@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <pthread.h>
-
+#include <fcntl.h>
 #include <sys/types.h>
 struct kvdb {
   int data_fd;

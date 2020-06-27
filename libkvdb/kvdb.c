@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <pthread.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 struct kvdb {
   int data_fd;
@@ -26,8 +27,8 @@ struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
      }
   }
   
-  int fd1=open(filename,O_WRONLY|O_CREAT);
-  int fd2=open(logname,O_WRONLY|O_CREAT);
+  int fd1=open(filename,O_WRONLY|O_CREAT,S_IRUSR|S_IWUSR);
+  int fd2=open(logname,O_WRONLY|O_CREAT,S_IRUSR|S_IWUSR);
   kvdb_t* ptr=(kvdb_t *)malloc(sizeof(kvdb_t));
   ptr->data_fd=fd1;
   ptr->jnl_fd=fd2;

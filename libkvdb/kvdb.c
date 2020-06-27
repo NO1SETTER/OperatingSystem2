@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-pthread_t mtx=PTHREAD_MUTEX_INITIALIZER;
 struct kvdb {
   int data_fd;
   int jnl_fd;

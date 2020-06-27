@@ -147,7 +147,8 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       else
         {
           current->ctx=c;
-          current->status=T_READY;//此时current也属于可被调度的线程,设置READY
+          if(current->status==T_RUNNING)
+            current->status=T_READY;//此时current也属于可被调度的线程,设置READY
         }
       
       task_t* rec=current;

@@ -147,7 +147,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       else
         {
           current->ctx=c;
-          printf("Context of %s saved\n",current->ctx);
+          printf("Context of %s saved\n",current->name);
           if(current->status==T_RUNNING)
             current->status=T_READY;//此时current也属于可被调度的线程,设置READY
         }

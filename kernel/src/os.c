@@ -178,6 +178,14 @@ _Context* cyield(_Event ev,_Context* c)
   return NULL;
 }
 
+int sane_context(_Context* c)//主要通过检查寄存器的合法性判断context合法性
+{
+if((c->rflags&(1<<1))!=(1<<1)) return 1;
+if((c->rflags&(1<<3))!=0) return 1;
+if((c->rflags&(1<<5))!=0) return 1;
+if((c->rflags&(1<<15))!=0) return 1;
+return 0;
+}
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
@@ -199,7 +207,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   if(next==NULL)
     next=pre;//如果还是之前的线程就不用保存上下文了，可以等下次切换时再保存
   panic_on(!next, "returning NULL context");
-  //panic_on(sane_context(next), "returning to invalid context");
+  panic_on(sane_context(next), "returning to invalid context");
   printf("Task %s on CPU#%d:before ret\n",current->name,_cpu());
   return next;
 }

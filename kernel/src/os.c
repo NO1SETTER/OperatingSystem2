@@ -184,7 +184,6 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   _intr_write(0);
   printf("ev.event=%d\n",ev.event);
   printf("Task %s on CPU#%d:trap\n",current->name,_cpu());
-  current->ctx=context;
   _Context *pre=context; 
   _Context *next = NULL;
   struct EVENT *ptr=evhead->next;
@@ -198,7 +197,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     ptr=ptr->next;
   }
   if(next==NULL)
-    next=pre;
+    next=pre;//如果还是之前的线程就不用保存上下文了，可以等下次切换时再保存
   //panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");
   printf("Task %s on CPU#%d:before ret\n",current->name,_cpu());

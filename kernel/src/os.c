@@ -384,7 +384,7 @@ static void sem_signal(sem_t *sem)
   sp_lock(&thread_ctrl_lock);
   sem->val++;
   #ifdef _DEBUG
-  printf("%s on CPU#%d\n",current->name,_cpu());
+  printf("Task %s on CPU#%d\n",current->name,_cpu());
   printf("signal:%s->val = %d\n",sem->name,sem->val);
   #endif
     if(sem->wnum)

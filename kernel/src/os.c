@@ -178,12 +178,14 @@ _Context* cyield(_Event ev,_Context* c)
   return NULL;
 }
 
-int sane_context(_Context* c)//主要通过检查寄存器的合法性判断context合法性
+int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断context合法性
 {
-  printf("Context: %x\n",c->rflags);
-if((c->rflags&(1<<1))!=2) return 1;
-if((c->rflags&(1<<3))!=0) return 1;
-if((c->rflags&(1<<5))!=0) return 1;
+#ifdef __x86_64__
+  if(ctx->cs!=8) return 1;
+#else
+  if(ctx->ds!=16) return 1;
+  if(ctx->cs!=8) return 1;
+#endif
 printf("Vaild Context\n");
 return 0;
 }

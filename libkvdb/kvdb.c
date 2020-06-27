@@ -22,7 +22,7 @@ struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
     else
      {
        logname[i]='\0';
-       strcat(lognameS,".txt");
+       strcat(logname,".txt");
        break;
      }
   }

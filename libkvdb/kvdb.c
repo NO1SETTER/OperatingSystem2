@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <pthread.h>
 
+#include <sys/types.h>
 struct kvdb {
   int data_fd;
   int jnl_fd;

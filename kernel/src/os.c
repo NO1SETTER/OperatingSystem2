@@ -178,7 +178,11 @@ _Context* cyield(_Event ev,_Context* c)
   return NULL;
 }
 
+int sane_context(_Context* c)
+{
 
+return 0;
+}
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
   _intr_write(0);
@@ -199,7 +203,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   if(next==NULL)
     next=pre;//如果还是之前的线程就不用保存上下文了，可以等下次切换时再保存
   panic_on(!next, "returning NULL context");
-  //panic_on(sane_context(next), "returning to invalid context");
+  panic_on(sane_context(next), "returning to invalid context");
   printf("Task %s on CPU#%d:before ret\n",current->name,_cpu());
   return next;
 }

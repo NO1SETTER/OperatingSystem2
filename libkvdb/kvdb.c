@@ -174,6 +174,7 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     int klen=msg->vlen;
     int vlen=msg->klen;
     int offset=msg->offset;
+    printf("klen=%d vlen=%d offset=%d\n",klen,vlen,offset);
     char *k=(char *)malloc(klen+1);
     char *v=(char *)malloc(vlen+1);
     lseek(db->data_fd,offset,SEEK_SET);

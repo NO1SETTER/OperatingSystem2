@@ -134,7 +134,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     if(ret==0) break;//说明读到末尾了,也可以退出
   }
 
-  wrmite(db->jnl_fd,writebuf,LOG_SIZE-1);
+  write(db->jnl_fd,writebuf,LOG_SIZE-1);
   may_crash();
   write(db->jnl_fd,endch,1);
   may_crash();

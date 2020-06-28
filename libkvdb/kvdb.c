@@ -49,7 +49,7 @@ struct log//每条log 16 byte
 typedef struct log log_t;
 
 struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
-  char logname[128];
+  char logname[128];assert(0);
   for(int i=0;i<1000;i++)
   {
     if(filename[i]!='.')
@@ -61,9 +61,9 @@ struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
        break;
      }
   }
-  
   int fd1=open(filename,O_RDWR|O_CREAT,S_IRUSR|S_IWUSR);
   int fd2=open(logname,O_RDWR|O_CREAT,S_IRUSR|S_IWUSR);
+  printf("Da")
   kvdb_t* ptr=(kvdb_t *)malloc(sizeof(kvdb_t));
   ptr->data_fd=fd1;
   ptr->jnl_fd=fd2;

@@ -86,7 +86,6 @@ void Int2Str(char *s,uint32_t d)
 int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   while(flock(db->data_fd,LOCK_EX)!=0);
   while(flock(db->jnl_fd,LOCK_EX)!=0);
-  assert(0);
   int key_len=strlen(key);
   int val_len=strlen(value);
   int offset=DATA_OFFSET;//offset只能通过访问每一个rec_msg直到最后一个获得

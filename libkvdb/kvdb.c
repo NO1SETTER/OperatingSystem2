@@ -128,9 +128,8 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   {
     lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
     char buf[2];
-    read(db->jnl_fd,buf,1);
+    printf("read:%d\n",read(db->jnl_fd,buf,1));
     printf("buf[0]=%x\n",buf[0]);
-    printf("errno=%d\n",errno);
     if(buf[0]!=USED) break;
   }
 

@@ -128,12 +128,13 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   {
     lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
     char buf[LOG_SIZE+1];
-    printf("read:%d\n",(int)read(db->jnl_fd,buf,LOG_SIZE));
+    int ret=read(db->jnl_fd,buf,LOG_SIZE);
     log_t *temp=(log_t*)buf;
     if(temp->status!=USED) break;
+    if(ret==0) break;//说明读到末尾了,也可以退出
   }
 
-  write(db->jnl_fd,writebuf,LOG_SIZE-1);
+  wrmite(db->jnl_fd,writebuf,LOG_SIZE-1);
   may_crash();
   write(db->jnl_fd,endch,1);
   may_crash();

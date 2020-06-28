@@ -118,7 +118,6 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   writebuf[0]=USED;
   sprintf(writebuf+1,"%s%s%s",kstr,vstr,offstr);
   assert(offset>=DATA_OFFSET);
-  assert(0);
   for(int i=0;;i++)
   {
     lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
@@ -132,7 +131,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   write(db->jnl_fd,endch,1);
   may_crash();
   fsync(db->jnl_fd);
-
+assert(0);
   //这里是在数据库文件里写,类似文件系统信息,但是和上面写的内容一致
   for(int i=0;;i++)
   {

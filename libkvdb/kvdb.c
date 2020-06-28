@@ -111,23 +111,17 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   Int2Str(vstr,val_len);
   Int2Str(offstr,offset);
   printf("key_len=%d,val_len=%d,offset=%x\n",key_len,val_len,offset);
-  for(int i=0;i<4;i++)
-  {
-    printf("kstr[%d]=%x\n",i,kstr[i]);
-    printf("vstr[%d]=%x\n",i,vstr[i]);
-    printf("offstr[%d]=%x\n",i,offstr[i]);
-  }
   char validch[1]={(char)USED};
   char endch[1]={(char)ENDCHAR};
   
   char writebuf[LOG_SIZE+1];
   writebuf[0]=USED;
-  sprintf(writebuf+1,"%s%s%s",kstr,vstr,offstr);
-  for(int i=0;i<=LOG_SIZE;i++)
+  for(int i=0;i<4;i++)
   {
-    printf("%x",writebuf[i]);
+    writebuf[i+1]=kstr[i];
+    writebuf[i+5]=vstr[i];
+    writebuf[i+9]=offstr[i];
   }
-  printf("\n");
   assert(offset>=DATA_OFFSET);
   for(int i=0;;i++)
   {

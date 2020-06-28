@@ -123,6 +123,11 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   char writebuf[LOG_SIZE+1];
   writebuf[0]=USED;
   sprintf(writebuf+1,"%s%s%s",kstr,vstr,offstr);
+  for(int i=0;i<=LOG_SIZE;i++)
+  {
+    printf("%x",writebuf[i]);
+  }
+  printf("\n");
   assert(offset>=DATA_OFFSET);
   for(int i=0;;i++)
   {

@@ -9,12 +9,12 @@
 #include <sys/types.h>
 #include <sys/file.h>
 #define DATA_OFFSET 1<<20 //数据区的起始位置,留1MB记录偏移量,可记录1MB/32yte=很多很多个
-#define LOG_SIZE 34
-#define LOG_MSG(i) LOG_SIZE*i//假设每条信息33Byte,即每个长度可以用16个字符记录+1个有效位
+#define LOG_SIZE 16
+#define LOG_MSG(i) LOG_SIZE*i
 #define REC_MSG(i) LOG_SIZE*i
 
-#define VALID 147//选取256以内的某两个数代表valid和invalid
-#define INVALID 82
+#define FREE 147//选取256以内的某两个数代表FREE和USED
+#define USED 82
 #define ENDCHAR 100
 /*
 对应metadata journaling:
@@ -32,12 +32,20 @@ void may_crash()
 struct kvdb {
   int data_fd;
   int jnl_fd;
-  int max_offset;//数据区的最大offset,也即下一个写入的位置
-  int nr_log;//在log里记录到的所有有过的MSG用到的总空间
-  int nr_rec;//在数据库里记录到所有有过的MSG用到的总空间
   // your definition here
 };
 typedef struct kvdb kvdb_t;
+
+struct log//每条log 16 byte
+{
+  uint8_t valid;
+  uint32_t klen;
+  uint32_t vlen;
+  uint32_t offset;
+  uint8_t pad[2];//仅用于填空,补足16字节
+  uint8_t end;
+}__attribute__((packed));
+typedef struct log log_t;
 
 struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
   char logname[128];
@@ -53,19 +61,25 @@ struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
      }
   }
   
-  int fd1=open(filename,O_WRONLY|O_CREAT,S_IRUSR|S_IWUSR);
-  int fd2=open(logname,O_WRONLY|O_CREAT,S_IRUSR|S_IWUSR);
+  int fd1=open(filename,O_RDWR|O_CREAT,S_IRUSR|S_IWUSR);
+  int fd2=open(logname,O_RDWR|O_CREAT,S_IRUSR|S_IWUSR);
   kvdb_t* ptr=(kvdb_t *)malloc(sizeof(kvdb_t));
   ptr->data_fd=fd1;
   ptr->jnl_fd=fd2;
-  ptr->max_offset=DATA_OFFSET;
-  ptr->nr_log = 0;
-  ptr->nr_rec = 0;
-  return NULL;
+  return ptr;
 }
 
 int kvdb_close(struct kvdb *db) {
   return -1;
+}
+
+void Int2Str(char *s,uint32_t d)
+{
+  s[0]=(char)d&0xff;
+  s[1]=(char)((d&0xff00)>>8);
+  s[2]=(char)((d&0xff0000)>>16);
+  s[3]=(char)((d&0xff0000000)>>24);
+  s[4]='\0';
 }
 
 int kvdb_put(struct kvdb *db, const char *key, const char *value) {
@@ -73,86 +87,96 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   while(flock(db->jnl_fd,EX)==0);
   int key_len=strlen(key);
   int val_len=strlen(value);
-  
-  lseek(db->data_fd,db->max_offset,SEEK_SET);
-  write(db->data_fd,key,key_len);
-  write(db->data_fd,val,val_len);
+  int offset=DATA_OFFSET;//offset只能通过访问每一个rec_msg直到最后一个获得
+  for(int i=0;;i++)
+  {
+    lseek(db->data_fd,REC_MSG(i),SEEK_SET);
+    char buf[LOG_SIZE+1];
+    read(db->data_fd,buf,LOG_SIZE);
+    log_t* temp=(log_t *)buf;
+    if(temp->valid!=USED) break;//已经访问完成所有的rec_msg
+    offset=temp->offset+klen+vlen;
+  }
 
+  lseek(db->data_fd,offset,SEEK_SET);
+  write(db->data_fd,key,key_len);
+  write(db->data_fd,value,val_len);
   may_crash();
   fsync(db->data_fd);
 
-  char klen[16];
-  char vlen[16];
-  sprintf(klen,"%d",key_len);
-  sprintf(vlen,"%d",val_len);
-  for(int i=0;i<16;i++)
-  {
-    if(!(klen[i]>='0'&&klen[i]<='9'))
-      klen[i]=0x20;
-    if(!(vlen[i]>='0'&&klen[i]<='9'))
-      vlen[i]=0x20;
-  }
+  char kstr[5],vstr[5],offstr[5];
+  Int2Str(kstr,key_len);
+  Int2Str(vstr,val_len);
+  Int2Str(offstr,offset);
+  char validch[2]={(char)USED,NULL};
+  char endch[2]={(char)ENDCHAR,NULL};
+  
+  char writebuf[LOG_SIZE+1];
+  writebuf[0]=USED;
+  sprintf(writebuf+1,"%s%s%s",kstr,vstr,offstr);
+  
+  assert(offset>=DATA_OFFSET);
   for(int i=0;;i++)
   {
     lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
-    if(LOG_MSG==db->nr_msg*LOG_SIZE)//尚未写过的地方可以直接写
-      {
-        nr_msg=nr_msg+1;
-        break;
-      }
     char buf[2];
     read(db->jnl_fd,buf,1);
-    if(buf[0]==VALID) break;
+    if(buf[0]!=USED) break;
   }
-  char validch[1]={(char)VALID};
-  char endch[1]={(char)ENDCHAR};
-  char writebuf[LOG_SIZE];
-  writebuf[0]=INVALID;
-  sprintf(writebuf+1,"%s%s",klen,vlen);
-  
-  write(db->jnl_fd,writebuf,LOG_SIZE);
+
+  write(db->jnl_fd,writebuf,LOG_SIZE-1);
   may_crash();
   write(db->jnl_fd,endch,1);
   may_crash();
-  fsync();
+  fsync(db->jnl_fd);
 
   //这里是在数据库文件里写,类似文件系统信息,但是和上面写的内容一致
   for(int i=0;;i++)
   {
-    lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
-    if(LOG_MSG==db->nr_msg*LOG_SIZE)//尚未写过的地方可以直接写
-      {
-        nr_msg=nr_msg+1;
-        break;
-      }
+    lseek(db->data_fd,REC_MSG(i),SEEK_SET);
+    if(REC_MSG(i)>DATA_OFFSET)
+    {
+      printf("No more space for recording");
+      assert(0);
+    }
     char buf[2];
-    read(db->jnl_fd,buf,1);
-    if(buf[0]==VALID) break;
+    read(db->data_fd,buf,1);
+    if(buf[0]!=USED) break;
   }
-  char validch[1]={(char)VALID};
-  char endch[1]={(char)ENDCHAR};
-  char writebuf[LOG_SIZE];
-  writebuf[0]=INVALID;
-  sprintf(writebuf+1,"%s%s",klen,vlen);
   
-  write(db->jnl_fd,writebuf,LOG_SIZE);
-  may_crash();
-  write(db->jnl_fd,endch,1);
+  write(db->data_fd,writebuf,LOG_SIZE);
   may_crash();
   fsync();
-  
 
   flock(db->data_fd,UN);
   flock(db->jnl_fd,UN);
-  
   return -1;
 }
 
 char *kvdb_get(struct kvdb *db, const char *key) {
-  while(flock(db->data_fd,EX)==0);
+  while(flock(db->data_fd,EX)==0);//get只依据Data中的REC区进行检索
   while(flock(db->jnl_fd,EX)==0);
-
-
+  char buf[LOG_SIZE+1];
+  for(int i=0;;i++)
+  {
+    lseek(db->data_fd,REC_MSG(i),SEEK_SET);
+    read(db->data_fd,buf,LOG_SIZE);
+    log_t* msg=(log_t*)buf;
+    int klen=msg->vlen;
+    int vlen=msg->klen;
+    int offset=msg->offset;
+    char *k=(char *)malloc(klen+1);
+    char *v=(char *)malloc(vlen+1);
+    lseek(db->data_fd,offset,SEEK_SET);
+    read(db->data_fd,k,klen);
+    if(strcmp(k,key)==0)
+    {
+      lseek(db->data_fd,offset+klen,SEEK_SET);
+      read(db->data_fd,v,vlen);
+    }
+    free(k);
+    free(v);
+  }
   
   flock(db->data_fd,UN);
   flock(db->jnl_fd,UN);

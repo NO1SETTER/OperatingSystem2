@@ -84,8 +84,8 @@ void Int2Str(char *s,uint32_t d)
 }
 
 int kvdb_put(struct kvdb *db, const char *key, const char *value) {
-  while(flock(db->data_fd,EX)==0);
-  while(flock(db->jnl_fd,EX)==0);
+  while(flock(db->data_fd,LOCK_EX)==0);
+  while(flock(db->jnl_fd,LOCK_EX)==0);
   int key_len=strlen(key);
   int val_len=strlen(value);
   int offset=DATA_OFFSET;//offset只能通过访问每一个rec_msg直到最后一个获得
@@ -149,14 +149,14 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   may_crash();
   fsync();
 
-  flock(db->data_fd,UN);
-  flock(db->jnl_fd,UN);
+  flock(db->data_fd,LOCK_UN);
+  flock(db->jnl_fd,LOCK_UN);
   return -1;
 }
 
 char *kvdb_get(struct kvdb *db, const char *key) {
-  while(flock(db->data_fd,EX)==0);//get只依据Data中的REC区进行检索
-  while(flock(db->jnl_fd,EX)==0);
+  while(flock(db->data_fd,LOCK_EX)==0);//get只依据Data中的REC区进行检索
+  while(flock(db->jnl_fd,LOCK_EX)==0);
   char buf[LOG_SIZE+1];
   for(int i=0;;i++)
   {
@@ -179,7 +179,7 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     free(v);
   }
   
-  flock(db->data_fd,UN);
-  flock(db->jnl_fd,UN);
+  flock(db->data_fd,LOCK_UN);
+  flock(db->jnl_fd,LOCK_UN);
   return NULL;
 }

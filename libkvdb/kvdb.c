@@ -64,7 +64,7 @@ struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
   }
   int fd1=open(filename,O_RDWR|O_CREAT,S_IRUSR|S_IWUSR);
   int fd2=open(logname,O_RDWR|O_CREAT,S_IRUSR|S_IWUSR);
-  printf("Data_fd=%d jnl_fd=%d\n",fd1,fd2);
+  //printf("Data_fd=%d jnl_fd=%d\n",fd1,fd2);
   kvdb_t* ptr=(kvdb_t *)malloc(sizeof(kvdb_t));
   ptr->data_fd=fd1;
   ptr->jnl_fd=fd2;
@@ -111,7 +111,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   Int2Str(kstr,key_len);
   Int2Str(vstr,val_len);
   Int2Str(offstr,offset);
-  printf("key_len=%d,val_len=%d,offset=%x\n",key_len,val_len,offset);
+  //printf("key_len=%d,val_len=%d,offset=%x\n",key_len,val_len,offset);
   char validch[1]={(char)USED};
   char endch[1]={(char)ENDCHAR};
   
@@ -181,7 +181,7 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     int klen=msg->vlen;
     int vlen=msg->klen;
     int offset=msg->offset;
-    printf("klen=%d vlen=%d offset=%d\n",klen,vlen,offset);
+    p//rintf("klen=%d vlen=%d offset=%d\n",klen,vlen,offset);
     char *k=(char *)malloc(klen+1);
     char *v=(char *)malloc(vlen+1);
     lseek(db->data_fd,offset,SEEK_SET);

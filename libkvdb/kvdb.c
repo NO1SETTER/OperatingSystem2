@@ -40,7 +40,7 @@ typedef struct kvdb kvdb_t;
 
 struct log//每条log 16 byte
 {
-  uint8_t valid;
+  uint8_t status;
   uint32_t klen;
   uint32_t vlen;
   uint32_t offset;
@@ -96,7 +96,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     char buf[LOG_SIZE+1];
     read(db->data_fd,buf,LOG_SIZE);
     log_t* temp=(log_t *)buf;
-    if(temp->valid!=USED) break;//已经访问完成所有的rec_msg
+    if(temp->status!=USED) break;//已经访问完成所有的rec_msg
     offset=temp->offset+temp->klen+temp->vlen;
   }
 
@@ -127,10 +127,10 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   for(int i=0;;i++)
   {
     lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
-    char buf[2];
-    printf("read:%d\n",(int)read(db->jnl_fd,buf,1));
-    printf("buf[0]=%x\n",buf[0]);
-    if(buf[0]!=USED) break;
+    char buf[LOG_SIZE+1];
+    printf("read:%d\n",(int)read(db->jnl_fd,buf,LOG_SIZE));
+    log_t *temp=(log_t*)buf;
+    if(temp->status!=USED) break;
   }
 
   write(db->jnl_fd,writebuf,LOG_SIZE-1);

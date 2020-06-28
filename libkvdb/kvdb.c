@@ -150,9 +150,9 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     }
     char buf[2];
     read(db->data_fd,buf,1);
-    if(buf[0]!=USED) break;
+    if(buf[0]!=USED) break;//这里好像不存在上面那个问题
   }
-    assert(0);
+  
   write(db->data_fd,writebuf,LOG_SIZE);
   may_crash();
   fsync(db->data_fd);

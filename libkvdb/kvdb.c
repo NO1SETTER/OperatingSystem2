@@ -96,7 +96,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     read(db->data_fd,buf,LOG_SIZE);
     log_t* temp=(log_t *)buf;
     if(temp->valid!=USED) break;//已经访问完成所有的rec_msg
-    offset=temp->offset+klen+vlen;
+    offset=temp->offset+temp->klen+temp->vlen;
   }
 
   lseek(db->data_fd,offset,SEEK_SET);
@@ -147,7 +147,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   
   write(db->data_fd,writebuf,LOG_SIZE);
   may_crash();
-  fsync();
+  fsync(db->data_fd);
 
   flock(db->data_fd,LOCK_UN);
   flock(db->jnl_fd,LOCK_UN);

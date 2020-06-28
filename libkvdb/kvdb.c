@@ -98,7 +98,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     if(temp->valid!=USED) break;//已经访问完成所有的rec_msg
     offset=temp->offset+temp->klen+temp->vlen;
   }
-
+assert(0);
   lseek(db->data_fd,offset,SEEK_SET);
   write(db->data_fd,key,key_len);
   write(db->data_fd,value,val_len);

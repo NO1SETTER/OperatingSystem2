@@ -117,8 +117,8 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   char writebuf[LOG_SIZE+1];
   writebuf[0]=USED;
   sprintf(writebuf+1,"%s%s%s",kstr,vstr,offstr);
-  
   assert(offset>=DATA_OFFSET);
+  assert(0);
   for(int i=0;;i++)
   {
     lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);

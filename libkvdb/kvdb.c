@@ -84,8 +84,8 @@ void Int2Str(char *s,uint32_t d)
 }
 
 int kvdb_put(struct kvdb *db, const char *key, const char *value) {
-  while(flock(db->data_fd,LOCK_EX)==0);
-  while(flock(db->jnl_fd,LOCK_EX)==0);
+  while(flock(db->data_fd,LOCK_EX)!=0);
+  while(flock(db->jnl_fd,LOCK_EX)!=0);
   assert(0);
   int key_len=strlen(key);
   int val_len=strlen(value);
@@ -156,8 +156,8 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
 }
 
 char *kvdb_get(struct kvdb *db, const char *key) {
-  while(flock(db->data_fd,LOCK_EX)==0);//get只依据Data中的REC区进行检索
-  while(flock(db->jnl_fd,LOCK_EX)==0);
+  while(flock(db->data_fd,LOCK_EX)!=0);//get只依据Data中的REC区进行检索
+  while(flock(db->jnl_fd,LOCK_EX)!=0);
   char buf[LOG_SIZE+1];
   for(int i=0;;i++)
   {

@@ -130,8 +130,13 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     char buf[LOG_SIZE+1];
     int ret=read(db->jnl_fd,buf,LOG_SIZE);
     log_t *temp=(log_t*)buf;
-    if(temp->status!=USED) break;
-    if(ret==0) break;//说明读到末尾了,也可以退出
+    if(temp->status!=USED) 
+    { lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
+      break;}
+    if(ret==0) 
+    {lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
+      break;}//说明读到末尾了,也可以退出
+      
   }
 
   write(db->jnl_fd,writebuf,LOG_SIZE-1);
@@ -150,7 +155,9 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     }
     char buf[2];
     read(db->data_fd,buf,1);
-    if(buf[0]!=USED) break;//这里好像不存在上面那个问题
+    if(buf[0]!=USED) 
+    { lseek(db->data_fd,REC_MSG(i),SEEK_SET);
+      break;}//这里好像不存在上面那个问题
   }
 
   write(db->data_fd,writebuf,LOG_SIZE);

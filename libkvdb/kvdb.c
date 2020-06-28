@@ -126,12 +126,12 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     if(buf[0]!=USED) break;
   }
 
+  assert(0);
   write(db->jnl_fd,writebuf,LOG_SIZE-1);
   may_crash();
   write(db->jnl_fd,endch,1);
   may_crash();
   fsync(db->jnl_fd);
-assert(0);
   //这里是在数据库文件里写,类似文件系统信息,但是和上面写的内容一致
   for(int i=0;;i++)
   {

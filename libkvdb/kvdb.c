@@ -110,7 +110,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   Int2Str(kstr,key_len);
   Int2Str(vstr,val_len);
   Int2Str(offstr,offset);
-  printf("key_len=%d,val_len=%d,offset=%d\n",key_len,val_len,offset);
+  printf("key_len=%d,val_len=%d,offset=%x\n",key_len,val_len,offset);
   char validch[1]={(char)USED};
   char endch[1]={(char)ENDCHAR};
   

@@ -63,7 +63,7 @@ struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
   }
   int fd1=open(filename,O_RDWR|O_CREAT,S_IRUSR|S_IWUSR);
   int fd2=open(logname,O_RDWR|O_CREAT,S_IRUSR|S_IWUSR);
-  printf("Da")
+  printf("Data_fd=%d jnl_fd=%d\n",fd1,fd2);
   kvdb_t* ptr=(kvdb_t *)malloc(sizeof(kvdb_t));
   ptr->data_fd=fd1;
   ptr->jnl_fd=fd2;

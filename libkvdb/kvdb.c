@@ -156,7 +156,8 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   write(db->data_fd,writebuf,LOG_SIZE);
   may_crash();
   fsync(db->data_fd);
-assert(0);
+  
+  assert(0);
   flock(db->data_fd,LOCK_UN);
   flock(db->jnl_fd,LOCK_UN);
   return -1;

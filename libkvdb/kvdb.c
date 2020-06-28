@@ -105,7 +105,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   may_crash();
   fsync(db->data_fd);
   
-  assert(0);
+
   char kstr[5],vstr[5],offstr[5];
   Int2Str(kstr,key_len);
   Int2Str(vstr,val_len);
@@ -145,7 +145,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     read(db->data_fd,buf,1);
     if(buf[0]!=USED) break;
   }
-  
+    assert(0);
   write(db->data_fd,writebuf,LOG_SIZE);
   may_crash();
   fsync(db->data_fd);

@@ -49,7 +49,7 @@ struct log//每条log 16 byte
 typedef struct log log_t;
 
 struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
-  char logname[128];assert(0);
+  char logname[128];
   for(int i=0;i<1000;i++)
   {
     if(filename[i]!='.')

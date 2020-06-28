@@ -109,8 +109,8 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   Int2Str(kstr,key_len);
   Int2Str(vstr,val_len);
   Int2Str(offstr,offset);
-  char validch[2]={(char)USED,NULL};
-  char endch[2]={(char)ENDCHAR,NULL};
+  char validch[1]={(char)USED};
+  char endch[1]={(char)ENDCHAR};
   
   char writebuf[LOG_SIZE+1];
   writebuf[0]=USED;

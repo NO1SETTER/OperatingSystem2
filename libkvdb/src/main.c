@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 int main() {
-  remove("a.db");
-  remove("a.txt");
+  //remove("a.db");
+  //remove("a.txt");
   struct kvdb *db;
   const char *key = "operating-systems";
   char *value;

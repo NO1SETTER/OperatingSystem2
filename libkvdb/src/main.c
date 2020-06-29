@@ -24,6 +24,7 @@ int main() {
     }
     else if(strcmp(choice,"get")==0)
     {
+      scanf("%s",key);
       ret=kvdb_get(db,key);
       printf("[%s]:[%s]\n",key,ret);
     }

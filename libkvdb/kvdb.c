@@ -203,7 +203,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     log_t *temp=(log_t*)buf;
     
     int fsize=lseek(db->jnl_fd,0,SEEK_END);
-    //printf("offset=%d fsize=%d\n",rdoffset,fsize);
+    printf("offset=%d fsize=%d\n",rdoffset,fsize);
     if(rdoffset==fsize)//读到末尾,扩张大小
     { 
       expand=1;

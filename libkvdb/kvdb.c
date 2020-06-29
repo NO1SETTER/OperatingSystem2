@@ -134,7 +134,7 @@ struct kvdb *kvdb_open(const char *filename)
   kvdb_t* ptr=(kvdb_t *)malloc(sizeof(kvdb_t));
   ptr->data_fd=fd1;
   ptr->jnl_fd=fd2;
-  ptr->mtx=PTHREAD_MUTEX_INITIALIZER;
+  pthread_mutex_init(&db->mtx,NULL);
 
   if(lseek(ptr->jnl_fd,0,SEEK_END)<64)//没有初始化的时候需要初始化
   {

@@ -149,9 +149,13 @@ struct kvdb *kvdb_open(const char *filename)
 }
 
 int kvdb_close(struct kvdb *db) {
-  close(db->data_fd);
-  close(db->jnl_fd);
-  return -1;
+  while(flock(db->data_fd,LOCK_EX)!=0);
+  while(flock(db->jnl_fd,LOCK_EX)!=0);
+  int ret1=close(db->data_fd);
+  int ret2=close(db->jnl_fd);
+  free(db);
+  if(ret1==-1&&ret2==-1)  return -1;
+  return 0;
 }
 
 void Int2Str(char *s,uint32_t d)

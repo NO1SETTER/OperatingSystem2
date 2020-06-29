@@ -40,6 +40,7 @@ void may_crash()
 struct kvdb {
   int data_fd;
   int jnl_fd;
+  pthread_mutex_t mtx;
   // your definition here
 };
 typedef struct kvdb kvdb_t;
@@ -66,6 +67,7 @@ void recover(struct kvdb* db)
 {
   while(flock(db->data_fd,LOCK_EX)!=0);
   while(flock(db->jnl_fd,LOCK_EX)!=0);
+  pthread_mutex_lock(&db->mtx);
   
   char buffer[65];
   lseek(db->jnl_fd,0,SEEK_SET);
@@ -106,6 +108,7 @@ void recover(struct kvdb* db)
     }
   }
 
+  pthread_mutex_unlock(&db->mtx);
   flock(db->data_fd,LOCK_UN);
   flock(db->jnl_fd,LOCK_UN);
 }
@@ -131,6 +134,7 @@ struct kvdb *kvdb_open(const char *filename)
   kvdb_t* ptr=(kvdb_t *)malloc(sizeof(kvdb_t));
   ptr->data_fd=fd1;
   ptr->jnl_fd=fd2;
+  ptr->mtx=PTHREAD_MUTEX_INITIALIZER;
 
   if(lseek(ptr->jnl_fd,0,SEEK_END)<64)//没有初始化的时候需要初始化
   {
@@ -145,6 +149,8 @@ struct kvdb *kvdb_open(const char *filename)
 }
 
 int kvdb_close(struct kvdb *db) {
+  close(db->data_fd);
+  close(db->jnl_fd);
   return -1;
 }
 
@@ -163,6 +169,7 @@ key-val数据 -->  (log数+1) --> log信息 -->  log endchar --> 文件系统信
 int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   while(flock(db->data_fd,LOCK_EX)!=0);
   while(flock(db->jnl_fd,LOCK_EX)!=0);
+  pthread_mutex_lock(&db->mtx);
   int key_len=strlen(key);
   int val_len=strlen(value);
   int offset=DATA_OFFSET;//offset只能通过访问每一个rec_msg直到最后一个获得
@@ -264,6 +271,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   may_crash();
   fsync(db->data_fd);
   
+  pthread_mutex_unlock(&db->mtx);
   flock(db->data_fd,LOCK_UN);
   flock(db->jnl_fd,LOCK_UN);
   return -1;
@@ -272,6 +280,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
 char *kvdb_get(struct kvdb *db, const char *key) {
   while(flock(db->data_fd,LOCK_EX)!=0);//get只依据Data中的REC区进行检索
   while(flock(db->jnl_fd,LOCK_EX)!=0);
+   pthread_mutex_lock(&db->mtx);
   char buf[LOG_SIZE+1];
   for(int i=0;;i++)
   {
@@ -292,6 +301,7 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     {
       lseek(db->data_fd,offset+klen,SEEK_SET);
       read(db->data_fd,v,vlen);
+      pthread_mutex_unlock(&db->mtx);
       flock(db->data_fd,LOCK_UN);
       flock(db->jnl_fd,LOCK_UN);
       return v;
@@ -300,6 +310,7 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     free(v);
   }
   
+  pthread_mutex_unlock(&db->mtx);
   flock(db->data_fd,LOCK_UN);
   flock(db->jnl_fd,LOCK_UN);
   return NULL;

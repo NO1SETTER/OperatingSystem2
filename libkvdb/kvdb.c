@@ -132,10 +132,14 @@ struct kvdb *kvdb_open(const char *filename)
   ptr->data_fd=fd1;
   ptr->jnl_fd=fd2;
 
-  char init[64];
-  memset(init,0,sizeof(init));
-  lseek(ptr->jnl_fd,0,SEEK_SET);
-  write(ptr->jnl_fd,init,LOG_OFFSET);//开始64字节初始化为0
+  if(lseek(ptr->jnl_fd,0,SEEK_END)<64)//没有初始化的时候需要初始化
+  {
+    char init[64];
+    memset(init,0,sizeof(init));
+    lseek(ptr->jnl_fd,0,SEEK_SET);
+    write(ptr->jnl_fd,init,LOG_OFFSET);//开始64字节初始化为0
+  }
+
   recover(ptr);
   return ptr;
 }

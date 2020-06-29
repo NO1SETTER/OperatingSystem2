@@ -11,10 +11,11 @@
 #include <sys/types.h>
 #include <sys/file.h>
 #define DATA_OFFSET 1<<20 //数据区的起始位置,留1MB记录偏移量,可记录1MB/32yte=很多很多个
+#define LOG_OFFSET 64
 #define LOG_SIZE 16
-#define LOG_MSG(i) LOG_SIZE*i
+#define LOG_MSG(i) LOG_OFFSET+LOG_SIZE*i
 #define REC_MSG(i) LOG_SIZE*i
-
+//log文件开始留64byte做控制信息
 #define FREE 147//选取256以内的某两个数代表FREE和USED
 #define USED 82
 #define ENDCHAR 100
@@ -49,7 +50,23 @@ struct log//每条log 16 byte
 }__attribute__((packed));
 typedef struct log log_t;
 
-struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
+struct loghead//64byte
+{
+  uint32_t nr_log;//已用log区域总条数
+  uint8_t pad[60];
+}__attribute__((packed));
+typedef struct loghead loghead_t;
+
+void recover(struct kvdb* db)
+{
+  while(flock(db->data_fd,LOCK_EX)!=0);
+  while(flock(db->jnl_fd,LOCK_EX)!=0);
+
+  flock(db->data_fd,LOCK_UN);
+  flock(db->jnl_fd,LOCK_UN);
+}
+struct kvdb *kvdb_open(const char *filename) 
+{//把log和数据库分开存放
   char logname[128];
   for(int i=0;i<1000;i++)
   {
@@ -68,6 +85,12 @@ struct kvdb *kvdb_open(const char *filename) {//把log和数据库分开存放
   kvdb_t* ptr=(kvdb_t *)malloc(sizeof(kvdb_t));
   ptr->data_fd=fd1;
   ptr->jnl_fd=fd2;
+
+  char init[64];
+  memset(init,0,sizeof(init));
+  lseek(ptr->jnl_fd,0,SEEK_SET);
+  write(ptr->jnl_fd,init,LOG_OFFSET);//开始64字节初始化为0
+  recover(ptr);
   return ptr;
 }
 
@@ -84,12 +107,13 @@ void Int2Str(char *s,uint32_t d)
   s[4]='\0';
 }
 
-int kvdb_put(struct kvdb *db, const char *key, const char *value) {
+int kvdb_put(struct kvdb *db, const char *key, con char *value) {
   while(flock(db->data_fd,LOCK_EX)!=0);
   while(flock(db->jnl_fd,LOCK_EX)!=0);
   int key_len=strlen(key);
   int val_len=strlen(value);
   int offset=DATA_OFFSET;//offset只能通过访问每一个rec_msg直到最后一个获得
+  //写数据到db文件中
   for(int i=0;;i++)
   {
     lseek(db->data_fd,REC_MSG(i),SEEK_SET);
@@ -106,15 +130,13 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   may_crash();
   fsync(db->data_fd);
   
-
+  //写log到log文件中
   char kstr[5],vstr[5],offstr[5];
   Int2Str(kstr,key_len);
   Int2Str(vstr,val_len);
   Int2Str(offstr,offset);
-  //printf("key_len=%d,val_len=%d,offset=%x\n",key_len,val_len,offset);
   char validch[1]={(char)USED};
   char endch[1]={(char)ENDCHAR};
-  
   char writebuf[LOG_SIZE+1];
   writebuf[0]=USED;
   for(int i=0;i<4;i++)
@@ -134,17 +156,20 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     { lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
       break;}
     if(ret==0) 
-    {lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
+    { 
+      printf("ret=0\n");
+      lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
       break;}//说明读到末尾了,也可以退出
-      
   }
-
   write(db->jnl_fd,writebuf,LOG_SIZE-1);
   may_crash();
+  fsync(db->jnl_fd);
+
   write(db->jnl_fd,endch,1);
   may_crash();
   fsync(db->jnl_fd);
-  //这里是在数据库文件里写,类似文件系统信息,但是和上面写的内容一致
+
+  //写文件系统信息到db文件中
   for(int i=0;;i++)
   {
     lseek(db->data_fd,REC_MSG(i),SEEK_SET);

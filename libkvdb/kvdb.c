@@ -107,7 +107,7 @@ void Int2Str(char *s,uint32_t d)
   s[4]='\0';
 }
 
-int kvdb_put(struct kvdb *db, const char *key, con char *value) {
+int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   while(flock(db->data_fd,LOCK_EX)!=0);
   while(flock(db->jnl_fd,LOCK_EX)!=0);
   int key_len=strlen(key);

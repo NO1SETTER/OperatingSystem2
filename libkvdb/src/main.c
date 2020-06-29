@@ -1,6 +1,7 @@
 #include "../kvdb.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 int main() {
   //remove("a.db");
   //remove("a.txt");

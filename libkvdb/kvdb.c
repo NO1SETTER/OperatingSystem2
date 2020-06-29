@@ -111,6 +111,7 @@ void recover(struct kvdb* db)
 
 struct kvdb *kvdb_open(const char *filename) 
 {//把log和数据库分开存放
+  srand((int)time(0));
   char logname[128];
   for(int i=0;i<1000;i++)
   {

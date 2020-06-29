@@ -29,7 +29,6 @@ log--->仅仅写入offset不写入键值对本身
 void may_crash()
 {
   int p=rand()%10;
-  printf("HAHA\n");
   if(p==3)//有10%的可能crash
   {
     printf("Crashed\n");

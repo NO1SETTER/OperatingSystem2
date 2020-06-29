@@ -195,9 +195,10 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   }
   assert(offset>=DATA_OFFSET);
   int expand=0;
+  int rdoffset;
   for(int i=0;;i++)
   {
-    int rdoffset=lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
+    rdoffset=lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
     char buf[LOG_SIZE+1];
     int ret=read(db->jnl_fd,buf,LOG_SIZE);
     log_t *temp=(log_t*)buf;
@@ -218,7 +219,6 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   
   if(expand)
   {
-    //printf("Expand\n");
     lseek(db->jnl_fd,0,SEEK_SET);
     char head[65];
     read(db->jnl_fd,head,64);
@@ -230,6 +230,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     fsync(db->jnl_fd);//把记录的log数加1
   }
 
+  lseek(db->jnl_fd,rdoffset,SEEK_SET);
   write(db->jnl_fd,writebuf,LOG_SIZE-1);
   may_crash();
   fsync(db->jnl_fd);

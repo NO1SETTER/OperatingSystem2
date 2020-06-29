@@ -28,12 +28,12 @@ log--->仅仅写入offset不写入键值对本身
 
 void may_crash()
 {
-  /*int p=rand()%10;
+  int p=rand()%10;
   if(p==3)//有10%的可能crash
   {
     printf("Crashed\n");
     exit(0);
-  }*/
+  }
 }
 
 
@@ -204,11 +204,11 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     log_t *temp=(log_t*)buf;
     
     int fsize=lseek(db->jnl_fd,0,SEEK_END);
-    printf("offset=%d fsize=%d\n",rdoffset,fsize);
+    //printf("offset=%d fsize=%d\n",rdoffset,fsize);
     if(rdoffset==fsize)//读到末尾,扩张大小
     { 
       expand=1;
-      printf("seek to %d\n",LOG_MSG(i));
+      //printf("seek to %d\n",LOG_MSG(i));
       lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
       break;}//说明读到末尾了,也可以退出
     

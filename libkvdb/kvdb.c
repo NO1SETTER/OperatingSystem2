@@ -270,6 +270,7 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     lseek(db->data_fd,REC_MSG(i),SEEK_SET);
     read(db->data_fd,buf,LOG_SIZE);
     log_t* msg=(log_t*)buf;
+    if(msg->status!=USED) break;
     int klen=msg->klen;
     int vlen=msg->vlen;
     int offset=msg->offset;

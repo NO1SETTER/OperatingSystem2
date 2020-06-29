@@ -61,10 +61,49 @@ void recover(struct kvdb* db)
 {
   while(flock(db->data_fd,LOCK_EX)!=0);
   while(flock(db->jnl_fd,LOCK_EX)!=0);
+  
+  char buffer[65];
+  lseek(db->jnl_fd,0,SEEK_SET);
+  read(db->jnl_fd,buffer,64);
+  log_t* temp=(log_t*)buffer;
+
+  int nr_log=temp->nr_log;
+  for(int i=0;i<nr_log;i++)
+  {
+    lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
+    char buf1[LOG_SIZE+1];
+    read(db->jnl_fd,buf1,LOG_SIZE);
+    log_t* lmsg=(log_t*)buf1;
+    if(lmsg->status!=USED) continue;//已经恢复过了,不用管
+    if(lmsg->end!=ENDCHAR) continue;//没有endchar,不能确认信息是否完整,也不用管
+    
+    for(int j=0;;j++)
+    {
+      lseek(db->data_fd,REC_MSG(j),SEEK_SET);
+      char buf2[LOG_SIZE+1];
+      read(db->data_fd,buf2,LOG_SIZE);
+      log_t* rmsg=(log_t*)buf2;
+      if(lmsg->offset==rmsg->offset) break;//说明已经成功写入,不用管
+      if(rmsg->status!=USED)//找到一个空槽,可以写入
+      {
+        lseek(db->data_fd,REC_MSG(j),SEEK_SET);
+        write(db->data_fd,buf1,LOG_SIZE);
+        may_crash();
+        fsync(db->data_fd);
+
+        lmsg->status=FREE;
+        lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
+        write(db->jnl_fd,buf1,LOG_SIZE);
+        may_crash();
+        fsync(db->jnl_fd);
+      }
+    }
+  }
 
   flock(db->data_fd,LOCK_UN);
   flock(db->jnl_fd,LOCK_UN);
 }
+
 struct kvdb *kvdb_open(const char *filename) 
 {//把log和数据库分开存放
   char logname[128];
@@ -107,6 +146,9 @@ void Int2Str(char *s,uint32_t d)
   s[4]='\0';
 }
 
+/*写入顺序
+key-val数据 -->  (log数+1) --> log信息 -->  log endchar --> 文件系统信息
+*/
 int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   while(flock(db->data_fd,LOCK_EX)!=0);
   while(flock(db->jnl_fd,LOCK_EX)!=0);
@@ -166,14 +208,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     { lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
       break;}
   }
-  write(db->jnl_fd,writebuf,LOG_SIZE-1);
-  may_crash();
-  fsync(db->jnl_fd);
-
-  write(db->jnl_fd,endch,1);
-  may_crash();
-  fsync(db->jnl_fd);
-
+  
   if(expand)
   {
     printf("Expand\n");
@@ -183,10 +218,18 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     loghead_t * lgh=(loghead_t *)head;
     lgh->nr_log=lgh->nr_log+1;
     lseek(db->jnl_fd,0,SEEK_SET);
-  write(db->jnl_fd,head,64);
-  may_crash();
-  fsync(db->jnl_fd);//把记录的log数加1
+    write(db->jnl_fd,head,64);
+    may_crash();
+    fsync(db->jnl_fd);//把记录的log数加1
   }
+
+  write(db->jnl_fd,writebuf,LOG_SIZE-1);
+  may_crash();
+  fsync(db->jnl_fd);
+
+  write(db->jnl_fd,endch,1);
+  may_crash();
+  fsync(db->jnl_fd);
       
   //写文件系统信息到db文件中
   for(int i=0;;i++)

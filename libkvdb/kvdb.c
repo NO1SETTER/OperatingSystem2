@@ -271,11 +271,10 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     lseek(db->data_fd,REC_MSG(i),SEEK_SET);
     read(db->data_fd,buf,LOG_SIZE);
     log_t* msg=(log_t*)buf;
-    int klen=msg->vlen;
-    int vlen=msg->klen;
+    int klen=msg->klen;
+    int vlen=msg->vlen;
     int offset=msg->offset;
     printf("klen=%d vlen=%d offset=%d\n",klen,vlen,offset);
-    assert(0);
     char *k=(char *)malloc(klen+1);
     char *v=(char *)malloc(vlen+1);
     lseek(db->data_fd,offset,SEEK_SET);

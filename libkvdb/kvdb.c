@@ -28,7 +28,12 @@ log--->仅仅写入offset不写入键值对本身
 
 void may_crash()
 {
-
+  int p=rand()%10;
+  if(p==3)//有10%的可能crash
+  {
+    printf("Crashed\n");
+    exit(0);
+  }
 }
 
 
@@ -211,7 +216,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   
   if(expand)
   {
-    printf("Expand\n");
+    //printf("Expand\n");
     lseek(db->jnl_fd,0,SEEK_SET);
     char head[65];
     read(db->jnl_fd,head,64);

@@ -156,7 +156,9 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     { lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
       break;}
     if(ret==0) 
-    { lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
+    { 
+      printf("ret=0\n");
+      lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
       break;}//说明读到末尾了,也可以退出
   }
   write(db->jnl_fd,writebuf,LOG_SIZE-1);

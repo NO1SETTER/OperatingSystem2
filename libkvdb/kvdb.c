@@ -207,8 +207,10 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     if(rdoffset==fsize)//读到末尾,扩张大小
     { 
       expand=1;
+      printf("seek to %d\n",LOG_MSG(i));
       lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
       break;}//说明读到末尾了,也可以退出
+    
     if(temp->status!=USED) 
     { lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
       break;}

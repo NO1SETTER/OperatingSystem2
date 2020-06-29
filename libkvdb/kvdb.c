@@ -283,6 +283,8 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     {
       lseek(db->data_fd,offset+klen,SEEK_SET);
       read(db->data_fd,v,vlen);
+      flock(db->data_fd,LOCK_UN);
+      flock(db->jnl_fd,LOCK_UN);
       return v;
     }
     free(k);

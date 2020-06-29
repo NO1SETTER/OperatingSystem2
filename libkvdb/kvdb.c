@@ -131,6 +131,8 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   fsync(db->data_fd);
   
   //写log到log文件中
+
+
   char kstr[5],vstr[5],offstr[5];
   Int2Str(kstr,key_len);
   Int2Str(vstr,val_len);
@@ -155,11 +157,20 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     if(temp->status!=USED) 
     { lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
       break;}
-    if(ret==0) 
+    /*if(ret==0) 
     { 
-      printf("ret=0\n");
+      lseek(db->jnl_fd,0,SEEK_SET);
+      char head[65];
+      read(db->jnl_fd,head,64);
+      loghead_t * lgh=(loghead_t *)head;
+      lgh->nr_log=lgh->nr_log+1;
+      lseek(db->jnl_fd,0,SEEK_SET);
+
+      write(db->jnl_fd,head,64);
+      may_crash();
+      fsync(db->jnl_fd);
       lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
-      break;}//说明读到末尾了,也可以退出
+      break;}//说明读到末尾了,也可以退出*/
   }
   write(db->jnl_fd,writebuf,LOG_SIZE-1);
   may_crash();

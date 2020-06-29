@@ -65,7 +65,7 @@ void recover(struct kvdb* db)
   char buffer[65];
   lseek(db->jnl_fd,0,SEEK_SET);
   read(db->jnl_fd,buffer,64);
-  log_t* temp=(log_t*)buffer;
+  loghead_t* temp=(loghead_t*)buffer;
 
   int nr_log=temp->nr_log;
   for(int i=0;i<nr_log;i++)

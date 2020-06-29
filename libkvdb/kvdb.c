@@ -264,6 +264,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
 char *kvdb_get(struct kvdb *db, const char *key) {
   while(flock(db->data_fd,LOCK_EX)!=0);//get只依据Data中的REC区进行检索
   while(flock(db->jnl_fd,LOCK_EX)!=0);
+  printf("Get\n");
   char buf[LOG_SIZE+1];
   for(int i=0;;i++)
   {

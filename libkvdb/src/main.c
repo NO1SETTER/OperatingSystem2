@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 int main() {
-  //remove("a.db");
-  //remove("a.txt");
   struct kvdb *db;
   char key[1024];
   char value[1024];

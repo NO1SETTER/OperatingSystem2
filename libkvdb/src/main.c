@@ -29,10 +29,5 @@ int main() {
       printf("[%s]:[%s]\n",key,ret);
     }
   }
-  //kvdb_put(db, key, "three-easy-pieces"); // db[key] = "three-easy-pieces"
-  //value = kvdb_get(db, key); // value = db[key];
-  kvdb_close(db); // 关闭数据库
-  printf("[%s]: [%s]\n", key, value);
-  free(value);
   return 0;
 }

@@ -278,6 +278,7 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     char *v=(char *)malloc(vlen+1);
     lseek(db->data_fd,offset,SEEK_SET);
     read(db->data_fd,k,klen);
+    k[klen]='\0';
     if(strcmp(k,key)==0)
     {
       lseek(db->data_fd,offset+klen,SEEK_SET);

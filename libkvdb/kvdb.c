@@ -148,29 +148,23 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     writebuf[i+9]=offstr[i];
   }
   assert(offset>=DATA_OFFSET);
+  int expand=0;
   for(int i=0;;i++)
   {
-    lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
+    int rdoffset=lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
     char buf[LOG_SIZE+1];
     int ret=read(db->jnl_fd,buf,LOG_SIZE);
     log_t *temp=(log_t*)buf;
-    if(temp->status!=USED) 
-    { lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
-      break;}
-    /*if(ret==0) 
+    
+    int fsize=lseek(db->jnl_fd,0,SEEK_END);
+    if(rdoffset==fsize)//读到末尾,扩张大小
     { 
-      lseek(db->jnl_fd,0,SEEK_SET);
-      char head[65];
-      read(db->jnl_fd,head,64);
-      loghead_t * lgh=(loghead_t *)head;
-      lgh->nr_log=lgh->nr_log+1;
-      lseek(db->jnl_fd,0,SEEK_SET);
-
-      write(db->jnl_fd,head,64);
-      may_crash();
-      fsync(db->jnl_fd);
-      lseek(db->data_fd,LOG_MSG(i),SEEK_SET);
-      break;}//说明读到末尾了,也可以退出*/
+      expand=1;
+      lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
+      break;}//说明读到末尾了,也可以退出
+    if(temp->status!=USED) 
+    { lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
+      break;}
   }
   write(db->jnl_fd,writebuf,LOG_SIZE-1);
   may_crash();
@@ -180,6 +174,20 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   may_crash();
   fsync(db->jnl_fd);
 
+  if(expand)
+  {
+    printf("Expand\n");
+    lseek(db->jnl_fd,0,SEEK_SET);
+    char head[65];
+    read(db->jnl_fd,head,64);
+    loghead_t * lgh=(loghead_t *)head;
+    lgh->nr_log=lgh->nr_log+1;
+    lseek(db->jnl_fd,0,SEEK_SET);
+  write(db->jnl_fd,head,64);
+  may_crash();
+  fsync(db->jnl_fd);//把记录的log数加1
+  }
+      
   //写文件系统信息到db文件中
   for(int i=0;;i++)
   {

@@ -19,6 +19,7 @@
 #define FREE 147//选取256以内的某两个数代表FREE和USED
 #define USED 82
 #define ENDCHAR 100
+inline int max(int a,int b){return a>b?a:b;}
 /*
 对应metadata journaling:
 文件系统的信息--->key的offset和值的offset
@@ -220,7 +221,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   if(!exist)
   {
     koffset=offset;
-    voffset=offset+klen; 
+    voffset=offset+key_len; 
   }
   else
   {

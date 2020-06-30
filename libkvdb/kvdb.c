@@ -181,7 +181,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   int offset=DATA_OFFSET;//offset只能通过访问每一个rec_msg直到最后一个获得
   int koffset;
   int voffset;//读到的或者设定的offset
-  int logoffset;
+  int logoffset=-1;
   //写数据到db文件中
   int exist=0;
   for(int i=0;;i++)
@@ -304,6 +304,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   }
   else
   {
+    assert(logoffset!=-1);
     lseek(db->data_fd,logoffset,SEEK_SET);
   }
   write(db->data_fd,writebuf,LOG_SIZE);

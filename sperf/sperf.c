@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
           }
           if(!rec)
           {
-            dprintf(STDOUT_FILENO,"\nNew syscall:%s\n",name);
+            //dprintf(STDOUT_FILENO,"\nNew syscall:%s\n",name);
             strcpy(sysctrl[sys_num].name,name);
             sysctrl[sys_num].t=t;
             sys_num=sys_num+1;

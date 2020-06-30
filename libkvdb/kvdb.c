@@ -77,7 +77,6 @@ void recover(struct kvdb* db)
   loghead_t* temp=(loghead_t*)buffer;
 
   int nr_log=temp->nr_log;
-  //printf("nr_log=%d\n",nr_log);
   for(int i=0;i<nr_log;i++)
   {
     lseek(db->jnl_fd,LOG_MSG(i),SEEK_SET);
@@ -170,9 +169,10 @@ void Int2Str(char *s,uint32_t d)
 }
 
 /*写入顺序
-key-val数据 -->  (log数+1) --> log信息 --> log endchar --> 文件系统信息
+key-val数据 -->  (log数+1) --> log信息 --> log endchar --> 文件系统信息 --> disable log中的信息
 */
 int kvdb_put(struct kvdb *db, const char *key, const char *value) {
+
   while(flock(db->data_fd,LOCK_EX)!=0);
   while(flock(db->jnl_fd,LOCK_EX)!=0);
   pthread_mutex_lock(&db->mtx);
@@ -311,6 +311,18 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   may_crash();
   fsync(db->data_fd);
   
+  //这里写成功后把log中的信息disable
+  lseek(db->jnl_fd,rdoffset,SEEK_SET);
+  char readbuf[LOG_SIZE+1];
+  read(db->jnl_fd,readbuf,LOG_SIZE);
+  log_t* temp=(log_t*)readbuf;
+  temp->status=FREE;
+  lseek(db->jnl_fd,rdoffset,SEEK_SET);
+  write(db->jnl_fd,readbuf,LOG_SIZE);
+  may_crash();
+  fsync(db->jnl_fd);
+  //这里写失败也没有关系,recover时会再次检查的,主要是为了保证对同一key修改的有效log唯一
+
   pthread_mutex_unlock(&db->mtx);
   flock(db->data_fd,LOCK_UN);
   flock(db->jnl_fd,LOCK_UN);

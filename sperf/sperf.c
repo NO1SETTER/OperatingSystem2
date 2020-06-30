@@ -11,6 +11,8 @@
 #include <assert.h>
 #include <dirent.h>
 #include <errno.h>
+#include <ctype.h>
+
 char PATH1[200];//PATH1用于保存做exec_env
 char PATH2[200];//PATH2用于strtok
 char *exec_argv[200];//最多传一百个参数
@@ -105,15 +107,23 @@ int main(int argc, char *argv[]) {
           int valid_syscall=1;
           for(int i=0;i<len;i++)//定位名字
           {
-            if(buffer[i]!='(')
-            name[i]=buffer[i];
-            else
+            if(isalnum(buffer[i])||buffer[i]=='_')//允许数字字母下划线
+              name[i]=buffer[i];
+            else if(buffer[i]=='(')//正常终止
             {
               name[i]='\0';
               break;
             }
+            else
+            {
+              name[i]='\0';
+              valid_syscall=0;
+              break;
+            }
           }
-          if(valid_syscall==0) continue;
+          if(valid_syscall==0) 
+          { len=0; 
+            continue;}
           if(buffer[len-1]!='>')
             t=0;
           else

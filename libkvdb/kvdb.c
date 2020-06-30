@@ -170,7 +170,7 @@ void Int2Str(char *s,uint32_t d)
 }
 
 /*写入顺序
-key-val数据 -->  (log数+1) --> log信息 -->  log endchar --> 文件系统信息
+key-val数据 -->  (log数+1) --> log信息 --> log endchar --> 文件系统信息
 */
 int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   while(flock(db->data_fd,LOCK_EX)!=0);
@@ -178,10 +178,10 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   pthread_mutex_lock(&db->mtx);
   int key_len=strlen(key);
   int val_len=strlen(value);
-  int offset=DATA_OFFSET;//offset只能通过访问每一个rec_msg直到最后一个获得
+  int offset=DATA_OFFSET;//offset代表写的最后位置
   int koffset;
   int voffset;//读到的或者设定的offset
-  int logoffset=-1;
+  int logoffset=-1;//需要修改的rec信息,在修改key-val时用
   //写数据到db文件中
   int exist=0;
   for(int i=0;;i++)
@@ -193,13 +193,13 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     if(rec->status!=USED) break;//已经访问完成所有的rec_msg
     if(!exist&&key_len==rec->klen)
     { 
-      lseek(db->data_fd,rec->offset1,SEEK_SET);
       char *tpkey=(char *)malloc(rec->klen+1);
+      lseek(db->data_fd,rec->offset1,SEEK_SET);
       read(db->data_fd,tpkey,rec->klen);
       if(strcmp(tpkey,key)==0)
-        {exist=1;
-        logoffset=REC_MSG(i);//这里记录了要被覆盖的key的log-offset,在写文件系统头文件时要用
-        koffset=rec->offset1;
+        { exist=1;
+          logoffset=REC_MSG(i);//这里记录了要被覆盖的key的log-offset,在写文件系统头文件时要用
+          koffset=rec->offset1;
         }
     }
     offset=max(offset,rec->offset2+rec->vlen);
@@ -302,7 +302,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
         break;}//这里好像不存在上面那个问题
     }
   }
-  else
+  else//直接写在之前记录下来的offset
   {
     assert(logoffset!=-1);
     lseek(db->data_fd,logoffset,SEEK_SET);

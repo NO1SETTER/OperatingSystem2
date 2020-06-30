@@ -358,7 +358,7 @@ char *kvdb_get(struct kvdb *db, const char *key) {
       lseek(db->data_fd,voffset,SEEK_SET);
       read(db->data_fd,v,vlen);
       pre_key=v;//下次get时释放
-      //v[vlen]='\0';
+      v[vlen]='\0';
       pthread_mutex_unlock(&db->mtx);
       flock(db->data_fd,LOCK_UN);
       flock(db->jnl_fd,LOCK_UN);

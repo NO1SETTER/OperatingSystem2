@@ -193,7 +193,7 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
     if(!exist&&key_len==rec->klen)
     { 
       lseek(db->data_fd,rec->offset1,SEEK_SET);
-      char *tpkey=(char *)malloc(rec->klen+1)
+      char *tpkey=(char *)malloc(rec->klen+1);
       read(db->data_fd,tpkey,rec->klen);
       if(strcmp(tpkey,key)==0)
         {exist=1;

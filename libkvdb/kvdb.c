@@ -329,8 +329,8 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     if(msg->status!=USED) break;
     int klen=msg->klen;
     int vlen=msg->vlen;
-    int koffset=msg->koffset;
-    int voffset=msg->voffset;
+    int koffset=msg->offset1;
+    int voffset=msg->offset2;
     //printf("klen=%d vlen=%d offset=%d\n",klen,vlen,offset);
     char *k=(char *)malloc(klen+1);
     char *v=(char *)malloc(vlen+1);

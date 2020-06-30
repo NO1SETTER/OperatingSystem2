@@ -329,10 +329,13 @@ int kvdb_put(struct kvdb *db, const char *key, const char *value) {
   return -1;
 }
 
+char *pre_key;
 char *kvdb_get(struct kvdb *db, const char *key) {
   while(flock(db->data_fd,LOCK_EX)!=0);//get只依据Data中的REC区进行检索
   while(flock(db->jnl_fd,LOCK_EX)!=0);
   pthread_mutex_lock(&db->mtx);
+  if(pre_key) free(pre_key);
+
   char buf[LOG_SIZE+1];
   for(int i=0;;i++)
   {
@@ -354,6 +357,7 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     {
       lseek(db->data_fd,voffset,SEEK_SET);
       read(db->data_fd,v,vlen);
+      pre_key=v;//下次get时释放
       //v[vlen]='\0';
       pthread_mutex_unlock(&db->mtx);
       flock(db->data_fd,LOCK_UN);

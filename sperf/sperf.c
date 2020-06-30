@@ -115,17 +115,9 @@ int main(int argc, char *argv[]) {
           }
           if(valid_syscall==0) continue;
           int pos=1000;
-          for(int i=0;i<len;i++)//定位时间
+          for(int i=len-8;i<=len-1;i++)//定位时间
           {
-          if(buffer[i]=='<')
-            pos=i;
-          if(i>pos)
-            {
-              if(buffer[i]!='>')
-              tstr[i-pos-1]=buffer[i];
-              else
-              tstr[i]='\0';
-            }
+            tstr[i-len+8]=buffer[i];
           }
           if(pos==1000) t=0;
           else 

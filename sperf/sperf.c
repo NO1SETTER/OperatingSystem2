@@ -114,14 +114,14 @@ int main(int argc, char *argv[]) {
             }
           }
           if(valid_syscall==0) continue;
-          int pos=1000;
-          for(int i=len-8;i<=len-1;i++)//定位时间
+          if(buffer[len-1]!='>')
+            t=0;
+          else
           {
-            tstr[i-len+8]=buffer[i];
+            for(int i=len-8;i<=len-1;i++)//定位时间
+              tstr[i-len+8]=buffer[i];
+            t=atof(tstr);
           }
-          if(pos==1000) t=0;
-          else 
-          t=atof(tstr);
           total=total+t;
           //printf("name=%s t=%f\n\n",name,t);
           int rec=0;

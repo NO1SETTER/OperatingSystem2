@@ -9,7 +9,7 @@ int main() {
   char *ret;
   db=kvdb_open("a.db");
   char choice[128];
-  while(1)
+  for(int i=0;i<10;i++)
   {
     scanf("%s",choice);
     if(strcmp(choice,"put")==0)

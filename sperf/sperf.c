@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
         else//读到一行终点
         {
           buffer[len]='\0';//读取了一行的数据,进行分析
-          printf("%s\n",buf);
+          printf("%s\n",buffer);
           if(buffer[0]=='+') //能跑到!
           {
             reachend=1;

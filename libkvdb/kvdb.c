@@ -110,8 +110,8 @@ void recover(struct kvdb* db)
   }
 
   pthread_mutex_unlock(&db->mtx);
-  flock(db->data_fd,LOCK_UN);
   flock(db->jnl_fd,LOCK_UN);
+  flock(db->data_fd,LOCK_UN);
 }
 
 struct kvdb *kvdb_open(const char *filename) 
@@ -150,12 +150,11 @@ struct kvdb *kvdb_open(const char *filename)
 }
 
 int kvdb_close(struct kvdb *db) {
-  while(flock(db->data_fd,LOCK_EX)!=0);
-  while(flock(db->jnl_fd,LOCK_EX)!=0);
+  pthread_mutex_lock(&db->mtx);
   int ret1=close(db->data_fd);
   int ret2=close(db->jnl_fd);
-  free(db);
-  if(ret1==-1&&ret2==-1)  return -1;
+  pthread_mutex_unlock(&db->mtx);
+  if(ret1==-1||ret2==-1)  return -1;
   return 0;
 }
 

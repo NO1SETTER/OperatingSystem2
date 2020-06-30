@@ -153,8 +153,8 @@ int kvdb_close(struct kvdb *db) {
   pthread_mutex_lock(&db->mtx);
   int ret1=close(db->data_fd);
   int ret2=close(db->jnl_fd);
-  free(db);
   pthread_mutex_unlock(&db->mtx);
+  free(db);
   if(ret1==-1||ret2==-1)  return -1;
   return 0;
 }

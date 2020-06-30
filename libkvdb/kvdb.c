@@ -329,16 +329,17 @@ char *kvdb_get(struct kvdb *db, const char *key) {
     if(msg->status!=USED) break;
     int klen=msg->klen;
     int vlen=msg->vlen;
-    int offset=msg->offset;
+    int koffset=msg->koffset;
+    int voffset=msg->voffset;
     //printf("klen=%d vlen=%d offset=%d\n",klen,vlen,offset);
     char *k=(char *)malloc(klen+1);
     char *v=(char *)malloc(vlen+1);
-    lseek(db->data_fd,offset,SEEK_SET);
+    lseek(db->data_fd,koffset,SEEK_SET);
     read(db->data_fd,k,klen);
     k[klen]='\0';
     if(strcmp(k,key)==0)
     {
-      lseek(db->data_fd,offset+klen,SEEK_SET);
+      lseek(db->data_fd,voffset,SEEK_SET);
       read(db->data_fd,v,vlen);
       pthread_mutex_unlock(&db->mtx);
       flock(db->data_fd,LOCK_UN);

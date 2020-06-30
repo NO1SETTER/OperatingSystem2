@@ -159,14 +159,14 @@ int main(int argc, char *argv[]) {
       }
       
       qsort(sysctrl,sys_num,sizeof(SYSCTRL),syscmp);
-      /*if(ct!=1)
+      if(ct!=1)
       {for(int i=0;i<6;i++)
       { printf("\033[1A");
         fflush(stdout);
         printf("\r\033[K");
         fflush(stdout);
       }
-      }*/
+      }
       printf("Time #%d\n",ct++);
       fflush(stdout);
       for(int i=0;i<5;i++)
@@ -249,7 +249,6 @@ void read_all_file(char *basepath)//寻找strace,找到返回1，否则返回0
   {
     printf("Failed opening %s\n",basepath);//错误是ENOENT
     assert(errno==ENOENT);
-    //assert(0);
   }
 
   char base[500];

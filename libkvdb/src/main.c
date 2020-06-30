@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+
 int main() {
   struct kvdb *db;
   char key[1024];
@@ -27,5 +29,6 @@ int main() {
       printf("[%s]:[%s]\n",key,ret);
     }
   }
+  assert(kvdb_close(db)!=-1);
   return 0;
 }

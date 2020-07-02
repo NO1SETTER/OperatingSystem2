@@ -194,7 +194,7 @@ return 0;
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
   _intr_write(0);
-  printf("ev.event=%d\n",ev.event);
+  printf("CPU#%d ev.event=%d\n",_cpu(),ev.event);
   printf("Task %s on CPU#%d:trap\n",current->name,_cpu());
   _Context *next = context;
   struct EVENT *ptr=evhead->next;

@@ -1,6 +1,6 @@
 #include <common.h>
 #define STACK_SIZE 4096
-#define _DEBUG
+//#define _DEBUG
 #define P kmt->sem_wait
 #define V kmt->sem_signal
 #define current currents[_cpu()]
@@ -196,8 +196,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   _intr_write(0);
   printf("ev.event=%d\n",ev.event);
   printf("Task %s on CPU#%d:trap\n",current->name,_cpu());
-  _Context *pre=context; 
-  _Context *next = NULL;
+  _Context *next = context;
   struct EVENT *ptr=evhead->next;
   while(ptr)
   {
@@ -208,14 +207,12 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     }
     ptr=ptr->next;
   }
-  if(next==NULL)
-    next=pre;//如果还是之前的线程就不用保存上下文了，可以等下次切换时再保存
   panic_on(!next, "returning NULL context");
   panic_on(sane_context(next), "returning to invalid context");
   if(ev.event==_EVENT_IRQ_TIMER)
-  printf("Time interrupt:Task %s on CPU#%d:before ret\n",current->name,_cpu());
+    printf("Time interrupt:Task %s on CPU#%d:before ret\n",current->name,_cpu());
   else if(ev.event==_EVENT_YIELD)
-  printf("Yield:Task %s on CPU#%d:before ret\n",current->name,_cpu());
+    printf("Yield:Task %s on CPU#%d:before ret\n",current->name,_cpu());
   return next;
 }
 

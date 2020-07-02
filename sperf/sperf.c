@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
           }
           if(!rec)
           {
-            dprintf(STDOUT_FILENO,"\n\nNew syscall:%s\n\n",name);
+            //dprintf(STDOUT_FILENO,"\n\nNew syscall:%s\n\n",name);
             strcpy(sysctrl[sys_num].name,name);
             sysctrl[sys_num].t=t;
             sys_num=sys_num+1;
@@ -161,14 +161,14 @@ int main(int argc, char *argv[]) {
       }
       
       qsort(sysctrl,sys_num,sizeof(SYSCTRL),syscmp);
-      /*if(ct!=1)
+      if(ct!=1)
       {for(int i=0;i<6;i++)
       { printf("\033[1A");
         fflush(stdout);
         printf("\r\033[K");
         fflush(stdout);
       }
-      }*/
+      }
       printf("Time #%d\n",ct++);
       fflush(stdout);
       for(int i=0;i<5;i++)
@@ -179,8 +179,8 @@ int main(int argc, char *argv[]) {
          fflush(stdout);
         }
       total=0;
-      for(int i=0;i<sys_num;i++)//统计后清零
-        sysctrl[i].t=0;
+     // for(int i=0;i<sys_num;i++)//统计后清零
+        //sysctrl[i].t=0;
       if(reachend) break;
   }
 

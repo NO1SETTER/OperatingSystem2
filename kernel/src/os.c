@@ -165,8 +165,9 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
         assert(current);
       current->status=T_RUNNING;//被选中的线程设置RUNNING
       #ifdef _DEBUG
-      printf("CPU#%d Schedule to %s\n",_cpu(),current->name);
       #endif
+      printf("CPU#%d Schedule to %s\n",_cpu(),current->name);
+     
       return current->ctx;
 }
 

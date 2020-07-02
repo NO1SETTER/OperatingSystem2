@@ -179,8 +179,8 @@ int main(int argc, char *argv[]) {
          fflush(stdout);
         }
       total=0;
-     // for(int i=0;i<sys_num;i++)//统计后清零
-        //sysctrl[i].t=0;
+      for(int i=0;i<sys_num;i++)//统计后清零
+        sysctrl[i].t=0;
       if(reachend) break;
   }
 

@@ -380,8 +380,8 @@ static void sem_wait(sem_t *sem)
 
     sp_unlock(&thread_ctrl_lock);
     sp_unlock(&sem->lock);
+         print_task();
     #ifdef _DEBUG
-      print_task();
     #endif
     _intr_write(1);
     _yield();
@@ -415,8 +415,8 @@ static void sem_signal(sem_t *sem)
     }
   sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);
+      print_task();
   #ifdef _DEBUG
-    print_task();
   #endif
   _intr_write(1);
 }

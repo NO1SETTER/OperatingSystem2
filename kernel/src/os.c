@@ -140,6 +140,7 @@ void sp_lockinit(spinlock_t* lk,const char *name)
 _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
       printf("CPU#%d Schedule\n",_cpu());
+      sp_lock(&thread_ctrl_lock);
       if(!current)
         {
           current=all_thread[0];//暂时的
@@ -167,7 +168,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       #ifdef _DEBUG
       #endif
       printf("CPU#%d Schedule to %s\n",_cpu(),current->name);
-     
+      sp_unlock(&thread_ctrl_lock);
       return current->ctx;
 }
 

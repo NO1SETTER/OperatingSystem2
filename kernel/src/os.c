@@ -212,7 +212,10 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     next=pre;//如果还是之前的线程就不用保存上下文了，可以等下次切换时再保存
   panic_on(!next, "returning NULL context");
   panic_on(sane_context(next), "returning to invalid context");
-  printf("Task %s on CPU#%d:before ret\n",current->name,_cpu());
+  if(ev.event==_EVENT_IRQ_TIMER)
+  printf("Time interrupt:Task %s on CPU#%d:before ret\n",current->name,_cpu());
+  else if(ev.event==_EVENT_YIELD)
+  printf("Yield:Task %s on CPU#%d:before ret\n",current->name,_cpu());
   return next;
 }
 

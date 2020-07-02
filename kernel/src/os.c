@@ -112,9 +112,9 @@ extern void print_FreeBlock();
 extern void print_AllocatedBlock();
 
 static void os_run() {
-  /*for (const char *s = "Hello World from CPU #*\n"; *s; s++) {
+  for (const char *s = "Hello World from CPU #*\n"; *s; s++) {
     _putc(*s == '*' ? '0' + _cpu() : *s);
-  }*/
+  }
   _intr_write(1);
   while (1);
 }

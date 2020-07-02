@@ -162,7 +162,7 @@ int main(int argc, char *argv[]) {
       
       qsort(sysctrl,sys_num,sizeof(SYSCTRL),syscmp);
       if(ct!=1)
-      {for(int i=0;i<6;i++)
+      {for(int i=0;i<7;i++)
       { printf("\033[1A");
         fflush(stdout);
         printf("\r\033[K");

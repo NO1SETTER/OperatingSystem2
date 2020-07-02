@@ -171,7 +171,7 @@ int main(int argc, char *argv[]) {
       }
       printf("Time #%d\n",ct++);
       fflush(stdout);
-      for(int i=0;i<5;i++)
+      for(int i=0;i<6;i++)
       { 
         sysctrl[i].ratio=(int)(100*sysctrl[i].t/total);
         if(sysctrl[i].ratio<0||sysctrl[i].ratio>100) error_dfs(0);

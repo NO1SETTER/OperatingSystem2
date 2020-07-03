@@ -1,6 +1,10 @@
 #include <common.h>
 #define current currents[_cpu()]
+
+int thread_num=0;
+int active_num=0;
 spinlock_t thread_ctrl_lock;
+
 static void os_init() {
   pmm->init();
   kmt->init(); // 模块先初始化

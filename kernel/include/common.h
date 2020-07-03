@@ -45,7 +45,6 @@ int active_thread[105];
 extern int thread_num;
 extern int active_num;
 extern spinlock_t thread_ctrl_lock;//管理控制这三个链表的锁
-void kill(int id);
 
 
 struct semaphore
@@ -56,3 +55,19 @@ int val;
 int waiter[105];
 int wnum;
 };
+void sem_init(sem_t *sem, const char *name, int value);
+void sem_wait(sem_t *sem);
+void sem_signal(sem_t *sem);
+
+void *kalloc_safe(size_t size);
+void kfree_safe(void *ptr);
+
+//中断事件
+struct irq
+{
+  int seq;
+  int event;
+  handler_t handler;
+  struct irq* next;
+};
+struct irq *irq_head;

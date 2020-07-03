@@ -2,6 +2,7 @@
 #include <klib.h>
 #include <klib-macros.h>
 #include <amdev.h>
+#pragma once
 #define DEBUG_LOCAL
 //#define DEV_ENABLE
 #define MAX_CPU 8

@@ -5,15 +5,9 @@ extern sem_t empty;
 extern sem_t fill;
 extern void producer(void *arg);
 extern void consumer(void *arg);
-//中断处理函数
+
 _Context* schedule(_Event ev,_Context* c);
 _Context* cyield(_Event ev,_Context* c);
-//中断处理程序入口
-//extern _Context *os_trap(_Event ev,_Context *context);
-//中断注册程序
-//extern void on_irq (int seq,int event,handler_t handler);
-//安全分配
-
 
 task_t* task_alloc(){ return (task_t*)kalloc_safe(sizeof(task_t));}
 static void kmt_init()

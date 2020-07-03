@@ -9,9 +9,9 @@ extern void consumer(void *arg);
 _Context* schedule(_Event ev,_Context* c);
 _Context* cyield(_Event ev,_Context* c);
 //中断处理程序入口
-extern _Context *os_trap(_Event ev,_Context *context);
+//extern _Context *os_trap(_Event ev,_Context *context);
 //中断注册程序
-extern void on_irq (int seq,int event,handler_t handler);
+//extern void on_irq (int seq,int event,handler_t handler);
 //安全分配
 
 
@@ -22,8 +22,8 @@ static void kmt_init()
     currents[i]=NULL;
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");
   irq_head=(struct irq*)kalloc_safe(sizeof(struct irq));
-  on_irq(0,_EVENT_YIELD,schedule);
-  on_irq(1,_EVENT_IRQ_TIMER,cyield);
+  os->on_irq(0,_EVENT_YIELD,schedule);
+  os->on_irq(1,_EVENT_IRQ_TIMER,cyield);
 
   #ifdef DEBUG_LOCAL
   kmt->sem_init(&empty, "empty", 5);  // 缓冲区大小为 5

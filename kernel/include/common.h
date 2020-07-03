@@ -42,8 +42,8 @@ int active_thread[105];
 //只记录线程的id,id对应它在all_thread中的位置
 //状态均为T_READY或T_RUNNING
 
-extern int thread_num;
-extern int active_num;
+int thread_num= 0;
+int active_num= 0;
 extern spinlock_t thread_ctrl_lock;//管理控制这三个链表的锁
 
 

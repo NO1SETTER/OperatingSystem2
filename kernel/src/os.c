@@ -22,11 +22,6 @@ static void os_run() {
   while (1);
 }
 
-int thread_num=0;
-int active_num=0;
-
-
-
 int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断context合法性
 { 
   #ifdef __x86_64__

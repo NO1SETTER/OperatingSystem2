@@ -1,8 +1,8 @@
 #include<common.h>
-
 #define P kmt->sem_wait
 #define V kmt->sem_signal
 #define current currents[_cpu()]
+
 #ifdef DEBUG_LOCAL
     sem_t empty;
     sem_t fill;
@@ -16,7 +16,6 @@
         printf("from %s\n",current->name);
         #endif
         V(&fill);
-        // _yield();
         }
     }
 
@@ -30,13 +29,9 @@
         printf("from %s\n",current->name);
         #endif
         V(&empty);
-    //   _yield();
         }
     }
 #endif
-
-extern spinlock_t thread_ctrl_lock;
-
 
 void print_task()
 {

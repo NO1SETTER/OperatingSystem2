@@ -606,3 +606,20 @@ MODULE_DEF(pmm) = {
   .alloc = kalloc,
   .free  = kfree,
 };
+
+void*kalloc_safe(size_t size)
+{
+    int i = _intr_read();
+  _intr_write(0);
+  void *ret = pmm->alloc(size);
+  if (i) _intr_write(1);
+  return ret;
+}
+
+void kfree_safe(void *ptr)
+{
+    int i = _intr_read();
+  _intr_write(0);
+  pmm->free(ptr);
+  if (i) _intr_write(1);
+}

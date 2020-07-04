@@ -1,0 +1,1110 @@
+# Building kernel [x86_64-qemu] with AM_HOME {/home/ebata/os-workbench/kernel/../abstract-machine}
++ CC src/os.c
+# Building lib-am [x86_64-qemu]
+# Building lib-klib [x86_64-qemu]
+# Creating binary image [x86_64-qemu]
+# Building bootblock [x86_64-qemu]
++ LD -> build/kernel-x86_64-qemu.o
++ CREATE -> build/kernel-x86_64-qemu
+Got 126 MiB heap: [0x200000, 0x8000000)
+ task 0:p1 created:0x204000
+ task 1:p2 created:0x206000
+ task 2:p3 created:0x208000
+ task 3:p4 created:0x20a000
+ task 4:c1 created:0x20c000
+ task 5:c2 created:0x20e000
+ task 6:c3 created:0x210000
+ task 7:c4 created:0x212000
+ task 8:c5 created:0x214000
+Hello World from CPU #1
+Hello World from CPU #0
+Task mainthread_0 on CPU#1 trap with event 10
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 10
+Normal Still 1
+Normal Still 2
+Task p2 running on CPU#1
+wait:empty->val = 5
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = 1
+Active:p1 p2 p3 p4 c1 c2 c3 c4 c5 
+Task p2 running on CPU#1
+wait:empty->val = 4
+(from p2
+Task p2 running on CPU#1
+sTask mainthread_0 on CPU#0 trap with event 10
+CPU#0 save context
+ignal:fill->val = 2
+Active:p1 p2 p3 p4 c1 c2 c3 c4 c5 
+Task p2 running on CPU#1
+wait:empty->val = 3
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = 3
+Active:p1 p2 p3 p4 c1 c2 c3 c4 c5 
+Task p2 running on CPU#1
+wait:empty->val = 2
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = 4
+Active:p1 p2 p3 p4 c1 c2 c3 c4 c5 
+Task p2 running on CPU#1
+wait:empty->val = 1
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = 5
+Active:p1 p2 p3 p4 c1 c2 c3 c4 c5 
+Task p2 running on CPU#1
+wait:empty->val = 0
+p2 blocked
+Active:p1 p3 p4 c1 c2 c3 c4 c5 
+Task p2 on CPU#1 trap with event 10
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 10
+Normal Still 1
+Normal Still 2
+CPU#0 Schedule
+CPU#0 Schedule to p3
+Task p3 on CPU#0 is about to return from event 10
+Normal Still 1
+Normal Still 2
+Task p3 on CPU#0 trap with event 10
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to c1
+Task c1 on CPU#0 is about to return from event 10
+Normal Still 1
+Normal Still 2
+Task c1 running on CPU#0
+wait:fill->val = 5
+)from c1
+Task c1 running on CPU#0
+signal:empty->val = 0
+p2 activated
+Active:pTask p4 running on CPU#1
+wait:empty->val = 0
+p4 blocked
+Active:p1 p3 c1 c2 c3 c4 c5 p2 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task c2 running on CPU#1
+wait:fill->val = 4
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = 0
+p4 activated
+Active:p1 p3 c1 c2 c3 c4 c5 p2 p4 
+Task c2 running on CPU#1
+wait:fill->val = 3
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = 1
+Active:p1 p3 c1 c2 c3 c4 c5 p2 p4 
+Task c2 running on CPU#1
+wait:fill->val = 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = 2
+Active:p1 p3 c1 c2 c3 c4 c5 p2 p4 
+Task c2 running on CPU#1
+wait:fill->val = 1
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = 3
+Active:p1 p3 c1 c2 c3 c4 c5 p2 p4 
+Task c2 running on CPU#1
+wait:fill->val = 0
+c2 blocked
+Active:p1 p3 c1 c3 c4 c5 p2 p4 
+Task c2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task c4 running on CPU#1
+wait:fill->val = -1
+c4 blocked
+Active:p1 p3 c1 c3 c5 p2 p4 
+Task c4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task p2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = -1
+c4 activated
+Active:p1 p3 c1 c3 c5 p2 p4 c4 
+Task p4 running on CPU#1
+wait:empty->val = 3
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = 0
+c2 activated
+Active:p1 p3 c1 c3 c5 p2 p4 c4 c2 
+Task p4 running on CPU#1
+wait:empty->val = 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = 1
+Active:p1 p3 c1 c3 c5 p2 p4 c4 c2 
+Task p4 running on CPU#1
+wait:empty->val = 1
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = 2
+Active:p1 p3 c1 c3 c5 p2 p4 c4 c2 
+Task p4 running on CPU#1
+wait:empty->val = 0
+p4 blocked
+Active:p1 p3 c1 c3 c5 p2 c4 c2 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = 0
+p4 activated
+Active:p1 p3 c1 c3 c5 p2 c4 c2 p4 
+Task c2 running on CPU#1
+wait:fill->val = 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = 1
+Active:p1 p3 c1 c3 c5 p2 c4 c2 p4 
+Task c2 running on CPU#1
+wait:fill->val = 1
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = 2
+Active:p1 p3 c1 c3 c5 p2 c4 c2 p4 
+Task c2 running on CPU#1
+wait:fill->val = 0
+c2 blocked
+Active:p1 p3 c1 c3 c5 p2 c4 p4 
+Task c2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c4
+Task c4 running on CPU#1
+signal:empty->val = 3
+Active:p1 p3 c1 c3 c5 p2 c4 p4 
+Task c4 running on CPU#1
+wait:fill->val = -1
+c4 blocked
+Active:p1 p3 c1 c3 c5 p2 p4 
+Task c4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = -1
+c4 activated
+Active:p1 p3 c1 c3 c5 p2 p4 c4 
+Task p2 run1 p3 c1 c3 c5 p2 p4 c4 
+ning on CPU#1
+wait:empty->val = 3
+(from p2
+Task c1 running on CPU#0
+wait:fill->val = -1
+c1 blocked
+Active:p1 p3 c3 c5 p2 p4 c4 
+Task c1 on CPU#0 trap with event 10
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to c3
+Task c3 on CPU#0 is about to return from event 10
+Normal Still 1
+Normal Still 2
+Task c3 running on CPU#0
+wait:fill->val = -2
+c3 blocked
+Active:p1 p3 c5 p2 p4 c4 
+Task c3 on CPU#0 trap with event 14
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to c5
+Task c5 on CPU#0 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task c5 running on CPU#0
+wait:fill->val = -3
+c5 blocked
+Active:p1 p3 p2 p4 c4 
+Task c5 on CPU#0 trap with event 14
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to p1
+Task p1 on CPU#0 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task p1 running on CPU#0
+wait:empty->val = 2
+(from p1
+Task p1 running on CPU#0
+signal:fill->val = -3
+c3 activated
+Active:p1 p3 pTask p2 on CPU#1 trap with event 10
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 10
+Normal Still 1
+Normal Still 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = -2
+c2 activated
+Active:p1 p3 p2 p4 c4 c3 c2 
+Task p4 running on CPU#1
+wait:empty->val = 1
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = -1
+c1 activated
+Active:p1 p3 p2 p4 c4 c3 c2 c1 
+Task p4 running on CPU#1
+wait:empty->val = 0
+p4 blocked
+Active:p1 p3 p2 c4 c3 c2 c1 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = 0
+p4 activated
+Active:p1 p3 p2 c4 c3 c2 c1 p4 
+Task c2 running on CPU#1
+wait:fill->val = -1
+c2 blocked
+Active:p1 p3 p2 c4 c3 c1 p4 
+Task c2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c4
+Task c4 running on CPU#1
+signal:empty->val = 1
+Active:p1 p3 p2 c4 c3 c1 p4 
+Task c4 running on CPU#1
+wait:fill->val = -2
+c4 blocked
+Active:p1 p3 p2 c3 c1 p4 
+Task c4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task p2 running on CPU#1
+signal:fill->val = -2
+c2 activated
+Active:p1 p3 p2 c3 c1 p4 c2 
+Task p2 running on CPU#1
+wait:empty->val = 1
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = -1
+c4 activated
+Active:p1 p3 p2 c3 c1 p4 c2 c4 
+Task p2 running on CPU#1
+wait:empty->val = 0
+p2 blocked
+Active:p1 p3 c3 c1 p4 c2 c4 
+Task p2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = 0
+c5 activated
+Active:p1 p3 c3 c1 p4 c2 c4 c5 
+Task p4 running on CPU#1
+wait:empty->val = -1
+p4 blocked
+Active:p1 p3 c3 c1 c2 c4 c5 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = -1
+p2 activated
+Active:p1 p3 c3 c1 c2 c4 c5 p2 
+Task c2 running on CPU#1
+wait:fill->val = 0
+c2 blocked
+Active:p1 p3 c3 c1 c4 c5 p2 
+Task c2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c4
+Task c4 running on CPU#1
+signal:empty->val = 0
+p4 activated
+Active:p1 p3 c3 c1 c4 c5 p2 p4 
+Task c4 running on CPU#1
+wait:fill->val = -1
+c4 blocked
+Active:p1 p3 c3 c1 c5 p2 p4 
+Task c4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = -1
+c4 activated
+Active:p1 p3 c3 c1 c5 p2 p4 c4 
+Task p2 running on CPU#1
+wait:empty->val = 0
+p2 blocked
+Active:p1 p3 c3 c1 c5 p4 c4 
+Task p2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = 0
+c2 activated
+Active:p1 p3 c3 c1 c5 p4 c4 c2 
+Task p4 running on CPU#1
+wait:empty->val = -1
+p4 blocked
+Active:p1 p3 c3 c1 c5 c4 c2 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+2 c1 c5 c4 c2 
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task c2 on CPU#1 trap with event 10
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 10
+Normal Still 1
+Normal Still 2
+)from c4
+Task p1 running on CPU#0
+wait:empty->val = -2
+p1 blocked
+Active:p3 c3 c1 c5 c4 c2 
+Task p1 on CPU#0 trap with event 10
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to p3
+Task p3 on CPU#0 is about to return from event 10
+Normal Still 1
+Normal Still 2
+Task p3 running on CPU#0
+wait:empty->val = -3
+p3 blocked
+Active:c3 c1 c5 c4 c2 
+Task p3 on CPU#0 trap with event 14
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to c1
+Task c1 on CPU#0 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task c1 on CPU#0 trap with event 14
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to c3
+Task c3 on CPU#0 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c3
+Task c3 running on CPU#0
+signal:empty->val = -3
+p3 activated
+Active:c3 c1 c5 c4 c2 p3 
+Task c3 running on CPU#0
+wait:fill->val = 0
+c3 blocked
+Active:c1 c5 c4 c2 p3 
+Task c3 on CPU#0 trap with event 14
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to c5
+TTask c4 on CPU#1 trap with event 10
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 10
+Normal Still 1
+Normal Still 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = -2
+p2 activated
+Active:c1 c5 c4 c2 p3 p2 
+Task c2 running on CPU#1
+wait:fill->val = -1
+c2 blocked
+Active:c1 c5 c4 p3 p2 
+Task c2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task c4 running on CPU#1
+signal:empty->val = -1
+p4 activated
+Active:c1 c5 c4 p3 p2 p4 
+Task c4 running on CPU#1
+wait:fill->val = -2
+c4 blocked
+Active:c1 c5 p3 p2 p4 
+Task c4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = -2
+c4 activated
+Active:c1 c5 p3 p2 p4 c4 
+Task p2 running on CPU#1
+wait:empty->val = -1
+p2 blocked
+Active:c1 c5 p3 p4 c4 
+Task p2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = -1
+c3 activated
+Active:c1 c5 p3 p4 c4 c3 
+Task p4 running on CPU#1
+wait:empty->val = -2
+p4 blocked
+Active:c1 c5 p3 c4 c3 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c4
+Task c4 running on CPU#1
+signal:empty->val = -2
+p4 activated
+Active:c1 c5 p3 c4 c3 p4 
+Task c4 running on CPU#1
+wait:fill->val = -1
+c4 blocked
+Active:c1 c5 p3 c3 p4 
+Task c4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = -1
+c4 activated
+Active:c1 c5 p3 c3 p4 c4 
+Task p4 running on CPU#1
+wait:empty->val = -2
+p4 blocked
+Active:c1 c5 p3 c3 c4 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c4
+Task c4 running on CPU#1
+signal:empty->val = -2
+p1 activated
+Active:c1 c5 p3 c3 c4 p1 
+Task c4 running on CPU#1
+wait:fill->val = -1
+c4 blocked
+Active:c1 c5 p3 c3 p1 
+Task c4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p1
+Task p1 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task p1 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p1
+Task p1 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p1
+Task p1 running on CPU#1
+signal:fill->val = -1
+c2 activated
+Active:c1 c5 p3 c3 p1 c2 
+Task p1 running on CPU#1
+wait:empty->val = -2
+p1 blocked
+Active:c1 c5 p3 c3 c2 
+Task p1 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = -2
+p2 activated
+Active:c1 c5 p3 c3 c2 p2 
+Task c2 running on CPU#1
+wait:fill->val = -1
+c2 blocked
+Active:c1 c5 p3 c3 p2 
+Task c2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p2
+Task p2 running on CPU#1
+sask c5 on CPU#0 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task c5 on CPU#0 trap with event 10
+CPU#0 save context
+ignal:fill->val = -1
+c2 activated
+Active:c1 c5 p3 c3 p2 c2 
+Task p2 running on CPU#1
+wait:empty->val = -2
+p2 blocked
+Active:c1 c5 p3 c3 c2 
+Task p2 on CPU#1 trap with event 10
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 10
+Normal Still 1
+Normal Still 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = -2
+p1 activated
+Active:c1 c5 p3 c3 c2 p1 
+Task c2 running on CPU#1
+wait:fill->val = -1
+c2 blocked
+Active:c1 c5 p3 c3 p1 
+Task c2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c3
+Task c3 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c3
+Task c3 running on CPU#1
+signal:empty->val = -1
+p4 activated
+Active:c1 c5 p3 c3 p1 p4 
+Task c3 running on CPU#1
+wait:fill->val = -2
+c3 blocked
+Active:c1 c5 p3 p1 p4 
+Task c3 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = -2
+c3 activated
+Active:c1 c5 p3 p1 p4 c3 
+Task p4 running on CPU#1
+wait:empty->val = -1
+p4 blocked
+Active:c1 c5 p3 p1 c3 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c1
+Task c1 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c1
+Task c1 running on CPU#1
+signal:empty->val = -1
+p4 activated
+Active:c1 c5 p3 p1 c3 p4 
+Task c1 running on CPU#1
+wait:fill->val = -2
+c1 blocked
+Active:c5 p3 p1 c3 p4 
+Task c1 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = -2
+c1 activated
+Active:c5 p3 p1 c3 p4 c1 
+Task p4 running on CPU#1
+wait:empty->val = -1
+p4 blocked
+Active:c5 p3 p1 c3 c1 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c1
+Task c1 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c1
+Task c1 running on CPU#1
+signal:empty->val = -1
+p2 activated
+Active:c5 p3 p1 c3 c1 p2 
+Task c1 running on CPU#1
+wait:fill->val = -2
+c1 blocked
+Active:c5 p3 p1 c3 p2 
+Task c1 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task p2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = -2
+c1 activated
+Active:c5 p3 p1 c3 p2 c1 
+Task p2 running on CPU#1
+wait:empty->val = -1
+p2 blocked
+Active:c5 p3 p1 c3 c1 
+Task p2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p3
+Task p3 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p3
+Task p3 running on CPU#1
+signal:fill->val = -1
+c2 activated
+Active:c5 p3 p1 c3 c1 c2 
+Task p3 running on CPU#1
+wait:empty->val = -2
+p3 blocked
+Active:c5 p1 c3 c1 c2 
+Task p3 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = -2
+p2 activated
+Active:c5 p1 c3 c1 c2 p2 
+Task c2 running on CPU#1
+wait:fill->val = -1
+c2 blocked
+Active:c5 p1 c3 c1 p2 
+Task c2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = -1
+c2 activated
+Active:c5 p1 c3 c1 p2 c2 
+Task p2 running on CPU#1
+wait:empty->val = -2
+p2 blocked
+Active:c5 p1 c3 c1 c2 
+Task p2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = -2
+p4 activated
+Active:c5 p1 c3 c1 c2 p4 
+Task c2 running on CPU#1
+wait:fill->val = -1
+c2 blocked
+Active:c5 p1 c3 c1 p4 
+Task c2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 14
+Normal StCPU#0 Schedule
+CPU#0 Schedule to p1
+Task p1 on CPU#0 is about to return from event 10
+Normal Still 1
+Normal Still 2
+Task p1 on CPU#0 trap with event 10
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to c1
+Task c1 on CPU#0 is about to return from event 10
+Normal Still 1
+Normal Still 2
+)from c1
+Task c1 running on CPU#0
+signal:empty->val = -1
+p3 activated
+Active:c5 p1 c3 c1 p4 p3 
+Task c1 running on CPU#0
+wait:fill->val = -2
+c1 blocked
+Active:c5 p1 c3 p4 p3 
+Task c1 on CPU#0 trap with event 14
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to c3
+Task c3 on CPU#0 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c3
+Task c3 running on CPU#0
+signal:empty->val = 0
+p2 activated
+Active:c5 p1 c3 p4 p3 p2 
+Task c3 running on CPU#0
+wait:fill->val = -3
+c3 blocked
+Active:c5 p1 p4 p3 p2 
+Task c3 on CPU#0 trap with event 14
+CPU#0 save context
+CPU#0 Schedule
+CPU#0 Schedule to c5
+Task c5 on CPU#0 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c5
+Task c5 running on CPU#0
+signal:empty->val = 1
+Active:c5 p1 p4 p3 p2 
+Task c5 running on CPU#0
+wait:fill->val = -4
+c5 blocked
+Active:p1 p4 p3 p2 
+ill 1
+Normal Still 2
+Task p4 on CPU#1 trap with event 10
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 10
+Normal Still 1
+Normal Still 2
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = -4
+c3 activated
+Active:p1 p4 p3 p2 c3 
+Task p2 running on CPU#1
+wait:empty->val = 1
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = -3
+c2 activated
+Active:p1 p4 p3 p2 c3 c2 
+Task p2 running on CPU#1
+wait:empty->val = 0
+p2 blocked
+Active:p1 p4 p3 c3 c2 
+Task p2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = -2
+c4 activated
+Active:p1 p4 p3 c3 c2 c4 
+Task p4 running on CPU#1
+wait:empty->val = -1
+p4 blocked
+Active:p1 p3 c3 c2 c4 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c2
+Task c2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c2
+Task c2 running on CPU#1
+signal:empty->val = -1
+p4 activated
+Active:p1 p3 c3 c2 c4 p4 
+Task c2 running on CPU#1
+wait:fill->val = -2
+c2 blocked
+Active:p1 p3 c3 c4 p4 
+Task c2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c4
+Task c4 running on CPU#1
+signal:empty->val = 0
+p2 activated
+Active:p1 p3 c3 c4 p4 p2 
+Task c4 running on CPU#1
+wait:fill->val = -3
+c4 blocked
+Active:p1 p3 c3 p4 p2 
+Task c4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = -3
+c5 activated
+Active:p1 p3 c3 p4 p2 c5 
+Task p2 running on CPU#1
+wait:empty->val = 0
+p2 blocked
+Active:p1 p3 c3 p4 c5 
+Task p2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p4
+Task p4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p4
+Task p4 running on CPU#1
+signal:fill->val = -2
+c4 activated
+Active:p1 p3 c3 p4 c5 c4 
+Task p4 running on CPU#1
+wait:empty->val = -1
+p4 blocked
+Active:p1 p3 c3 c5 c4 
+Task p4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c4
+Task c4 running on CPU#1
+signal:empty->val = -1
+p2 activated
+Active:p1 p3 c3 c5 c4 p2 
+Task c4 running on CPU#1
+wait:fill->val = -2
+c4 blocked
+Active:p1 p3 c3 c5 p2 
+Task c4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p2
+Task p2 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p2
+Task p2 running on CPU#1
+signal:fill->val = -2
+c1 activated
+Active:p1 p3 c3 c5 p2 c1 
+Task p2 running on CPU#1
+wait:empty->val = -1
+p2 blocked
+Active:p1 p3 c3 c5 c1 
+Task p2 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to p3
+Task p3 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+(from p3
+Task p3 running on CPU#1
+signal:fill->val = -1
+c4 activated
+Active:p1 p3 c3 c5 c1 c4 
+Task p3 running on CPU#1
+wait:empty->val = -2
+p3 blocked
+Active:p1 c3 c5 c1 c4 
+Task p3 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c4
+Task c4 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+)from c4
+Task c4 running on CPU#1
+signal:empty->val = -2
+p3 activated
+Active:p1 c3 c5 c1 c4 p3 
+Task c4 running on CPU#1
+wait:fill->val = -1
+c4 blocked
+Active:p1 c3 c5 c1 p3 
+Task c4 on CPU#1 trap with event 14
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c5
+Task c5 on CPU#1 is about to return from event 14
+Normal Still 1
+Normal Still 2
+Task c5 on CPU#1 trap with event 8
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c5
+Task c5 on CPU#1 is about to return from event 8
+Normal Still 1
+Normal Still 2
+Task c5 on CPU#1 trap with event 8
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c5
+Task c5 on CPU#1 is about to return from event 8
+Normal Still 1
+Normal Still 2
+Task c5 on CPU#1 trap with event 8
+CPU#1 save context
+CPU#1 Schedule
+CPU#1 Schedule to c5
+Task c5 on CPU#1 is about to return from event 8
+Normal Still 1
+Normal Still 2
+Task c5 on CPU#1 trap with event 8
+CPU#1 save context
+CPU#1 Schedule
+Task c5 on CPU#0 trap with event 14
+CPU#0 save context
+CPU#1 Schedule to c5
+Got 126 MiB heap: [0x200000, 0x8000000)
+Assertion fail at /home/ebata/os-workbench/kernel/src/pmm.c:245
+CPU #0 Halt (01).

@@ -63,7 +63,6 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   #ifdef _DEBUG
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
   #endif
-  printf("still normal\n");
   return next;
 }
 

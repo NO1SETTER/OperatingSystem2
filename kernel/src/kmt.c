@@ -18,6 +18,7 @@ static void kmt_init()
     sprintf(name,"mainthread_%d",_cpu());
     strcpy(new_task->name,name);
     currents[i]=new_task;
+    intrdepth[i]=0;
   }//currents全部設置爲空
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");//初始化鎖
   irq_head=NULL;
@@ -78,7 +79,6 @@ static void kmt_teardown(task_t *t)
   if(pos==-1)
   {
     sp_unlock(&thread_ctrl_lock);
-    _intr_write(1);
     return; 
   }
   for(int i=pos;i<active_num-1;i++)

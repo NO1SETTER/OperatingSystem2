@@ -62,38 +62,22 @@ void sem_wait(sem_t *sem)
   #endif
   if(--sem->val<0) 
   {
-    current->status=T_WAITING;
-    sem->waiter[sem->wnum++]=current->id;
+    sp_lock(&current->lk);
+      current->status=T_WAITING;
+      sem->waiter[sem->wnum++]=current->id;
+    sp_unlock(&current->lk);
     #ifdef _DEBUG
     printf("%s blocked\n",current->name);
     #endif
-      /*else
-          {
-            int judge=1;
-            for(int i=0;i<sem->wnum;i++)
-            {
-              if(sem->waiter[i]==current->id) judge=0;
-            }
-            if(judge) {
-              sem->waiter[sem->wnum++]=current->id;
-              #ifdef _DEBUG
-              printf("%s blocked\n",current->name);
-              #endif
-              }
-      }*/
     int pos=-1;   
     for(int i=0;i<active_num;i++)
     {
       if(active_thread[i]==current->id)
-      {
-        pos=i;break;
-      }
+      { pos=i;break;}
     }
     assert(pos!=-1);
     for(int i=pos;i<active_num-1;i++)
-    {
       active_thread[i]=active_thread[i+1];
-    }
     active_num=active_num-1;
 
     sp_unlock(&thread_ctrl_lock);
@@ -116,8 +100,8 @@ void sem_signal(sem_t *sem)
   sp_lock(&thread_ctrl_lock);
   sem->val=sem->val+1;
   #ifdef _DEBUG
-  printf("Task %s running on CPU#%d\n",current->name,_cpu());
-  printf("signal:%s->val = %d\n",sem->name,sem->val);
+    printf("Task %s running on CPU#%d\n",current->name,_cpu());
+    printf("signal:%s->val = %d\n",sem->name,sem->val);
   #endif
     if(sem->wnum)
     {

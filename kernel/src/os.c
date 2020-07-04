@@ -1,6 +1,7 @@
 #include <common.h>
 #define current currents[_cpu()]
-
+//thread_ctrl_lock用於遍歷線程時保護
+//每個線程的鎖用與保護該線程的修改
 int thread_num=0;
 int active_num=0;
 spinlock_t thread_ctrl_lock;
@@ -22,7 +23,6 @@ static void os_run() {
   for (const char *s = "Hello World from CPU #*\n"; *s; s++) {
     _putc(*s == '*' ? '0' + _cpu() : *s);
   }
-
   _intr_write(1);
   while (1);
 }

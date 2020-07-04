@@ -85,11 +85,13 @@ void sem_wait(sem_t *sem)
          print_task();
     #ifdef _DEBUG
     #endif
+    _intr_write(1);
     _yield();
     return;
   }
   sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);
+  _intr_write(1);
 }
 
 void sem_signal(sem_t *sem)
@@ -98,8 +100,8 @@ void sem_signal(sem_t *sem)
   sp_lock(&thread_ctrl_lock);
   sem->val=sem->val+1;
   #ifdef _DEBUG
-    printf("Task %s running on CPU#%d\n",current->name,_cpu());
-    printf("signal:%s->val = %d\n",sem->name,sem->val);
+  printf("Task %s running on CPU#%d\n",current->name,_cpu());
+  printf("signal:%s->val = %d\n",sem->name,sem->val);
   #endif
     if(sem->wnum)
     {
@@ -115,7 +117,8 @@ void sem_signal(sem_t *sem)
     }
   sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);
-  print_task();
+      print_task();
   #ifdef _DEBUG
   #endif
+  _intr_write(1);
 }

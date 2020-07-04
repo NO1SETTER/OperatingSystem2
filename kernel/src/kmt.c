@@ -18,10 +18,8 @@ static void kmt_init()
     sprintf(name,"mainthread_%d",_cpu());
     strcpy(new_task->name,name);
     currents[i]=new_task;
-    intrdepth[i]=0;
   }//currents全部設置爲空
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");//初始化鎖
-  kmt->spin_init(&intr_lock,"intr_lock");
   irq_head=NULL;
   os->on_irq(INT_MIN,_EVENT_NULL,kmt_context_save);
   os->on_irq(INT_MAX,_EVENT_NULL,kmt_schedule);

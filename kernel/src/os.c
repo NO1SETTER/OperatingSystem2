@@ -41,6 +41,7 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
   _intr_write(0);
+  printf("thread_num=%d\n",thread_num);
   //printf("CPU#%d ev.event=%d\n",_cpu(),ev.event);
   //printf("Task %s on CPU#%d:trap\n",current->name,_cpu());
   _Context *next = context;

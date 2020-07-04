@@ -27,6 +27,7 @@ static void os_run() {
   while (1);
 }
 
+
 int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断context合法性
 { 
   #ifdef __x86_64__
@@ -58,7 +59,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     ptr=ptr->next;
   }
   panic_on(!next, "returning NULL context");
-  //panic_on(sane_context(next), "returning to invalid context");
+  panic_on(sane_context(next), "returning to invalid context");
   #ifdef _DEBUG
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
   #endif
@@ -77,10 +78,26 @@ static void on_irq (int seq,int event,handler_t handler)//原本是_cte_init中�
     irq_head=new_irq;
   else
   {
-  struct irq* ptr=irq_head;
-  while(ptr->next)
-    ptr=ptr->next;
-  ptr->next=new_irq;
+    struct irq* ptr=irq_head;
+    while(1)
+    {
+      if(ptr->next==NULL) break;
+      if(ptr->seq<=new_irq->seq &&ptr->next->seq >= new_irq->seq) break;
+      if(ptr->seq>=new_irq->seq) break;
+      ptr=ptr->next;
+    }
+    if(ptr->next==NULL) ptr->next=new_irq;
+    else if(ptr->seq<=new_irq->seq&&ptr->next->seq >= new_irq->seq)
+    {
+      new_irq->next=ptr->next;
+      ptr->next=new_irq;
+    }
+    else if(ptr->seq>=new_irq->seq)
+    {
+      assert(ptr==irq_head);
+      new_irq->next=ptr;
+      irq_head=new_irq;
+    }
   }
   #ifdef _DEBUG
    printf("on irq\n");

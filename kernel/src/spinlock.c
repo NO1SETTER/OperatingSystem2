@@ -10,6 +10,7 @@ void _intr_write_safe(int x)
   else
   {
     intrdepth=intrdepth-1;
+    assert(intrdepth>=0);
     if(intrdepth==0)  _intr_write(1);
   }
 }

@@ -1,12 +1,15 @@
 #include<common.h>
 #define STACK_SIZE 4096
 #define current currents[_cpu()]
+#define INT_MIN -2147483648
+#define INT_MAX 2147483647
 extern sem_t empty;
 extern sem_t fill;
 extern void producer(void *arg);
 extern void consumer(void *arg);
-_Context* schedule(_Event ev,_Context* c);
-_Context* cyield();
+_Context* kmt_context_save(_Event ev,_Context* c);
+_Context* kmt_schedule(_Event ev,_Context* c);
+
 
 task_t* task_alloc(){ return (task_t*)kalloc_safe(sizeof(task_t));}
 static void kmt_init()
@@ -22,8 +25,8 @@ static void kmt_init()
   }//currents全部設置爲空
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");//初始化鎖
   irq_head=NULL;
-  os->on_irq(0,_EVENT_YIELD,schedule);
-  os->on_irq(1,_EVENT_IRQ_TIMER,cyield);
+  os->on_irq(INT_MIN,_EVENT_NULL,kmt_context_save);
+  os->on_irq(INT_MAX,_EVENT_NULL,kmt_schedule);
 
   #ifdef _DEBUG_LOCAL
   kmt->sem_init(&empty, "empty", 5);  // 缓冲区大小为 5
@@ -102,7 +105,15 @@ MODULE_DEF(kmt) = {
   .sem_signal=sem_signal,
 };
 
-_Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
+_Context* kmt_context_save(_Event ev,_Context* c)
+{
+sp_lock(&current->lk);
+  current->ctx=c;
+sp_unlock(&current->lk);
+return NULL;
+}
+
+_Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
       sp_lock(&thread_ctrl_lock);
       #ifdef _DEBUG
@@ -133,14 +144,5 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       #endif
       sp_unlock(&thread_ctrl_lock);
       return current->ctx;
-}
-
-_Context* cyield(_Event ev,_Context* c)
-{
-  #ifdef _DEBUG
-    printf("Yield\n");
-  #endif
-  _yield();
-  return NULL;
 }
 

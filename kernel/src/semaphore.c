@@ -83,13 +83,13 @@ void sem_wait(sem_t *sem)
     sp_unlock(&thread_ctrl_lock);
     sp_unlock(&sem->lock);
     print_task();
-    _intr_write(1);
+    //_intr_write(1);
     _yield();
     return;
   }
   sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);
-  _intr_write(1);
+  //_intr_write(1);
 }
 
 void sem_signal(sem_t *sem)
@@ -115,6 +115,6 @@ void sem_signal(sem_t *sem)
     }
   sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);
-  _intr_write(1);
+  //_intr_write(1);
   print_task();
 }

@@ -82,7 +82,6 @@ static void kmt_teardown(task_t *t)
   }
   for(int i=pos;i<active_num-1;i++)
   active_thread[i]=active_thread[i+1];
-
   all_thread[id]->status=T_DEAD;
   sp_unlock(&thread_ctrl_lock);
   kfree_safe(t->stack);

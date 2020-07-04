@@ -108,6 +108,7 @@ _Context* kmt_context_save(_Event ev,_Context* c)
       printf("CPU#%d save context for %s\n",_cpu(),current->name);
     #endif
   sp_unlock(&current->lk);
+  _intr_write(1);
   return NULL;
 }
 
@@ -129,6 +130,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       current=all_thread[active_thread[no]];
       current->status=T_RUNNING;
       sp_unlock(&thread_ctrl_lock);
+      _intr_write(1);
       return current->ctx;
       /*task_t* rec=current;
       int reschedule=0;
@@ -145,7 +147,9 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       #ifdef _DEBUG
         printf("CPU#%d Schedule to %s\n",_cpu(),current->name);
       #endif
-      sp_unlock(&thread_ctrl_lock);*/
+      sp_unlock(&thread_ctrl_lock);
       return current->ctx;
-}
+      */
+} 
+      
 

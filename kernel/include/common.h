@@ -71,4 +71,4 @@ struct irq
   handler_t handler;
   struct irq* next;
 };
-struct irq *irq_head;
+struct irq* irq_head=NULL;

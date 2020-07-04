@@ -85,6 +85,7 @@ void sem_wait(sem_t *sem)
          print_task();
     #ifdef _DEBUG
     #endif
+    _intr_write(1);
     _yield();
     return;
   }

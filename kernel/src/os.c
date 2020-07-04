@@ -1,5 +1,4 @@
 #include <common.h>
-#define current currents[_cpu()]
 //thread_ctrl_lock用於遍歷線程時保護
 //每個線程的鎖用與保護該線程的修改
 int thread_num=0;
@@ -47,6 +46,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   _intr_write(0);
   #ifdef _DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
+    printf("ctx->esp at %p and stack is[%p,%p)\n",context->rsp,current->stack,current->stack+STACK_SIZE);
   #endif
   _Context *next = context;
   struct irq *ptr=irq_head;

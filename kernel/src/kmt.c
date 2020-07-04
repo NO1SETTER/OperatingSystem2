@@ -119,7 +119,9 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       //理解:是某个CPU在调用schedule,这里不是在切换CPU,而是为该CPU找到合适的task
       assert(current);
       current->status=T_RUNNING;//被选中的线程设置RUNNING
-      printf("CPU#%d Schedule to %s\n",_cpu(),current->name);
+      #ifdef _DEBUG
+        printf("CPU#%d Schedule to %s\n",_cpu(),current->name);
+      #endif
       sp_unlock(&thread_ctrl_lock);
       return current->ctx;
 }

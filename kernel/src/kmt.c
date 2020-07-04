@@ -11,7 +11,14 @@ _Context* cyield();
 task_t* task_alloc(){ return (task_t*)kalloc_safe(sizeof(task_t));}
 static void kmt_init()
 {
-  for(int i=0;i<_ncpu();i++) currents[i]=NULL;//currents全部設置爲空
+  for(int i=0;i<_ncpu();i++)
+  {
+    task_t *new_task=(task_t*)kalloc_safe(sizeof(task_t));
+    new_task->id=-1;
+    char name[15];
+    sprintf(name,"mainthread_%d",_cpu());
+    currents[i]=new_task;
+  }//currents全部設置爲空
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");//初始化鎖
   irq_head=NULL;
   os->on_irq(0,_EVENT_YIELD,schedule);
@@ -38,7 +45,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
-  
+
   sp_lock(&thread_ctrl_lock);
     task->id=thread_num;//id设置为当前进程数
     if(thread_num > 0)
@@ -100,7 +107,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
-      if(!current)
+      if(current->id==-1)
           current=all_thread[0];//暂时的
       else
         {

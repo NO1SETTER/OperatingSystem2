@@ -46,7 +46,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
-
+  sp_lockinit(&task->lk,"task_lock");
   sp_lock(&thread_ctrl_lock);
     task->id=thread_num;//id设置为当前进程数
     if(thread_num > 0)

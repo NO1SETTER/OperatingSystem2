@@ -2,8 +2,8 @@
 #include <klib.h>
 #include <klib-macros.h>
 #include <amdev.h>
-//#define _DEBUG_LOCAL //控制是否進行測試
-//#define _DEBUG       //控制是否輸出本地測試的調試信息
+#define _DEBUG_LOCAL //控制是否進行測試
+#define _DEBUG       //控制是否輸出本地測試的調試信息
 //#define DEV_ENABLE
 #define STACK_SIZE 4096
 #define current currents[_cpu()]
@@ -77,3 +77,6 @@ struct irq
   struct irq* next;
 };
 struct irq* irq_head;
+
+int intrdepth[MAX_CPU];
+void _intr_write_safe(int x);

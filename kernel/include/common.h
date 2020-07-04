@@ -77,3 +77,6 @@ struct irq
   struct irq* next;
 };
 struct irq* irq_head;
+
+extern spinlock_t intr_lock;
+int intrdepth[MAX_CPU];

@@ -1,7 +1,6 @@
 #include<common.h>
 #define STACK_SIZE 4096
 #define current currents[_cpu()]
-#define _DEBUG
 extern sem_t empty;
 extern sem_t fill;
 extern void producer(void *arg);
@@ -19,7 +18,7 @@ static void kmt_init()
   os->on_irq(0,_EVENT_YIELD,schedule);
   os->on_irq(1,_EVENT_IRQ_TIMER,cyield);
 
-  #ifdef DEBUG_LOCAL
+  #ifdef _DEBUG_LOCAL
   kmt->sem_init(&empty, "empty", 5);  // 缓冲区大小为 5
   kmt->sem_init(&fill,  "fill",  0);
   

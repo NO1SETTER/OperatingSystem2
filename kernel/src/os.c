@@ -1,6 +1,6 @@
 #include <common.h>
 #define current currents[_cpu()]
-#define _DEBUG
+
 int thread_num=0;
 int active_num=0;
 spinlock_t thread_ctrl_lock;
@@ -22,6 +22,7 @@ static void os_run() {
   for (const char *s = "Hello World from CPU #*\n"; *s; s++) {
     _putc(*s == '*' ? '0' + _cpu() : *s);
   }
+
   _intr_write(1);
   while (1);
 }

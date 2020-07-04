@@ -1,7 +1,7 @@
 #include <common.h>
 //#define _BASIC_DEBUG
 //#define _SLAB_ASSIST
-
+#define _DEBUG
 #define PAGE_SIZE 4096 
 #define STACK_SIZE 4096
 #define BLOCK_AREA_SIZE 0x2000000

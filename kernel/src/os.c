@@ -58,7 +58,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     ptr=ptr->next;
   }
   panic_on(!next, "returning NULL context");
-  panic_on(sane_context(next), "returning to invalid context");
+  //panic_on(sane_context(next), "returning to invalid context");
   #ifdef _DEBUG
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
   #endif

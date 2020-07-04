@@ -1,8 +1,4 @@
 #include<common.h>
-#define STACK_SIZE 4096
-#define current currents[_cpu()]
-#define INT_MIN -2147483648
-#define INT_MAX 2147483647
 extern sem_t empty;
 extern sem_t fill;
 extern void producer(void *arg);

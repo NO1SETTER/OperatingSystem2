@@ -66,6 +66,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   return next;
 }
 
+
 static void on_irq (int seq,int event,handler_t handler)//原本是_cte_init中的一部分
 {
   struct irq* new_irq=(struct irq* )kalloc_safe(sizeof(struct irq));
@@ -97,6 +98,7 @@ static void on_irq (int seq,int event,handler_t handler)//原本是_cte_init中�
       irq_head=new_irq;
     }
   }
+
   return;
 }
 

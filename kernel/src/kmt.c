@@ -5,15 +5,20 @@ extern sem_t empty;
 extern sem_t fill;
 extern void producer(void *arg);
 extern void consumer(void *arg);
-
 _Context* schedule(_Event ev,_Context* c);
-_Context* cyield(_Event ev,_Context* c);
+_Context* cyield();
 
 task_t* task_alloc(){ return (task_t*)kalloc_safe(sizeof(task_t));}
 static void kmt_init()
 {
   for(int i=0;i<_ncpu();i++)
-    currents[i]=NULL;
+  {
+    task_t *main_thread=(task_t*)kalloc_safe(sizeof(task_t));
+    char name[15];
+    sprintf(name,"mainthread_%d",_cpu());
+    strcpy(main_thread->name,name);
+    currents[i]=main_thread;//只用于初始化，之后不会再访问到
+  }
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");
   irq_head=(struct irq*)kalloc_safe(sizeof(struct irq));
   os->on_irq(0,_EVENT_YIELD,schedule);
@@ -37,6 +42,7 @@ static void kmt_init()
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
   strcpy(task->name,name);//名字
   task->status=T_READY;//状态
+  sp_lock(&thread_ctrl_lock);
   task->id=thread_num;//id设置为当前进程数
   if(thread_num > 0)
   {
@@ -49,6 +55,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
   //上下文存在于栈顶,task中的ctx指针指向该位置
   all_thread[thread_num++]=task;//添加到所有线程中
   active_thread[active_num++]=task->id;//添加到活跃线程中
+  sp_unlock(&thread_ctrl_lock);
   //printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
   return 0;
 }
@@ -77,8 +84,6 @@ static void kmt_teardown(task_t *t)
 
   all_thread[id]->status=T_DEAD;
   sp_unlock(&thread_ctrl_lock);
-  _intr_write(1);
-
   kfree_safe(t->stack);
 }
 
@@ -99,9 +104,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
       sp_lock(&thread_ctrl_lock);
       printf("CPU#%d Schedule\n",_cpu());
       if(!current)
-        {
           current=all_thread[0];//暂时的
-        }
       else
         {
           current->ctx=c;

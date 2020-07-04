@@ -55,36 +55,32 @@ void sem_wait(sem_t *sem)
 {
   sp_lock(&sem->lock);//sem->lock用于控制一切对sem的修改
   sp_lock(&thread_ctrl_lock);
-  sem->val--;
   #ifdef _DEBUG
   printf("Task %s on CPU#%d\n",current->name,_cpu());
   printf("wait:%s->val = %d\n",sem->name,sem->val);
   #endif
-  if(sem->val<0) 
+  if(--sem->val<0) 
   {
     current->status=T_WAITING;
-    if(sem->wnum==0)
-    {
-      sem->waiter[sem->wnum++]=current->id;
+    sem->waiter[sem->wnum++]=current->id;
       #ifdef _DEBUG
       printf("%s blocked\n",current->name);
       #endif
-    }
-    else
-    {
-      int judge=1;
-      for(int i=0;i<sem->wnum;i++)
-      {
-        if(sem->waiter[i]==current->id) judge=0;
-      }
-      if(judge) {
-        sem->waiter[sem->wnum++]=current->id;
-        #ifdef _DEBUG
-        printf("%s blocked\n",current->name);
-        #endif
-        }
-    }
-    int pos=-1;
+      /*else
+          {
+            int judge=1;
+            for(int i=0;i<sem->wnum;i++)
+            {
+              if(sem->waiter[i]==current->id) judge=0;
+            }
+            if(judge) {
+              sem->waiter[sem->wnum++]=current->id;
+              #ifdef _DEBUG
+              printf("%s blocked\n",current->name);
+              #endif
+              }
+      }*/
+    int pos=-1;   
     for(int i=0;i<active_num;i++)
     {
       if(active_thread[i]==current->id)
@@ -117,7 +113,7 @@ void sem_signal(sem_t *sem)
 {
   sp_lock(&sem->lock);
   sp_lock(&thread_ctrl_lock);
-  sem->val++;
+  sem->val=sem->val+1;
   #ifdef _DEBUG
   printf("Task %s on CPU#%d\n",current->name,_cpu());
   printf("signal:%s->val = %d\n",sem->name,sem->val);
@@ -132,7 +128,7 @@ void sem_signal(sem_t *sem)
       #endif
       for(int i=no;i<sem->wnum-1;i++)
       sem->waiter[i]=sem->waiter[i+1];
-      sem->wnum--;
+      sem->wnum=sem->wnum-1;
     }
   sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);

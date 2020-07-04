@@ -2,8 +2,8 @@
 #include <klib.h>
 #include <klib-macros.h>
 #include <amdev.h>
-#define DEBUG_LOCAL //控制是否進行測試
-#define DEBUG       //控制是否輸出本地測試的調試信息
+#define _DEBUG_LOCAL //控制是否進行測試
+#define _DEBUG       //控制是否輸出本地測試的調試信息
 //#define DEV_ENABLE
 #define MAX_CPU 8
 enum t_status {

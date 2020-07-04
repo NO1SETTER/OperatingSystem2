@@ -2,8 +2,7 @@
 #define P kmt->sem_wait
 #define V kmt->sem_signal
 #define current currents[_cpu()]
-
-#ifdef DEBUG_LOCAL
+#ifdef _DEBUG_LOCAL
     sem_t empty;
     sem_t fill;
     void producer(void *arg)
@@ -25,7 +24,7 @@
         {
         P(&fill);
         printf(")");
-        #ifdef _DEBUG_
+        #ifdef _DEBUG
           printf("from %s\n",current->name);
         #endif
         V(&empty);

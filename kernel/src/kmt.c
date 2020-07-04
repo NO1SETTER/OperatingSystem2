@@ -79,6 +79,7 @@ static void kmt_teardown(task_t *t)
   if(pos==-1)
   {
     sp_unlock(&thread_ctrl_lock);
+    //_intr_write(1);
     return; 
   }
   for(int i=pos;i<active_num-1;i++)

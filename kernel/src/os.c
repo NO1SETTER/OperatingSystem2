@@ -34,33 +34,33 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
     if(ctx->ds!=16) return 1;
     if(ctx->cs!=8) return 1;
   #endif
-  printf("Vaild Context\n");
+  #ifdef _DEBUG
+    printf("Vaild Context\n");  
+  #endif
   return 0;
 }
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
   _intr_write(0);
-  printf("thread_num=%d\n",thread_num);
-  //printf("CPU#%d ev.event=%d\n",_cpu(),ev.event);
-  //printf("Task %s on CPU#%d:trap\n",current->name,_cpu());
+  #ifdef _DEBUG
+    printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
+  #endif
   _Context *next = context;
   struct irq *ptr=irq_head->next;
   while(ptr)
   {
     if (ptr->event == _EVENT_NULL || ptr->event == ev.event) {
       _Context *r = ptr->handler(ev, context);
-      //panic_on(r && next, "returning multiple contexts");
       if (r) next = r;
     }
     ptr=ptr->next;
   }
   panic_on(!next, "returning NULL context");
   panic_on(sane_context(next), "returning to invalid context");
-  if(ev.event==_EVENT_IRQ_TIMER)
-    printf("Time interrupt:Task %s on CPU#%d:before ret\n",current->name,_cpu());
-  else if(ev.event==_EVENT_YIELD)
-    printf("Yield:Task %s on CPU#%d:before ret\n",current->name,_cpu());
+  #ifdef _DEBUG
+    printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
+  #endif
   return next;
 }
 

@@ -12,13 +12,7 @@ task_t* task_alloc(){ return (task_t*)kalloc_safe(sizeof(task_t));}
 static void kmt_init()
 {
   for(int i=0;i<_ncpu();i++)
-  {
-    task_t *main_thread=(task_t*)kalloc_safe(sizeof(task_t));
-    char name[15];
-    sprintf(name,"mainthread_%d",_cpu());
-    strcpy(main_thread->name,name);
-    currents[i]=main_thread;//只用于初始化，之后不会再访问到
-  }
+    currents[i]=NULL;
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");
   irq_head=(struct irq*)kalloc_safe(sizeof(struct irq));
   os->on_irq(0,_EVENT_YIELD,schedule);
@@ -50,13 +44,14 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     task->next=all_thread[0];
   }
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
-  //printf("stack at [%x,%x)\n",task->stack,task->stack+STACK_SIZE);
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
   all_thread[thread_num++]=task;//添加到所有线程中
   active_thread[active_num++]=task->id;//添加到活跃线程中
   sp_unlock(&thread_ctrl_lock);
-  //printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
+  #ifdef _DEBUG
+    printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
+  #endif
   return 0;
 }
 
@@ -102,17 +97,17 @@ MODULE_DEF(kmt) = {
 _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
       sp_lock(&thread_ctrl_lock);
-      printf("CPU#%d Schedule\n",_cpu());
+      #ifdef _DEBUG
+        printf("CPU#%d Schedule\n",_cpu());
+      #endif
       if(!current)
           current=all_thread[0];//暂时的
       else
         {
           current->ctx=c;
-          printf("Context of %s saved\n",current->name);
           if(current->status==T_RUNNING)
             current->status=T_READY;//此时current也属于可被调度的线程,设置READY
         }
-      
       task_t* rec=current;
       int reschedule=0;
       do{
@@ -123,7 +118,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
          break;
       }while((current->id)%_ncpu()!=_cpu()||current->status!=T_READY);
       //理解:是某个CPU在调用schedule,这里不是在切换CPU,而是为该CPU找到合适的task
-        assert(current);
+      assert(current);
       current->status=T_RUNNING;//被选中的线程设置RUNNING
       printf("CPU#%d Schedule to %s\n",_cpu(),current->name);
       sp_unlock(&thread_ctrl_lock);
@@ -133,7 +128,7 @@ _Context* schedule(_Event ev,_Context* c)//传入的c是current的最新上下�
 _Context* cyield(_Event ev,_Context* c)
 {
   #ifdef _DEBUG
-  printf("Yield\n");
+    printf("Yield\n");
   #endif
   _yield();
   return NULL;

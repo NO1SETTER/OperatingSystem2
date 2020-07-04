@@ -81,3 +81,5 @@ task_t* currents[MAX_CPU];
 #define current currents[_cpu()]
 int intrdepths[MAX_CPU];
 #define intrdepth intrdepths[_cpu()]
+int intenas[MAX_CPU];
+#define intena intenas[_cpu()]

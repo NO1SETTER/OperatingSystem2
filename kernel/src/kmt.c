@@ -111,9 +111,9 @@ _Context* kmt_context_save(_Event ev,_Context* c)
     printf("CPU#%d save context\n",_cpu());
   #endif
   sp_lock(&current->lk);
-  current->ctx=c;
+    current->ctx=c;
   sp_unlock(&current->lk);
-return NULL;
+  return NULL;
 }
 
 _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来

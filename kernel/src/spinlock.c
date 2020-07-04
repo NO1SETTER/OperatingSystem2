@@ -6,6 +6,7 @@ void _intr_write_safe(int x)
   {
     intrdepth=intrdepth+1;
     _intr_write(0);
+    printf("close intr\n");
   }
   else
   {

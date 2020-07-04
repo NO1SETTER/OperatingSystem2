@@ -1,6 +1,7 @@
 #include<common.h>
 #define STACK_SIZE 4096
 #define current currents[_cpu()]
+#define _DEBUG
 extern sem_t empty;
 extern sem_t fill;
 extern void producer(void *arg);

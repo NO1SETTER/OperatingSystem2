@@ -6,7 +6,6 @@
 #define _DEBUG       //控制是否輸出本地測試的調試信息
 //#define DEV_ENABLE
 #define STACK_SIZE 4096
-#define current currents[_cpu()]
 #define INT_MIN -2147483648
 #define INT_MAX 2147483647
 #define MAX_CPU 8
@@ -78,5 +77,7 @@ struct irq
 };
 struct irq* irq_head;
 
-extern spinlock_t intr_lock;
-int intrdepth[MAX_CPU];
+task_t* currents[MAX_CPU];
+#define current currents[_cpu()]
+int intrdepths[MAX_CPU];
+#define intrdepth intrdepths[_cpu()]

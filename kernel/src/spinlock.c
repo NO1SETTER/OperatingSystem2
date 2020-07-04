@@ -1,17 +1,16 @@
 #include<common.h>
-spinlock_t intr_lock;
 void _intr_write_safe(int x)
 {
-  assert(intrdepth[_cpu()]>=0);
+  assert(intrdepth>=0);
   if(x==0)
   {
-    intrdepth[_cpu()]=intrdepth[_cpu()]+1;
+    intrdepth=intrdepth+1;
     _intr_write(0);
   }
   else
   {
-    intrdepth[_cpu()]=intrdepth[_cpu()]-1;
-    if(intrdepth[_cpu()]==0)  _intr_write(1);
+    intrdepth=intrdepth-1;
+    if(intrdepth==0)  _intr_write(1);
   }
 }
 

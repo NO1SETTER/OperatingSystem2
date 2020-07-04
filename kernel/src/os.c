@@ -43,7 +43,6 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
-  _intr_write(0);
   #ifdef _DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
     //printf("ctx->esp at %p ctx->ebp at %p and stack is[%p,%p)\n",context->rsp,context->rbp,current->stack,current->stack+STACK_SIZE);

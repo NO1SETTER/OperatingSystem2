@@ -1,7 +1,8 @@
 #include<common.h>
-
+spinlock_t intr_lock;
 void _intr_write_safe(int x)
 {
+  sp_lock(&intr_lock);
   assert(intrdepth[_cpu()]>=0);
   if(x==0)
   {
@@ -11,9 +12,9 @@ void _intr_write_safe(int x)
   else
   {
     intrdepth[_cpu()]=intrdepth[_cpu()]-1;
-    if(intrdepth[_cpu()]==0)
-      _intr_write(1);
+    if(intrdepth[_cpu()]==0)  _intr_write(1);
   }
+  sp_unlock(&intr_lock);
 }
 
 void sp_lock(spinlock_t* lk)

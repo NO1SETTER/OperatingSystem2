@@ -98,9 +98,7 @@ static void on_irq (int seq,int event,handler_t handler)//原本是_cte_init中�
       irq_head=new_irq;
     }
   }
-  #ifdef _DEBUG
-   printf("on irq\n");
-  #endif
+
   return;
 }
 

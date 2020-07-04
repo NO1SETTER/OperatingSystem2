@@ -11,10 +11,8 @@ _Context* cyield();
 task_t* task_alloc(){ return (task_t*)kalloc_safe(sizeof(task_t));}
 static void kmt_init()
 {
-  for(int i=0;i<_ncpu();i++)
-    currents[i]=NULL;
-  kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");
-  irq_head=(struct irq*)kalloc_safe(sizeof(struct irq));
+  for(int i=0;i<_ncpu();i++) currents[i]=NULL;//currents全部設置爲空
+  kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");//初始化鎖
   os->on_irq(0,_EVENT_YIELD,schedule);
   os->on_irq(1,_EVENT_IRQ_TIMER,cyield);
 

@@ -48,7 +48,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
   #endif
   _Context *next = context;
-  struct irq *ptr=irq_head->next;
+  struct irq *ptr=irq_head;
   while(ptr)
   {
     if (ptr->event == _EVENT_NULL || ptr->event == ev.event) {
@@ -72,22 +72,14 @@ static void on_irq (int seq,int event,handler_t handler)//原本是_cte_init中�
   new_irq->seq=seq;
   new_irq->event=event;
   new_irq->handler=handler;
-  struct irq* ptr=irq_head;
-  while(ptr)
+  if(irq_head==NULL)
+    irq_head=new_irq;
+  else
   {
-    if(ptr->seq<seq)
-    {
-      if(ptr->next==NULL)
-      { ptr->next=new_irq;
-        break;
-      }
-      if((ptr->next)->seq>seq)
-      { new_irq->next=ptr->next;
-        ptr->next=new_irq;
-        break;
-      }
-    }
+  struct irq* ptr=irq_head;
+  while(ptr->next)
     ptr=ptr->next;
+  ptr->next=new_irq;
   }
   #ifdef _DEBUG
    printf("on irq\n");

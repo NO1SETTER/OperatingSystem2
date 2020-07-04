@@ -107,9 +107,12 @@ MODULE_DEF(kmt) = {
 
 _Context* kmt_context_save(_Event ev,_Context* c)
 {
-sp_lock(&current->lk);
+  #ifdef _DEBUG
+    printf("CPU#%d save context\n",_cpu());
+  #endif
+  sp_lock(&current->lk);
   current->ctx=c;
-sp_unlock(&current->lk);
+  sp_unlock(&current->lk);
 return NULL;
 }
 

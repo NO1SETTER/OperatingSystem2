@@ -35,18 +35,19 @@ static void kmt_init()
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
   strcpy(task->name,name);//名字
   task->status=T_READY;//状态
-  sp_lock(&thread_ctrl_lock);
-  task->id=thread_num;//id设置为当前进程数
-  if(thread_num > 0)
-  {
-    all_thread[thread_num-1]->next=task;//设置链表形成环路
-    task->next=all_thread[0];
-  }
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
-  all_thread[thread_num++]=task;//添加到所有线程中
-  active_thread[active_num++]=task->id;//添加到活跃线程中
+  
+  sp_lock(&thread_ctrl_lock);
+    task->id=thread_num;//id设置为当前进程数
+    if(thread_num > 0)
+    {
+      all_thread[thread_num-1]->next=task;//设置链表形成环路
+      task->next=all_thread[0];
+    }
+    all_thread[thread_num++]=task;//添加到所有线程中
+    active_thread[active_num++]=task->id;//添加到活跃线程中
   sp_unlock(&thread_ctrl_lock);
   #ifdef _DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);

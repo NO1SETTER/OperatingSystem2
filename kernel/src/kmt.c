@@ -128,6 +128,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       int no=rand()%active_num;
       current=all_thread[active_thread[no]];
       current->status=T_RUNNING;
+      sp_unlock(&thread_ctrl_lock);
       return current->ctx;
       /*task_t* rec=current;
       int reschedule=0;

@@ -17,6 +17,7 @@ static void kmt_init()
     new_task->id=-1;
     char name[15];
     sprintf(name,"mainthread_%d",_cpu());
+    strcpy(new_task->name,name);
     currents[i]=new_task;
   }//currents全部設置爲空
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");//初始化鎖

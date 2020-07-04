@@ -6,13 +6,13 @@ void _intr_write_safe(int x)
   if(x==0)
   {
     intrdepth[_cpu()]=intrdepth[_cpu()]+1;
-    _intr_write(0);
+    _intr_write_safe(0);
   }
   else
   {
     intrdepth[_cpu()]=intrdepth[_cpu()]-1;
     if(intrdepth[_cpu()]==0)
-      _intr_write(1);
+      _intr_write_safe(1);
   }
 }
 

@@ -26,6 +26,7 @@ void sp_lock(spinlock_t* lk)
 void sp_unlock(spinlock_t *lk)
 {
   _atomic_xchg(&lk->locked,0);
+  _intr_write(1);
   //_intr_write_safe(1);
 }
 

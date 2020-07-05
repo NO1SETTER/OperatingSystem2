@@ -103,16 +103,12 @@ MODULE_DEF(kmt) = {
 
 _Context* kmt_context_save(_Event ev,_Context* c)
 {
-    assert(c->rip>=0x100000&&c->rip<=0x110000);
   sp_lock(&current->lk);
-      assert(c->rip>=0x100000&&c->rip<=0x110000);
     current->ctx=c;
     #ifdef _DEBUG
       printf("CPU#%d save context for %s\n",_cpu(),current->name);
     #endif
-      assert(c->rip>=0x100000&&c->rip<=0x110000);
   sp_unlock(&current->lk);
-    assert(c->rip>=0x100000&&c->rip<=0x110000);
   return NULL;
 }
 
@@ -120,53 +116,39 @@ _Context* kmt_context_save(_Event ev,_Context* c)
 
 _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
-        assert(c->rip>=0x100000&&c->rip<=0x110000);
       sp_lock(&thread_ctrl_lock);
-        assert(c->rip>=0x100000&&c->rip<=0x110000);
+
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
-        assert(c->rip>=0x100000&&c->rip<=0x110000);
-      sp_lock(&current->lk);
-        assert(c->rip>=0x100000&&c->rip<=0x110000);
+      sp_lock(&current->lk);;
       if(current->id==-1)
         {
-            assert(c->rip>=0x100000&&c->rip<=0x110000);
           sp_unlock(&current->lk);
           current=all_thread[0];//暂时的
-            assert(c->rip>=0x100000&&c->rip<=0x110000);
         }
       else
         {
-            assert(c->rip>=0x100000&&c->rip<=0x110000);
           if(current->status==T_RUNNING)
             current->status=T_READY;//此时current也属于可被调度的线程,设置READY
             sp_unlock(&current->lk);
-            assert(c->rip>=0x100000&&c->rip<=0x110000);
         }
       int valid_tasks[100];
       int nr_task=0;
       for(int i=0;i<active_num;i++)
       {
-          assert(c->rip>=0x100000&&c->rip<=0x110000);
         if(all_thread[active_thread[i]]->status==T_READY)
         valid_tasks[nr_task++]=active_thread[i];
-          assert(c->rip>=0x100000&&c->rip<=0x110000);
       }
       int no=rand()%nr_task;
-        assert(c->rip>=0x100000&&c->rip<=0x110000);
       current=all_thread[valid_tasks[no]];
-        assert(c->rip>=0x100000&&c->rip<=0x110000);
       sp_lock(&current->lk);
-        assert(c->rip>=0x100000&&c->rip<=0x110000);
       current->status=T_RUNNING;
       sp_unlock(&current->lk);
       sp_unlock(&thread_ctrl_lock);
-        assert(c->rip>=0x100000&&c->rip<=0x110000);
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);
       #endif
-        assert(c->rip>=0x100000&&c->rip<=0x110000);
       return current->ctx;
 } 
       

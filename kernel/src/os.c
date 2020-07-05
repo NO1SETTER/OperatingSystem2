@@ -43,26 +43,26 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
-  legal(context);
+    assert(context->rip>=0x100000&&context->rip<=0x110000);
   push_cli();
-  legal(context);
+    assert(context->rip>=0x100000&&context->rip<=0x110000);
   #ifdef _DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
     //printf("ctx->esp at %p ctx->ebp at %p and stack is[%p,%p)\n",context->rsp,context->rbp,current->stack,current->stack+STACK_SIZE);
   #endif
-  legal(context);
+    assert(context->rip>=0x100000&&context->rip<=0x110000);
   _Context *next = context;
   struct irq *ptr=irq_head;
   while(ptr)
   {
     if (ptr->event == _EVENT_NULL || ptr->event == ev.event) {
       _Context *r = ptr->handler(ev, context);
-      legal(context);
+        assert(context->rip>=0x100000&&context->rip<=0x110000);
       if (r) next = r;
     }
     ptr=ptr->next;
-    legal(context);
+      assert(context->rip>=0x100000&&context->rip<=0x110000);
   }
   panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");
@@ -70,9 +70,9 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:returned_ctx->rip at %p\n",_cpu(),current->ctx->rip);
   #endif
-  legal(context);
+    assert(context->rip>=0x100000&&context->rip<=0x110000);
   pop_cli();
-  legal(context);
+    assert(context->rip>=0x100000&&context->rip<=0x110000);
   return next;
 }
 

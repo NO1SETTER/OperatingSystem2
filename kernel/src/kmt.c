@@ -132,8 +132,8 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
         if(all_thread[active_thread[i]]->status==T_READY&&all_thread[active_thread[i]]->is_trap==0)
         valid_tasks[nr_task++]=active_thread[i];
       }
-      if(nr_task==0) return NULL;
       
+      if(nr_task==0) return NULL;
       int no=rand()%nr_task;
       current=all_thread[valid_tasks[no]];
       sp_lock(&current->lk);

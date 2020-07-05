@@ -50,6 +50,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   #endif
 if(!(current->status==T_RUNNING||current->status==T_WAITING))
 {
+
 printf("Invalid status:%d\n",current->status);
 assert(0);
 }
@@ -62,11 +63,17 @@ assert(0);
   {
     sp_lock(&trap_task->lk);
     trap_task->is_trap=0;
+    #ifdef _DEBUG
+      printf("%s set free from trap\n",trap_task->name);
+    #endif
     sp_unlock(&trap_task->lk);
   }
   sp_lock(&current->lk);
   current->is_trap=1;
   trap_task=current;
+    #ifdef _DEBUG
+      printf("%s set trapped\n",trap_task->name);
+    #endif
   sp_unlock(&current->lk);
   
 

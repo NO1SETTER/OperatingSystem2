@@ -46,7 +46,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   _intr_write(0);
 if(!(current->status==T_RUNNING||current->status==T_WAITING))
 {
-printf("Invalid status:d\n",current->status);
+printf("Invalid status:%d\n",current->status);
 assert(0);
 }
   if(trap_task)//已经设置过

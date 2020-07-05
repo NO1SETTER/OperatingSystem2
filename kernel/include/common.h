@@ -86,3 +86,4 @@ int intenas[MAX_CPU];
 
 void push_cli();
 void pop_cli();
+void legal(_Context* c);

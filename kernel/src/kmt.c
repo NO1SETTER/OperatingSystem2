@@ -103,49 +103,73 @@ MODULE_DEF(kmt) = {
 
 _Context* kmt_context_save(_Event ev,_Context* c)
 {
+  legal(c);
   sp_lock(&current->lk);
+    legal(c);
     current->ctx=c;
     #ifdef _DEBUG
       printf("CPU#%d save context for %s\n",_cpu(),current->name);
     #endif
+    legal(c);
   sp_unlock(&current->lk);
+  legal(c);
   return NULL;
+}
+
+void legal(_Context *c)
+{
+  assert(c->rip>=0x100000&&c->rip<=110000);
 }
 
 _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
+      legal(c);
       sp_lock(&thread_ctrl_lock);
+      legal(c);
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
+      legal(c);
       sp_lock(&current->lk);
+      legal(c);
       if(current->id==-1)
         {
+          legal(c);
           sp_unlock(&current->lk);
           current=all_thread[0];//暂时的
+          legal(c);
         }
       else
         {
+          legal(c);
           if(current->status==T_RUNNING)
             current->status=T_READY;//此时current也属于可被调度的线程,设置READY
             sp_unlock(&current->lk);
+          legal(c);
         }
       int valid_tasks[100];
       int nr_task=0;
       for(int i=0;i<active_num;i++)
       {
+        legal(c);
         if(all_thread[active_thread[i]]->status==T_READY)
         valid_tasks[nr_task++]=active_thread[i];
+        legal(c);
       }
       int no=rand()%nr_task;
+      legal(c);
       current=all_thread[valid_tasks[no]];
+      legal(c);
       sp_lock(&current->lk);
+      legal(c);
       current->status=T_RUNNING;
       sp_unlock(&current->lk);
       sp_unlock(&thread_ctrl_lock);
+      legal(c);
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);
       #endif
+      legal(c);
       return current->ctx;
 } 
       

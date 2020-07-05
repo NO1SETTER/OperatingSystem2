@@ -48,12 +48,6 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
   #endif
-if(!(current->status==T_RUNNING||current->status==T_WAITING))
-{
-
-printf("Invalid status:%d\n",current->status);
-assert(0);
-}
 if(current->is_trap)
 {
 printf("Invalid status:%d\n",current->status);

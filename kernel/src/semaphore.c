@@ -83,8 +83,11 @@ void sem_wait(sem_t *sem)
     sp_unlock(&thread_ctrl_lock);
     sp_unlock(&sem->lock);
     print_task();
+    if(current->status==T_WAITING)
+    {
     _yield();
     return;
+    }
   }
   sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);

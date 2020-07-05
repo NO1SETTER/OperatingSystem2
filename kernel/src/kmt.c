@@ -14,6 +14,7 @@ static void kmt_init()
   {
     task_t *new_task=(task_t*)kalloc_safe(sizeof(task_t));
     new_task->id=-1;
+    new_task->status=T_RUNNING;
     char name[15];
     sprintf(name,"mainthread_%d",_cpu());
     strcpy(new_task->name,name);
@@ -43,7 +44,7 @@ static void kmt_init()
 
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
   strcpy(task->name,name);//名字
-  task->status=T_RUNNING;//状态
+  task->status=T_READY;//状态
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置

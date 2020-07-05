@@ -118,14 +118,15 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
+      sp_lock(&current->lk);
       if(current->id==-1)
           current=all_thread[0];//暂时的
       else
         {
-          current->ctx=c;
           if(current->status==T_RUNNING)
             current->status=T_READY;//此时current也属于可被调度的线程,设置READY
         }
+
       int no=rand()%active_num;
       current=all_thread[active_thread[no]];
       while(current->status!=T_READY)
@@ -134,6 +135,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
         current=all_thread[active_thread[no]];
       }
       current->status=T_RUNNING;
+      sp_unlock(&current->lk);
       sp_unlock(&thread_ctrl_lock);
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);

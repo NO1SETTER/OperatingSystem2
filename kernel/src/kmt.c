@@ -41,6 +41,7 @@ static void kmt_init()
 //task提前分配好,那么我们用一个指针数组管理所有这些分配好的task
 //_Area{*start,*end;},
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
+  _intr_write(0);
   strcpy(task->name,name);//名字
   task->status=T_READY;//状态
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
@@ -60,6 +61,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
   #ifdef _DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
   #endif
+  _intr_write(1);
   return 0;
 }
 

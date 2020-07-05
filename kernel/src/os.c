@@ -44,27 +44,27 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {//整个过程中current栈不能被其他处理器修改!!!
   _intr_write(0);
-if(!(current->status==T_RUNNING||current->status==T_WAITING))
+if((!(current->status==T_RUNNING||current->status==T_WAITING))&&(current->is_trap==0))
 {
 printf("Invalid status:%d\n",current->status);
 assert(0);
 }
-  if(trap_task)//已经设置过
+  if(trap_task)
   {
     sp_lock(&trap_task->lk);
-      trap_task->status=T_READY;
+    trap_task->is_trap=0;
     sp_unlock(&trap_task->lk);
   }
   sp_lock(&current->lk);
-    current->status=T_TRAP;
-    trap_task=current;
+  current->is_trap=1;
+  trap_task=current;
   sp_unlock(&current->lk);
-
+  
   #ifdef _DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
   #endif
-  _Context *next = context;
+  _Context *next = NULL;
   struct irq *ptr=irq_head;
   while(ptr)
   {
@@ -74,13 +74,21 @@ assert(0);
     }
     ptr=ptr->next;
   }
+  if(next==NULL)//schedule所有的都不可用,当前如果是
+  {
+    sp_lock(&current->lk);
+      if(current->status==T_WAITING) assert(0);//没救了
+      current->is_trap=0;
+      trap_task=NULL;
+      next=current->ctx;
+    sp_lock(&current->lk);
+  }
   panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");
   #ifdef _DEBUG
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:returned_ctx->rip at %p\n",_cpu(),current->ctx->rip);
   #endif
-    assert(context->rip>=0x100000&&context->rip<=0x110000);
   return next;
 }
 

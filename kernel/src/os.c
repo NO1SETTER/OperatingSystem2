@@ -46,7 +46,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   _intr_write(0);
   #ifdef _DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
-      printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
+    printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
     //printf("ctx->esp at %p ctx->ebp at %p and stack is[%p,%p)\n",context->rsp,context->rbp,current->stack,current->stack+STACK_SIZE);
   #endif
   _Context *next = context;

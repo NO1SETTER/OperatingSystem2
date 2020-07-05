@@ -13,7 +13,8 @@ enum t_status {
   T_READY = 1, // 活跃状态,且没有在任何一个CPU上运行 
   T_RUNNING,   // 活跃状态,但正在某个CPU上运行
   T_WAITING,   // 阻塞状态,在sem上等待
-  T_DEAD,    // 已经结束，但还未释放资源
+  T_DEAD,      // 已经结束，但还未释放资源
+  T_TRAP,      // 正在中断中，禁止被调度
 };
 
 struct spinlock 
@@ -83,6 +84,7 @@ int intrdepths[MAX_CPU];
 #define intrdepth intrdepths[_cpu()]
 int intenas[MAX_CPU];
 #define intena intenas[_cpu()]
-
+task_t* trap_task[MAX_CPU];//每个处理器的上一个trap
+#define pre_trap trap_task[_cpu()]
 void push_cli();
 void pop_cli();

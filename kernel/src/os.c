@@ -48,6 +48,9 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
   #endif
+  task_t *rec=NULL;
+  if(current->is_block)
+    rec=current;//返回前恢复is_block
 if(current->is_trap)
 {
   printf("Invalid status:%d\n",current->status);
@@ -96,6 +99,12 @@ if(current->is_trap)
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:returned_ctx->rip at %p\n",_cpu(),current->ctx->rip);
   #endif
+  if(rec)
+  {
+    sp_lock(&rec->lk);
+      rec->is_block=0;
+    sp_unlock(&rec->lk);
+  }
   return next;
 }
 

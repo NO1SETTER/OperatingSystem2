@@ -21,7 +21,6 @@ static void kmt_init()
     currents[i]=new_task;
     intrdepths[i]=0;
     trap_tasks[i]=NULL;
-
   }//currents全部設置爲空
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");//初始化鎖
   irq_head=NULL;
@@ -124,7 +123,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
-      sp_lock(&current->lk);;
+      /*sp_lock(&current->lk);;
       if(current->id==-1)
         {
           sp_unlock(&current->lk);
@@ -134,8 +133,9 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
         {
           if(current->status==T_RUNNING)
             current->status=T_READY;//此时current也属于可被调度的线程,设置READY
-            sp_unlock(&current->lk);
-        }
+          sp_unlock(&current->lk);
+        }*/
+
       int valid_tasks[100];
       int nr_task=0;
       for(int i=0;i<active_num;i++)

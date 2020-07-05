@@ -50,8 +50,11 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   #endif
 if(current->is_trap)
 {
+  if(current->status!=T_WAITING)
+{
 printf("Invalid status:%d\n",current->status);
 assert(0);
+}
 }
   if(trap_task)
   {

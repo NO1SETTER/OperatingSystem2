@@ -15,6 +15,7 @@ static void kmt_init()
     task_t *new_task=(task_t*)kalloc_safe(sizeof(task_t));
     new_task->id=-1;
     new_task->status=T_RUNNING;
+    new_task->is_trap=0;
     char name[15];
     sprintf(name,"mainthread_%d",_cpu());
     strcpy(new_task->name,name);
@@ -46,6 +47,7 @@ static void kmt_init()
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
   strcpy(task->name,name);//名字
   task->status=T_READY;//状态
+  task->is_trap=0;
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
@@ -123,19 +125,6 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
-      /*sp_lock(&current->lk);;
-      if(current->id==-1)
-        {
-          sp_unlock(&current->lk);
-          current=all_thread[0];//暂时的
-        }
-      else
-        {
-          if(current->status==T_RUNNING)
-            current->status=T_READY;//此时current也属于可被调度的线程,设置READY
-          sp_unlock(&current->lk);
-        }*/
-
       int valid_tasks[100];
       int nr_task=0;
       for(int i=0;i<active_num;i++)
@@ -143,6 +132,8 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
         if(all_thread[active_thread[i]]->status==T_READY)
         valid_tasks[nr_task++]=active_thread[i];
       }
+      if(nr_task==0) return NULL;
+      
       int no=rand()%nr_task;
       current=all_thread[valid_tasks[no]];
       sp_lock(&current->lk);

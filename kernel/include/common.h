@@ -13,8 +13,7 @@ enum t_status {
   T_READY = 1, // 活跃状态,且没有在任何一个CPU上运行 
   T_RUNNING,   // 活跃状态,但正在某个CPU上运行
   T_WAITING,   // 阻塞状态,在sem上等待
-  T_DEAD,      // 已经结束，但还未释放资源
-  T_TRAP,      // 正在中断中，禁止被调度
+  T_DEAD,      // 
 };
 
 struct spinlock 
@@ -36,6 +35,7 @@ struct task
     char name[15];
     int id;
     enum t_status status;
+    int is_trap;
     spinlock_t lk;//加鎖保護訪問
     struct task* next;//指向all_thread[id+1]
     _Context *ctx;//貌似只要保证它指向栈顶就ok了，上面的可以不管分配在哪里

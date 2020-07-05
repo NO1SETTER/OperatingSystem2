@@ -44,6 +44,10 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {//整个过程中current栈不能被其他处理器修改!!!
   _intr_write(0);
+    #ifdef _DEBUG
+    printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
+    printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
+  #endif
 if((!(current->status==T_RUNNING||current->status==T_WAITING))&&(current->is_trap==0))
 {
 printf("Invalid status:%d\n",current->status);
@@ -60,10 +64,7 @@ assert(0);
   trap_task=current;
   sp_unlock(&current->lk);
   
-  #ifdef _DEBUG
-    printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
-    printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
-  #endif
+
   _Context *next = NULL;
   struct irq *ptr=irq_head;
   while(ptr)

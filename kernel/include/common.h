@@ -83,3 +83,6 @@ int intrdepths[MAX_CPU];
 #define intrdepth intrdepths[_cpu()]
 int intenas[MAX_CPU];
 #define intena intenas[_cpu()]
+
+void push_cli();
+void pop_cli();

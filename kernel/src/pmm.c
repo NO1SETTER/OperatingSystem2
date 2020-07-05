@@ -608,17 +608,15 @@ MODULE_DEF(pmm) = {
 
 void*kalloc_safe(size_t size)
 {
-    int i = _intr_read();
-  _intr_write(0);
+  push_cli();
   void *ret = pmm->alloc(size);
-  if (i) _intr_write(1);
+  pop_cli();
   return ret;
 }
 
 void kfree_safe(void *ptr)
 {
-    int i = _intr_read();
-  _intr_write(0);
+  push_cli();
   pmm->free(ptr);
-  if (i) _intr_write(1);
+  pop_cli();
 }

@@ -84,7 +84,7 @@ int intrdepths[MAX_CPU];
 #define intrdepth intrdepths[_cpu()]
 int intenas[MAX_CPU];
 #define intena intenas[_cpu()]
-task_t* trap_task[MAX_CPU];//每个处理器的上一个trap
-#define pre_trap trap_task[_cpu()]
+task_t* trap_tasks[MAX_CPU];//每个处理器的上一个trap线程
+#define trap_task trap_tasks[_cpu()]
 void push_cli();
 void pop_cli();

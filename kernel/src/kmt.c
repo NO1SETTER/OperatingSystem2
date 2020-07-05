@@ -118,7 +118,7 @@ _Context* kmt_context_save(_Event ev,_Context* c)
 
 void legal(_Context *c)
 {
-  assert(c->rip>=0x100000&&c->rip<=110000);
+  assert(c->rip>=0x100000&&c->rip<=0x110000);
 }
 
 _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来

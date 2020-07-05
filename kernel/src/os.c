@@ -43,7 +43,7 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {
-  _intr_write(0);
+  push_cli();
   #ifdef _DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
@@ -65,6 +65,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:returned_ctx->rip at %p\n",_cpu(),current->ctx->rip);
   #endif
+  pop_cli();
   return next;
 }
 

@@ -131,6 +131,9 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       do
       {
         current=current->next;
+        #ifdef _DEBUG
+          printf("Find task for CPU#%d\n",_cpu());
+        #endif
       }while(current->status!=T_READY||current->is_trap);
 
       sp_lock(&current->lk);

@@ -32,15 +32,6 @@
     }
 #endif
 
-void print_task()
-{
-#ifdef _DEBUG
-  printf("Active:");
-  for(int i=0;i<active_num;i++)
-  printf("%s ",all_thread[active_thread[i]]->name);
-  printf("\n");
-#endif
-}
 
 void sem_init(sem_t *sem, const char *name, int value)
 {
@@ -67,19 +58,8 @@ void sem_wait(sem_t *sem)
       #ifdef _DEBUG
       printf("%s blocked\n",current->name);
       #endif
-      int pos=-1;   
-      for(int i=0;i<active_num;i++)
-      if(active_thread[i]==current->id)
-        { pos=i;break;}
-    sp_unlock(&current->lk);
-
-    assert(pos!=-1);
-    for(int i=pos;i<active_num-1;i++)
-      active_thread[i]=active_thread[i+1];
-    active_num=active_num-1;
-
+      sp_unlock(&current->lk);
     sp_unlock(&sem->lock);
-    print_task();
     _yield();
     return;
   }
@@ -97,7 +77,6 @@ void sem_signal(sem_t *sem)
     if(sem->wnum)
     {
       int no=rand()%sem->wnum;
-      active_thread[active_num++]=sem->waiter[no];
       sp_lock(&all_thread[sem->waiter[no]]->lk);
       all_thread[sem->waiter[no]]->status=T_READY;//刚恢复活跃的线程一定尚未被调度
       sp_unlock(&all_thread[sem->waiter[no]]->lk);
@@ -109,5 +88,4 @@ void sem_signal(sem_t *sem)
       sem->wnum=sem->wnum-1;
     }
   sp_unlock(&sem->lock);
-  print_task();
 }

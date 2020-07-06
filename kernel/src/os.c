@@ -2,7 +2,6 @@
 //thread_ctrl_lock用於遍歷線程時保護
 //每個線程的鎖用與保護該線程的修改
 int thread_num=0;
-int active_num=0;
 spinlock_t thread_ctrl_lock;
 
 static void os_init() {

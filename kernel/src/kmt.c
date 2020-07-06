@@ -58,7 +58,6 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
       task->next=all_thread[0];
     }
     all_thread[thread_num++]=task;//添加到所有线程中
-    active_thread[active_num++]=task->id;//添加到活跃线程中
   sp_unlock(&thread_ctrl_lock);
   #ifdef _DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
@@ -69,24 +68,9 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
 static void kmt_teardown(task_t *t)
 {
   sp_lock(&thread_ctrl_lock);
-  int pos=-1;
-  int id;
-  for(int i=0;i<active_num;i++)
-  {
-    if (all_thread[active_thread[i]]==t) {
-      pos = i;
-      id=active_thread[i];
-      break;
-     }
-  }
-  if(pos==-1)
-  {
-    sp_unlock(&thread_ctrl_lock);
-    return; 
-  }
-  for(int i=pos;i<active_num-1;i++)
-  active_thread[i]=active_thread[i+1];
-  all_thread[id]->status=T_DEAD;
+  sp_lock(&t->lk);
+    t->status=T_DEAD;
+  sp_unlock(&t->lk);
   sp_unlock(&thread_ctrl_lock);
   kfree_safe(t->stack);
 }

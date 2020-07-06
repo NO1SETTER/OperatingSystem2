@@ -116,11 +116,11 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
         #endif
       }while((current->id%_ncpu()!=_cpu())||current->status!=T_READY);
       current->ct=current->ct+1;
-      if(current->ct>=1000000000)
+      /*if(current->ct>=1000000000)
       {
         for(int i=0;i<thread_num;i++)
         all_thread[i]->ct=all_thread[i]->ct-1000000000;
-      }//避免溢出
+      }//避免溢出*/
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);
       #endif

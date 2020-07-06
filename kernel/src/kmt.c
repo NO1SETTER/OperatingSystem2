@@ -46,6 +46,7 @@ static void kmt_init()
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
   strcpy(task->name,name);//名字
   task->status=T_READY;//状态
+  task->ct=0;
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
@@ -114,6 +115,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
           printf("Finding thread for CPU#%d\n",_cpu());
         #endif
       }while((current->id%_ncpu()!=_cpu())||current->status!=T_READY);
+      current->ct=current->ct+1;
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);
       #endif

@@ -50,10 +50,10 @@ void set_trapped(task_t* t)
     sp_unlock(&trap_task->lk);
   }
 
-  sp_lock(&trap_task->lk);
+  sp_lock(&current->lk);
       current->is_trap=1;
       trap_task=current;
-  sp_unlock(&trap_task->lk);
+  sp_unlock(&current->lk);
 }
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event

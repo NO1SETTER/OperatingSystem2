@@ -26,7 +26,7 @@ void sp_lock(spinlock_t* lk)
   push_cli();
   while(_atomic_xchg(&lk->locked,1))
   {
-   // printf("acquiring lock %s\n",lk->name);
+    printf("CPU#%d acquiring lock %s\n",_cpu(),lk->name);
   }
 }
 

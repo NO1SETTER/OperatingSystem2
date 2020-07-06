@@ -48,17 +48,27 @@ void set_trap(task_t* t)
     sp_lock(&trap_task->lk);
     trap_task->is_trap=0;
     sp_unlock(&trap_task->lk);
+  }
     sp_lock(&t->lk);
     t->is_trap=1;
     trap_task=t;
     sp_unlock(&t->lk);
-  }
+
+}
+
+void set_free(task_t* t)
+{
+  sp_lock(&t->lk);
+  t->status=T_RUNNING;
+  t->is_trap=0;
+  sp_unlock(&t->lk);
 }
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {//整个过程中current栈不能被其他处理器修改!!!
   _intr_write(0);
    set_trap(current);
+   task_t *pre=current;
    #ifdef _DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
@@ -74,8 +84,11 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     }
     ptr=ptr->next;
   }
-  if(next==NULL)
-  {assert(0); 
+  if(next==NULL&&(pre->status==T_RUNNING||pre->status==T_READY))
+  {
+    set_free(pre);
+    current=pre;
+    next=context;
   }
   panic_on(!next, "returning NULL context");
   panic_on(sane_context(next), "returning to invalid context");

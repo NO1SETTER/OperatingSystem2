@@ -48,6 +48,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
   strcpy(task->name,name);//名字
   task->status=T_READY;//状态
   task->is_trap=0;
+  task->ct=0;
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
@@ -115,6 +116,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
           if(current->status==T_READY&&current->is_trap==0)
           {
             current->status=T_RUNNING;
+            current->ct=current->ct+1;
             sp_unlock(&current->lk);
             break;
           }

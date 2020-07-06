@@ -79,6 +79,7 @@ void print_thread()
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {//整个过程中current栈不能被其他处理器修改!!!
+  _intr_write(0);
    #ifdef _DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
   #endif
@@ -96,7 +97,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     }
     ptr=ptr->next;
   }
-  panic_on(!next, "returning NULL context");
+  //panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");
   #ifdef _DEBUG
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);

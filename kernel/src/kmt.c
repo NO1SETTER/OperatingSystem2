@@ -130,6 +130,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
         }
         if(round>100*_ncpu()&&current->cpu==_cpu()&&current->status==T_READY)
         {
+          assert(0);
           current->status=T_RUNNING;
           current->ct+=1;
           sp_unlock(&current->lk);

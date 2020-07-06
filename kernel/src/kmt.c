@@ -109,12 +109,21 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       if(current->id==-1)
         current=all_thread[0];
       
+      int round=0;//确保即使有合适的thread也不会立即选取它，而是先比较选出ct最小的
+      task_t *best_choice;
+      int val=INT_MAX;
       do{
         current=current->next;
+        round=round+1;
+        if(current->ct<=val)
+        {
+          best_choice=current;
+          val=current->ct;
+        }
         #ifdef _DEBUG
           printf("Finding thread for CPU#%d\n",_cpu());
         #endif
-      }while((current->id%_ncpu()!=_cpu())||current->status!=T_READY);
+      }while((current->id%_ncpu()!=_cpu())||(current->status!=T_READY)||round<_ncpu());
       current->ct=current->ct+1;
       /*if(current->ct>=1000000000)
       {

@@ -28,7 +28,7 @@ static void os_run() {
 
 int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断context合法性
 { 
-  #ifdef __x86_64__
+ /* #ifdef __x86_64__
     if(ctx->cs!=8) return 1;
   #else
     if(ctx->ds!=16) return 1;
@@ -36,7 +36,7 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
   #endif
   #ifdef _DEBUG
     printf("Vaild Context\n");  
-  #endif
+  #endif*/
   return 0;
 }
 
@@ -59,7 +59,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     ptr=ptr->next;
   }
   panic_on(!next, "returning NULL context");
-  panic_on(sane_context(next), "returning to invalid context");
+  //panic_on(sane_context(next), "returning to invalid context");
   #ifdef _DEBUG
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:returned_ctx->rip at %p\n",_cpu(),current->ctx->rip);

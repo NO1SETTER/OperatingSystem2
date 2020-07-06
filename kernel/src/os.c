@@ -46,7 +46,7 @@ void set_trap(task_t* t)
     sp_lock(&trap_task->lk);
     trap_task->is_trap=0;
     #ifdef _DEBUG
-      printf("%s set free from trap\n",trap_task->name);
+      printf("%s set free from trap with status:%d\n",trap_task->name,trap_task->status);
     #endif
     sp_unlock(&trap_task->lk);
   }
@@ -54,7 +54,7 @@ void set_trap(task_t* t)
     t->is_trap=1;
     trap_task=t;
     #ifdef _DEBUG
-      printf("%s set trapped\n",trap_task->name);
+      printf("%s set trapped with status:%d\n",trap_task->name,trap_task->status);
     #endif
     sp_unlock(&t->lk);
 }

@@ -12,9 +12,9 @@ void push_cli()
 
 void pop_cli()
 {
-  int readcli=_intr_read();
-  if(readcli&FL_IF)
-    assert(0);
+  //int readcli=_intr_read();
+  //if(readcli&FL_IF)
+    //assert(0);
   if(--intrdepth<0)
     assert(0);
   if(intrdepth==0&&intena)

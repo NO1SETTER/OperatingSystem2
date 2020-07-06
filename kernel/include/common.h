@@ -5,6 +5,7 @@
 //#define _DEBUG_LOCAL //控制是否進行測試
 //#define _DEBUG       //控制是否輸出本地測試的調試信息
 //#define DEV_ENABLE
+#define NO_COUNT  //控制有无task计数
 #define STACK_SIZE 4096
 #define INT_MIN -2147483648
 #define INT_MAX 2147483647

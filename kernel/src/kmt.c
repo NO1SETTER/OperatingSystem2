@@ -123,7 +123,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
-      if(current==NULL)
+      if(current->id==-1)
         current=all_thread[0];
       
       do{

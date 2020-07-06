@@ -107,13 +107,21 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       #endif
       if(current->id==-1)
         current=all_thread[0];
-      do{
-          current=current->next;
-      }while(current->status!=T_READY||current->is_trap);
+      
+      current=current->next;
+      while(1)
+      {
+        sp_lock(&current->lk);
+          if(current->status==T_READY&&current->is_trap==0)
+          {
+            current->status=T_RUNNING;
+            sp_unlock(&current->lk);
+            break;
+          }
+        sp_unlock(&current->lk);
+        current=current->next;
+      }
 
-      sp_lock(&current->lk);
-        current->status=T_RUNNING;
-      sp_unlock(&current->lk);
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);
       #endif

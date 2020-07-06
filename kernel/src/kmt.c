@@ -21,7 +21,6 @@ static void kmt_init()
     strcpy(new_task->name,name);
     currents[i]=new_task;
     intrdepths[i]=0;
-    trap_tasks[i]=NULL;
   }//currents全部設置爲空
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");//初始化鎖
   irq_head=NULL;

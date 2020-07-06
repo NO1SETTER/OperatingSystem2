@@ -55,7 +55,6 @@ void sem_init(sem_t *sem, const char *name, int value)
 void sem_wait(sem_t *sem)
 {
   sp_lock(&sem->lock);//sem->lock用于控制一切对sem的修改
-  sp_lock(&thread_ctrl_lock);
   #ifdef _DEBUG
   printf("Task %s running on CPU#%d\n",current->name,_cpu());
   printf("wait:%s->val = %d\n",sem->name,sem->val);
@@ -79,20 +78,17 @@ void sem_wait(sem_t *sem)
       active_thread[i]=active_thread[i+1];
     active_num=active_num-1;
 
-    sp_unlock(&thread_ctrl_lock);
     sp_unlock(&sem->lock);
     print_task();
     _yield();
     return;
   }
-  sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);
 }
 
 void sem_signal(sem_t *sem)
 {
   sp_lock(&sem->lock);
-  sp_lock(&thread_ctrl_lock);
   sem->val=sem->val+1;
   #ifdef _DEBUG
   printf("Task %s running on CPU#%d\n",current->name,_cpu());
@@ -112,7 +108,6 @@ void sem_signal(sem_t *sem)
       sem->waiter[i]=sem->waiter[i+1];
       sem->wnum=sem->wnum-1;
     }
-  sp_unlock(&thread_ctrl_lock);
   sp_unlock(&sem->lock);
   print_task();
 }

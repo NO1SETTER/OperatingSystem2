@@ -47,11 +47,9 @@ task_t* all_thread[105];
 int active_thread[105];
 //只记录线程的id,id对应它在all_thread中的位置
 //状态均为T_READY或T_RUNNING
-
-extern int thread_num;
 extern int active_num;
-extern spinlock_t thread_ctrl_lock;//管理控制这三个链表的锁
-
+extern int thread_num;
+extern spinlock_t thread_ctrl_lock;
 
 struct semaphore
 {
@@ -84,8 +82,6 @@ int intrdepths[MAX_CPU];
 #define intrdepth intrdepths[_cpu()]
 int intenas[MAX_CPU];
 #define intena intenas[_cpu()]
-task_t* trap_tasks[MAX_CPU];//每个处理器的上一个trap线程
-#define trap_task trap_tasks[_cpu()]
 
 void push_cli();
 void pop_cli();

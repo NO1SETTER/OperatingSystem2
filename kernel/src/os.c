@@ -61,7 +61,7 @@ void set_trap(task_t* t)
 
 void print_thread()
 {
-  printf("Ready and nonblock threads:");
+  printf("\nReady and nonblock threads:");
   for(int i=0;i<thread_num;i++)
   {
     if(all_thread[i]->status==T_READY&&all_thread[i]->is_trap==0)

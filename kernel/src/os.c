@@ -27,7 +27,7 @@ static void os_run() {
 
 int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断context合法性
 { 
-  #ifdef __x86_64__
+  /*#ifdef __x86_64__
     if(ctx->cs!=8) return 1;
   #else
     if(ctx->ds!=16) return 1;
@@ -35,7 +35,7 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
   #endif
   #ifdef _DEBUG
     printf("Vaild Context\n");  
-  #endif
+  #endif*/
   return 0;
 }
 

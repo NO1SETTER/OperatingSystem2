@@ -126,7 +126,9 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       
       do{
         current=current->next;
-        printf("Finding thread for CPU#%d\n",_cpu());
+        #ifdef _DEBUG
+          printf("Finding thread for CPU#%d\n",_cpu());
+        #endif
       }while((current->id%_ncpu()!=_cpu())||current->status!=T_READY);
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);

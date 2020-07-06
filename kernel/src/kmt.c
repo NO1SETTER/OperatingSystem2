@@ -108,10 +108,18 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       #endif
       if(current->id==-1)
         current=all_thread[0];
+      else
+      {
+        sp_lock(&current->lk);
+        if(current->status==T_RUNNING)
+          current->status=T_READY;//虽然ready但是由于is_trap保护它暂时不会被调度
+        sp_unlock(&current->lk);
+      }
 
       int round=0;
       int maxct=INT_MAX;
       task_t* best_choice=NULL;
+
       current=current->next;
       while(1)
       {

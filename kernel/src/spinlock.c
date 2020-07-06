@@ -1,12 +1,13 @@
 #include<common.h>
-#define FL_IF          0x00000200 
 
+//intena记录原始的中断
+//intrdepth
 void push_cli()
 {
   int readcli=_intr_read();
   _intr_write(0);
   if(intrdepth==0)
-    intena=readcli&FL_IF;
+    intena=readcli;
   intrdepth=intrdepth+1;
 }
 

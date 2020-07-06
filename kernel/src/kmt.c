@@ -108,20 +108,33 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       #endif
       if(current->id==-1)
         current=all_thread[0];
-      
+
+      int round=0;
+      int maxct=INT_MAX;
+      task_t* best_choice=NULL;
       current=current->next;
       while(1)
       {
         sp_lock(&current->lk);
           if(current->status==T_READY&&current->is_trap==0)
           {
+            if(current->ct<=maxct)
+            {
+              maxct=current->ct;
+              best_choice=current;
+            }
+            if(round > _ncpu())
+            {
+              assert(best_choice);
+              current=best_choice;
             current->status=T_RUNNING;
             current->ct=current->ct+1;
             sp_unlock(&current->lk);
-            break;
+            break;}
           }
         sp_unlock(&current->lk);
-        current=all_thread[rand()%thread_num];
+        current=current->next;
+        round=round+1;
       }
 
       #ifdef _DEBUG

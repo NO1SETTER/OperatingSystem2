@@ -2,7 +2,7 @@
 #define P kmt->sem_wait
 #define V kmt->sem_signal
 #define current currents[_cpu()]
-//#define _DEBUG_
+#define _DEBUG_
 #ifdef _DEBUG_LOCAL
     sem_t empty;
     sem_t fill;
@@ -88,7 +88,7 @@ void sem_signal(sem_t *sem)
             no=i;
           }
         }
-        //assert(no!=-1);
+        assert(no!=-1);
 
       sp_lock(&all_thread[sem->waiter[no]]->lk);
       all_thread[sem->waiter[no]]->status=T_READY;//刚恢复活跃的线程一定尚未被调度

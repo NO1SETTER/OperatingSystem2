@@ -47,11 +47,13 @@ void set_trap(task_t* t)
   {//判断trap_task!=current是因为block的线程要被set_trap两次
     sp_lock(&trap_task->lk);
     trap_task->is_trap=0;
+    printf("%s freed from trap\n",trap_task->name);
     sp_unlock(&trap_task->lk);
   }
     sp_lock(&t->lk);
     t->is_trap=1;
     trap_task=t;
+    printf("%s trapped\n",trap_task->name);
     sp_unlock(&t->lk);
 
 }

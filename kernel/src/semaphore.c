@@ -2,7 +2,7 @@
 #define P kmt->sem_wait
 #define V kmt->sem_signal
 #define current currents[_cpu()]
-//#define _DEBUG_
+#define _DEBUG_
 #ifdef _DEBUG_LOCAL
     sem_t empty;
     sem_t fill;

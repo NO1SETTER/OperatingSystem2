@@ -125,11 +125,13 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
             }
             if(round > _ncpu())
             {
-              assert(best_choice);
-              current=best_choice;
+            sp_unlock(&current->lk);
+            assert(best_choice);
+            sp_lock(&best_choice->lk);
+            current=best_choice;
             current->status=T_RUNNING;
             current->ct=current->ct+1;
-            sp_unlock(&current->lk);
+            sp_unlock(&best_choice->lk);
             break;}
           }
         sp_unlock(&current->lk);

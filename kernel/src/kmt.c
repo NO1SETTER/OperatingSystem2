@@ -115,54 +115,20 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
           current->status=T_READY;//虽然ready但是由于is_trap保护它暂时不会被调度
         sp_unlock(&current->lk);
       }
-
-      #ifdef NO_COUNT
-            current=current->next;
-          while(1)
-          {
-            sp_lock(&current->lk);
-            if(current->status==T_READY&&current->is_trap==0)
-            {
-                current->status=T_RUNNING;
-                sp_unlock(&current->lk);
-                break;
-            }
-            sp_unlock(&current->lk);
-            current=current->next;
-          }
-      #else
-          int round=0;
-          int maxct=INT_MAX;
-          task_t* best_choice=NULL;
-          current=current->next;
-          while(1)
-          {
-              if(current->status==T_READY&&current->is_trap==0)
-              {
-                if(current->ct<=maxct)
-                {
-                  maxct=current->ct;
-                  best_choice=current;
-                }
-                if(round > _ncpu())
-                {
-                assert(best_choice);
-                sp_lock(&best_choice->lk);
-                  if(best_choice->status==T_READY&&best_choice->is_trap==0)
-                  {
-                  current=best_choice;
-                  current->status=T_RUNNING;
-                  current->ct=current->ct+1;
-                  sp_unlock(&best_choice->lk);
-                  break;}
-                  else  maxct=INT_MAX;
-                sp_unlock(&best_choice->lk);
-                }
-              }
-            current=current->next;
-            round=round+1;
-          }
-      #endif
+      
+      while(1)
+      {
+        sp_lock(&current->lk);
+        if(current->status==T_READY&&current->is_trap==0)
+        {
+          current->status=T_RUNNING;
+          current->ct+=1;
+          sp_unlock(&current->lk);
+          break;
+        }
+        sp_unlock(&current->lk);
+        current=current->next;
+      }
 
 
       #ifdef _DEBUG

@@ -1,8 +1,6 @@
 #include <common.h>
-//thread_ctrl_lock用於遍歷線程時保護
 //每個線程的鎖用與保護該線程的修改
 int thread_num=0;
-int active_num=0;
 spinlock_t thread_ctrl_lock;
 
 static void os_init() {
@@ -51,11 +49,11 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   task_t *rec=NULL;
   if(current->is_block)
     rec=current;//返回前恢复is_block
-if(current->is_trap)
-{
-  printf("Invalid status:%d\n",current->status);
-  assert(0);
-}
+  if(current->is_trap)
+  {
+    printf("Invalid status:%d\n",current->status);
+    assert(0);
+  }
   if(trap_task)
   {
     sp_lock(&trap_task->lk);
@@ -65,15 +63,14 @@ if(current->is_trap)
     #endif
     sp_unlock(&trap_task->lk);
   }
-  sp_lock(&current->lk);
-  current->is_trap=1;
-  trap_task=current;
+    sp_lock(&current->lk);
+    current->is_trap=1;
+    trap_task=current;
     #ifdef _DEBUG
       printf("%s set trapped\n",trap_task->name);
     #endif
-  sp_unlock(&current->lk);
+    sp_unlock(&current->lk);
   
-
   _Context *next = NULL;
   struct irq *ptr=irq_head;
   while(ptr)
@@ -83,15 +80,6 @@ if(current->is_trap)
       if (r) next = r;
     }
     ptr=ptr->next;
-  }
-  if(next==NULL)//schedule所有的都不可用,当前如果是
-  {
-    sp_lock(&current->lk);
-      if(current->status==T_WAITING) assert(0);//没救了
-      current->is_trap=0;
-      trap_task=NULL;
-      next=current->ctx;
-    sp_lock(&current->lk);
   }
   panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");

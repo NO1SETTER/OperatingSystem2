@@ -60,7 +60,6 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
       task->next=all_thread[0];
     }
     all_thread[thread_num++]=task;//添加到所有线程中
-    active_thread[active_num++]=task->id;//添加到活跃线程中
   sp_unlock(&thread_ctrl_lock);
   #ifdef _DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
@@ -71,24 +70,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
 static void kmt_teardown(task_t *t)
 {
   sp_lock(&thread_ctrl_lock);
-  int pos=-1;
-  int id;
-  for(int i=0;i<active_num;i++)
-  {
-    if (all_thread[active_thread[i]]==t) {
-      pos = i;
-      id=active_thread[i];
-      break;
-     }
-  }
-  if(pos==-1)
-  {
-    sp_unlock(&thread_ctrl_lock);
-    return; 
-  }
-  for(int i=pos;i<active_num-1;i++)
-  active_thread[i]=active_thread[i+1];
-  all_thread[id]->status=T_DEAD;
+    t->status=T_DEAD;
   sp_unlock(&thread_ctrl_lock);
   kfree_safe(t->stack);
 }
@@ -120,26 +102,18 @@ _Context* kmt_context_save(_Event ev,_Context* c)
 
 _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
-      sp_lock(&thread_ctrl_lock);
-
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
-      int valid_tasks[100];
-      int nr_task=0;
-      for(int i=0;i<active_num;i++)
-      {
-        if(all_thread[active_thread[i]]->status==T_READY&&all_thread[active_thread[i]]->is_trap==0)
-        valid_tasks[nr_task++]=active_thread[i];
-      }
-      
-      if(nr_task==0) return NULL;
-      int no=rand()%nr_task;
-      current=all_thread[valid_tasks[no]];
+      if(current->id==-1)
+        current=all_thread[0];
+      do{
+          current=current->next;
+      }while(current->status!=T_READY||current->is_trap||current->is_block);
+
       sp_lock(&current->lk);
-      current->status=T_RUNNING;
+        current->status=T_RUNNING;
       sp_unlock(&current->lk);
-      sp_unlock(&thread_ctrl_lock);
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);
       #endif

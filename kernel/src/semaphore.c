@@ -78,7 +78,18 @@ void sem_signal(sem_t *sem)
   #endif
     if(sem->wnum)
     {
-      int no=rand()%sem->wnum;
+      int no=-1;
+      int val=INT_MAX;
+      for(int i=0;i<sem->wnum;i++)
+      {
+        if(all_thread[sem->waiter[i]]->ct<val)
+        {
+          val=all_thread[sem->waiter[i]]->ct;
+          no=i;
+        }
+      }
+      assert(no!=-1);
+      
       sp_lock(&all_thread[sem->waiter[no]]->lk);
       all_thread[sem->waiter[no]]->status=T_READY;//刚恢复活跃的线程一定尚未被调度
       sp_unlock(&all_thread[sem->waiter[no]]->lk);

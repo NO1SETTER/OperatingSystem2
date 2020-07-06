@@ -109,7 +109,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
         current=all_thread[0];
       do{
           current=current->next;
-      }while(current->status!=T_READY||current->is_trap||current->is_block);
+      }while(current->status!=T_READY||current->is_trap);
 
       sp_lock(&current->lk);
         current->status=T_RUNNING;

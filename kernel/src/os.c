@@ -39,21 +39,8 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
   return 0;
 }
 
-static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
-{//整个过程中current栈不能被其他处理器修改!!!
-  _intr_write(0);
-   #ifdef _DEBUG
-    printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
-    printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
-  #endif
-  task_t *rec=NULL;
-  if(current->is_block)
-    rec=current;//返回前恢复is_block
-  if(current->is_trap)
-  {
-    printf("Invalid status:%d\n",current->status);
-    assert(0);
-  }
+void set_trap(task_t* t)
+{
   if(trap_task)
   {
     sp_lock(&trap_task->lk);
@@ -63,14 +50,23 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     #endif
     sp_unlock(&trap_task->lk);
   }
-    sp_lock(&current->lk);
-    current->is_trap=1;
-    trap_task=current;
+    sp_lock(&t->lk);
+    t->is_trap=1;
+    trap_task=t;
     #ifdef _DEBUG
       printf("%s set trapped\n",trap_task->name);
     #endif
-    sp_unlock(&current->lk);
-  
+    sp_unlock(&t->lk);
+}
+
+static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
+{//整个过程中current栈不能被其他处理器修改!!!
+  _intr_write(0);
+   #ifdef _DEBUG
+    printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
+    printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
+  #endif
+  set_trap(current);
   _Context *next = NULL;
   struct irq *ptr=irq_head;
   while(ptr)
@@ -87,12 +83,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:returned_ctx->rip at %p\n",_cpu(),current->ctx->rip);
   #endif
-  if(rec)
-  {
-    sp_lock(&rec->lk);
-      rec->is_block=0;
-    sp_unlock(&rec->lk);
-  }
+
   return next;
 }
 

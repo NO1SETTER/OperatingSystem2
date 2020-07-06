@@ -59,6 +59,8 @@ void set_trapped(task_t* t)
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {//整个过程中current栈不能被其他处理器修改!!!
   _intr_write(0);
+  assert(current->status==T_RUNNING||current->status==T_WAITING||
+  (current->status==T_READY&&current->is_trap));
   assert(current->is_trap==0||current==trap_task);
   set_trapped(current);
    #ifdef _DEBUG

@@ -59,6 +59,17 @@ void set_trap(task_t* t)
     sp_unlock(&t->lk);
 }
 
+void print_thread()
+{
+  printf("Ready and nonblock threads:");
+  for(int i=0;i<thread_num;i++)
+  {
+    if(all_thread[i]->status==T_READY&&all_thread[i]->is_trap==0)
+      printf(" %s",all_thread[i]->name);
+  }
+  printf("\n");
+}
+
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {//整个过程中current栈不能被其他处理器修改!!!
   _intr_write(0);
@@ -67,6 +78,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
   #endif
   set_trap(current);
+  print_thread();
   _Context *next = NULL;
   struct irq *ptr=irq_head;
   while(ptr)

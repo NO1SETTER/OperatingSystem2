@@ -35,6 +35,7 @@ struct task
     char name[15];
     int id;
     int ct;
+    int cpu;
     enum t_status status;
     int is_trap;
     spinlock_t lk;//加鎖保護訪問

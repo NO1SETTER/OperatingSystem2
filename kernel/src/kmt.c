@@ -116,18 +116,29 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
         sp_unlock(&current->lk);
       }
       
+      int round=0;
       while(1)
       {
         sp_lock(&current->lk);
         if(current->status==T_READY&&current->is_trap==0)
         {
           current->status=T_RUNNING;
+          current->cpu=_cpu();
           current->ct+=1;
           sp_unlock(&current->lk);
           break;
         }
+        if(round>100*_ncpu()&&current->cpu==_cpu()&&current->status==T_READY)
+        {
+          current->status=T_RUNNING;
+          current->ct+=1;
+          sp_unlock(&current->lk);
+          break;/*如果跑了很多轮仍然找不到可用的其他线程，并且当前陷入线程
+          是可用的，那么我们选取它作为下一个线程,is_trap仍然保持并在下次自陷时舒心*/
+        }
         sp_unlock(&current->lk);
         current=current->next;
+        round=round+1;
       }
 
 

@@ -119,7 +119,6 @@ _Context* kmt_context_save(_Event ev,_Context* c)
 
 _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
-      sp_lock(&thread_ctrl_lock);
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
@@ -133,7 +132,6 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);
       #endif
-      sp_unlock(&thread_ctrl_lock);
       return current->ctx;
 } 
       

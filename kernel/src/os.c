@@ -41,6 +41,13 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
 
 void set_trap(task_t* t)
 {
+  if(trap_task==t)//由于上次自陷调度原线程出现的情况，这种情况下简单置1即可
+  {
+    sp_lock(&t->lk);
+    t->is_trap=1;
+    sp_unlock(&t->lk);
+    return;
+  }
   if(trap_task)
   {
     sp_lock(&trap_task->lk);

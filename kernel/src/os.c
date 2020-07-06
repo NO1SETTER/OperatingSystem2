@@ -78,7 +78,9 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
   #endif
   set_trap(current);
-  print_thread();
+  #ifdef _DEBUG
+    print_thread();
+  #endif
   _Context *next = NULL;
   struct irq *ptr=irq_head;
   while(ptr)

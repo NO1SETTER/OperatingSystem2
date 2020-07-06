@@ -21,6 +21,7 @@ static void kmt_init()
     strcpy(new_task->name,name);
     currents[i]=new_task;
     intrdepths[i]=0;
+    trap_tasks[i]=NULL;
   }//currents全部設置爲空
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");//初始化鎖
   irq_head=NULL;
@@ -46,7 +47,7 @@ static void kmt_init()
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
   strcpy(task->name,name);//名字
   task->status=T_READY;//状态
-  task->ct=0;
+  task->is_trap=0;
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
@@ -59,6 +60,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
       task->next=all_thread[0];
     }
     all_thread[thread_num++]=task;//添加到所有线程中
+    active_thread[active_num++]=task->id;//添加到活跃线程中
   sp_unlock(&thread_ctrl_lock);
   #ifdef _DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
@@ -69,9 +71,24 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
 static void kmt_teardown(task_t *t)
 {
   sp_lock(&thread_ctrl_lock);
-  sp_lock(&t->lk);
-    t->status=T_DEAD;
-  sp_unlock(&t->lk);
+  int pos=-1;
+  int id;
+  for(int i=0;i<active_num;i++)
+  {
+    if (all_thread[active_thread[i]]==t) {
+      pos = i;
+      id=active_thread[i];
+      break;
+     }
+  }
+  if(pos==-1)
+  {
+    sp_unlock(&thread_ctrl_lock);
+    return; 
+  }
+  for(int i=pos;i<active_num-1;i++)
+  active_thread[i]=active_thread[i+1];
+  all_thread[id]->status=T_DEAD;
   sp_unlock(&thread_ctrl_lock);
   kfree_safe(t->stack);
 }
@@ -106,30 +123,17 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
+
       if(current->id==-1)
         current=all_thread[0];
-      
-      int round=0;//确保即使有合适的thread也不会立即选取它，而是先比较选出ct最小的
-      task_t *best_choice;
-      int val=INT_MAX;
-      do{
-        current=current->next;
-        round=round+1;
-        if(current->ct<=val)
-        {
-          best_choice=current;
-          val=current->ct;
-        }
-        #ifdef _DEBUG
-          printf("Finding thread for CPU#%d\n",_cpu());
-        #endif
-      }while((current->id%_ncpu()!=_cpu())||(current->status!=T_READY)||round<_ncpu());
-      current->ct=current->ct+1;
-      /*if(current->ct>=1000000000)
+      do
       {
-        for(int i=0;i<thread_num;i++)
-        all_thread[i]->ct=all_thread[i]->ct-1000000000;
-      }//避免溢出*/
+        current=current->next;
+      }while(current->status!=T_READY||current->is_trap);
+
+      sp_lock(&current->lk);
+      current->status=T_RUNNING;
+      sp_unlock(&current->lk);
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);
       #endif

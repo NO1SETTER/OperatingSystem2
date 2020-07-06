@@ -2,6 +2,7 @@
 //thread_ctrl_lock用於遍歷線程時保護
 //每個線程的鎖用與保護該線程的修改
 int thread_num=0;
+int active_num=0;
 spinlock_t thread_ctrl_lock;
 
 static void os_init() {
@@ -18,9 +19,9 @@ extern void print_FreeBlock();
 extern void print_AllocatedBlock();
 
 static void os_run() {
-  /*for (const char *s = "Hello World from CPU #*\n"; *s; s++) {
+  for (const char *s = "Hello World from CPU #*\n"; *s; s++) {
     _putc(*s == '*' ? '0' + _cpu() : *s);
-  }*/
+  }
   _intr_write(1);
   while (1);
 }
@@ -28,7 +29,7 @@ static void os_run() {
 
 int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断context合法性
 { 
- /* #ifdef __x86_64__
+  /*#ifdef __x86_64__
     if(ctx->cs!=8) return 1;
   #else
     if(ctx->ds!=16) return 1;
@@ -40,6 +41,21 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
   return 0;
 }
 
+void set_trapped(task_t* t)
+{
+  if(trap_task&&trap_task!=current)
+  {
+    sp_lock(&trap_task->lk);
+      trap_task->is_trap=0;
+    sp_unlock(&trap_task->lk);
+  }
+
+  sp_lock(&trap_task->lk);
+      current->is_trap=1;
+      trap_task=current;
+  sp_unlock(&trap_task->lk);
+}
+
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {//整个过程中current栈不能被其他处理器修改!!!
   _intr_write(0);
@@ -47,9 +63,10 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
   #endif
-  
+  set_trapped(current);
+
   _Context *next = NULL;
-  struct irq *ptr=irq_head;
+  struct irq* ptr=irq_head;
   while(ptr)
   {
     if (ptr->event == _EVENT_NULL || ptr->event == ev.event) {
@@ -58,6 +75,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
     }
     ptr=ptr->next;
   }
+
   panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");
   #ifdef _DEBUG

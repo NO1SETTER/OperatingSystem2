@@ -3,7 +3,7 @@
 #include <klib-macros.h>
 #include <amdev.h>
 #define _DEBUG_LOCAL //控制是否進行測試
-//#define _DEBUG       //控制是否輸出本地測試的調試信息
+#define _DEBUG       //控制是否輸出本地測試的調試信息
 //#define DEV_ENABLE
 #define STACK_SIZE 4096
 #define INT_MIN -2147483648
@@ -34,7 +34,6 @@ struct task
   {
     char name[15];
     int id;
-    int ct;
     enum t_status status;
     int is_trap;
     spinlock_t lk;//加鎖保護訪問
@@ -45,10 +44,14 @@ struct task
 };//管理一个线程的信息
 task_t* currents[MAX_CPU];
 task_t* all_thread[105];
+int active_thread[105];
 //只记录线程的id,id对应它在all_thread中的位置
 //状态均为T_READY或T_RUNNING
+
 extern int thread_num;
-extern spinlock_t thread_ctrl_lock;
+extern int active_num;
+extern spinlock_t thread_ctrl_lock;//管理控制这三个链表的锁
+
 
 struct semaphore
 {
@@ -81,6 +84,9 @@ int intrdepths[MAX_CPU];
 #define intrdepth intrdepths[_cpu()]
 int intenas[MAX_CPU];
 #define intena intenas[_cpu()]
-
+task_t* trap_tasks[MAX_CPU];//每个处理器的上一个trap线程
+#define trap_task trap_tasks[_cpu()]
 void push_cli();
 void pop_cli();
+
+void set_trapped(task_t* t);

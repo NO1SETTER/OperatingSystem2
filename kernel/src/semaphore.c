@@ -3,6 +3,9 @@
 #define V kmt->sem_signal
 #define current currents[_cpu()]
 //#define _DEBUG_
+spinlock_t ctlock;
+int ct=0;
+
 #ifdef _DEBUG_LOCAL
     sem_t empty;
     sem_t fill;
@@ -13,6 +16,10 @@
         P(&empty);
         printf("(");
         #ifdef _DEBUG_
+          sp_lock(&ctlock);
+          ct+=1;
+          if(ct>5) assert(0);
+          sp_unlock(&ctlock);
           printf("from %s\n",current->name);
         #endif
         V(&fill);
@@ -26,6 +33,10 @@
         P(&fill);
         printf(")");
         #ifdef _DEBUG_
+          sp_lock(&ctlock);
+          ct-=1;
+          if(ct<0) assert(0);
+          sp_unlock(&ctlock); 
           printf("from %s\n",current->name);
         #endif
         V(&empty);

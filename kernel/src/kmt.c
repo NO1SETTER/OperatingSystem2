@@ -1,4 +1,5 @@
 #include<common.h>
+extern spinlock_t ctlock;
 extern sem_t empty;
 extern sem_t fill;
 extern void producer(void *arg);
@@ -24,6 +25,7 @@ static void kmt_init()
     trap_tasks[i]=NULL;
   }//currents全部設置爲空
   kmt->spin_init(&thread_ctrl_lock,"thread_ctrl_lock");//初始化鎖
+  kmt->spin_init(&ctlock,"ctlock");
   irq_head=NULL;
   os->on_irq(INT_MIN,_EVENT_NULL,kmt_context_save);
   os->on_irq(INT_MAX,_EVENT_NULL,kmt_schedule);

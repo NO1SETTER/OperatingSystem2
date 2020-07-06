@@ -121,7 +121,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
             break;
           }
         sp_unlock(&current->lk);
-        current=current->next;
+        current=all_thread[rand()%thread_num];
       }
 
       #ifdef _DEBUG

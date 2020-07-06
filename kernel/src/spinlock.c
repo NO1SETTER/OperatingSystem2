@@ -24,7 +24,10 @@ void pop_cli()
 void sp_lock(spinlock_t* lk)
 {
   push_cli();
-  while(_atomic_xchg(&lk->locked,1));
+  while(_atomic_xchg(&lk->locked,1))
+  {
+    printf("CPU#%d acquring lock %s\n",_cpu(),lk->name);
+  }
 }
 
 void sp_unlock(spinlock_t *lk)

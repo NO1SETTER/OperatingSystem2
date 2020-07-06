@@ -29,7 +29,7 @@ static void kmt_init()
   os->on_irq(INT_MAX,_EVENT_NULL,kmt_schedule);
 
   #ifdef _DEBUG_LOCAL
-    kmt->sem_init(&empty, "empty", 5);  // 缓冲区大小为 5
+    kmt->sem_init(&empty, "empty", 6);  // 缓冲区大小为 5
     kmt->sem_init(&fill,  "fill",  0);
     
     char p[4][3]={"p1","p2","p3","p4"};

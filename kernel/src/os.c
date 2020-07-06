@@ -41,39 +41,29 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
   return 0;
 }
 
+void set_trap(task_t* t)
+{
+  if(trap_task&&trap_task!=current)
+  {//判断trap_task!=current是因为block的线程要被set_trap两次
+    sp_lock(&trap_task->lk);
+    trap_task->is_trap=0;
+    sp_unlock(&trap_task->lk);
+    sp_lock(&t->lk);
+    t->is_trap=1;
+    trap_task=t;
+    sp_unlock(&t->lk);
+  }
+}
+
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {//整个过程中current栈不能被其他处理器修改!!!
   _intr_write(0);
+   set_trap(current);
    #ifdef _DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
   #endif
-  task_t *rec=NULL;
-  if(current->is_block)
-    rec=current;//返回前恢复is_block
-if(current->is_trap)
-{
-  printf("Invalid status:%d\n",current->status);
-  assert(0);
-}
-  if(trap_task)
-  {
-    sp_lock(&trap_task->lk);
-    trap_task->is_trap=0;
-    #ifdef _DEBUG
-      printf("%s set free from trap\n",trap_task->name);
-    #endif
-    sp_unlock(&trap_task->lk);
-  }
-  sp_lock(&current->lk);
-  current->is_trap=1;
-  trap_task=current;
-    #ifdef _DEBUG
-      printf("%s set trapped\n",trap_task->name);
-    #endif
-  sp_unlock(&current->lk);
   
-
   _Context *next = NULL;
   struct irq *ptr=irq_head;
   while(ptr)
@@ -84,27 +74,16 @@ if(current->is_trap)
     }
     ptr=ptr->next;
   }
-  if(next==NULL)//schedule所有的都不可用,当前如果是
-  {
-    sp_lock(&current->lk);
-      if(current->status==T_WAITING) assert(0);//没救了
-      current->is_trap=0;
-      trap_task=NULL;
-      next=current->ctx;
-    sp_lock(&current->lk);
+  if(next==NULL)
+  {assert(0); 
   }
   panic_on(!next, "returning NULL context");
-  //panic_on(sane_context(next), "returning to invalid context");
+  panic_on(sane_context(next), "returning to invalid context");
   #ifdef _DEBUG
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
     printf("CPU#%d os_trap:returned_ctx->rip at %p\n",_cpu(),current->ctx->rip);
   #endif
-  if(rec)
-  {
-    sp_lock(&rec->lk);
-      rec->is_block=0;
-    sp_unlock(&rec->lk);
-  }
+
   return next;
 }
 

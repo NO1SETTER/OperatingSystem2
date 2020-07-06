@@ -36,7 +36,6 @@ struct task
     int id;
     enum t_status status;
     int is_trap;
-    int is_block;//指示阻塞,在状态T_WAITING之外另有指示作用
     spinlock_t lk;//加鎖保護訪問
     struct task* next;//指向all_thread[id+1]
     _Context *ctx;//貌似只要保证它指向栈顶就ok了，上面的可以不管分配在哪里
@@ -87,5 +86,7 @@ int intenas[MAX_CPU];
 #define intena intenas[_cpu()]
 task_t* trap_tasks[MAX_CPU];//每个处理器的上一个trap线程
 #define trap_task trap_tasks[_cpu()]
+void set_trap();
+
 void push_cli();
 void pop_cli();

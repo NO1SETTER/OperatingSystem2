@@ -63,7 +63,7 @@ void sem_wait(sem_t *sem)
   if(--sem->val<0) 
   {
     sp_lock(&current->lk);
-      current->is_block=1;//用于辨别block的线程有无完成中断
+      set_trap(current);
       current->status=T_WAITING;
       sem->waiter[sem->wnum++]=current->id;
       #ifdef _DEBUG

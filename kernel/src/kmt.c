@@ -47,7 +47,6 @@ static void kmt_init()
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
   strcpy(task->name,name);//名字
   task->status=T_READY;//状态
-  task->is_trap=0;
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
@@ -121,26 +120,15 @@ _Context* kmt_context_save(_Event ev,_Context* c)
 _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
       sp_lock(&thread_ctrl_lock);
-
       #ifdef _DEBUG
         printf("CPU#%d Schedule\n",_cpu());
       #endif
-      int valid_tasks[100];
-      int nr_task=0;
-      for(int i=0;i<active_num;i++)
-      {
-        if(all_thread[active_thread[i]]->status==T_READY
-        &&all_thread[active_thread[i]]->is_trap==0)
-        valid_tasks[nr_task++]=active_thread[i];
-      }
+      if(current==NULL)
+        current=all_thread[0];
       
-      if(nr_task==0) return NULL;
-      int no=rand()%nr_task;
-      current=all_thread[valid_tasks[no]];
-      sp_lock(&current->lk);
-      current->status=T_RUNNING;
-      sp_unlock(&current->lk);
-      sp_unlock(&thread_ctrl_lock);
+      do{
+        current=current->next;
+      }while((current->id%_ncpu()!=_cpu())&&current->status!=T_READY);
       #ifdef _DEBUG
         printf("CPU#%d Scheduled to %s\n",_cpu(),current->name);
       #endif

@@ -86,8 +86,6 @@ int intenas[MAX_CPU];
 #define intena intenas[_cpu()]
 task_t* trap_tasks[MAX_CPU];//每个处理器的上一个trap线程
 #define trap_task trap_tasks[_cpu()]
-void set_trap(task_t* t);
-void set_free(task_t* t);
 
 void push_cli();
 void pop_cli();

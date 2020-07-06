@@ -75,7 +75,6 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   _intr_write(0);
    #ifdef _DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",current->name,_cpu(),ev.event);
-    printf("CPU#%d os_trap:passed_ctx->rip at %p\n",_cpu(),context->rip);
   #endif
   set_trap(current);
   #ifdef _DEBUG
@@ -95,7 +94,6 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   //panic_on(sane_context(next), "returning to invalid context");
   #ifdef _DEBUG
     printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
-    printf("CPU#%d os_trap:returned_ctx->rip at %p\n",_cpu(),current->ctx->rip);
   #endif
 
   return next;

@@ -79,7 +79,7 @@ struct irq
 struct irq* irq_head;
 
 task_t* currents[MAX_CPU];
-#define current currents[_cpu()]
+#define cur currents[_cpu()]
 int intrdepths[MAX_CPU];
 #define intrdepth intrdepths[_cpu()]
 int intenas[MAX_CPU];

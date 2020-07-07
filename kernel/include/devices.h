@@ -14,6 +14,7 @@ struct device {
   devops_t *ops;
 };
 
+
 void *dev_malloc(size_t size);
 
 // Input

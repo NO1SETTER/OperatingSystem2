@@ -1,7 +1,6 @@
 #include<common.h>
 #define P kmt->sem_wait
 #define V kmt->sem_signal
-#define current currents[_cpu()]
 #define _DEBUG_
 #ifdef _DEBUG_LOCAL
     sem_t empty;
@@ -13,7 +12,7 @@
         P(&empty);
         printf("(");
         #ifdef _DEBUG_
-          printf("from %s\n",current->name);
+          printf("from %s\n",cur->name);
         #endif
         V(&fill);
         }
@@ -26,7 +25,7 @@
         P(&fill);
         printf(")");
         #ifdef _DEBUG_
-          printf("from %s\n",current->name);
+          printf("from %s\n",cur->name);
         #endif
         V(&empty);
         }
@@ -47,19 +46,19 @@ void sem_wait(sem_t *sem)
 {
   sp_lock(&sem->lock);//sem->lock用于控制一切对sem的修改
   #ifdef _DEBUG
-  printf("Task %s running on CPU#%d\n",current->name,_cpu());
+  printf("Task %s running on CPU#%d\n",cur->name,_cpu());
   printf("wait:%s->val = %d\n",sem->name,sem->val);
   #endif
   if(--sem->val<0) 
   {
-      sp_lock(&current->lk);
-        current->is_trap=1;
-        current->status=T_WAITING;
-        sem->waiter[sem->wnum++]=current->id;
+      sp_lock(&cur->lk);
+        cur->is_trap=1;
+        cur->status=T_WAITING;
+        sem->waiter[sem->wnum++]=cur->id;
         #ifdef _DEBUG
-          printf("%s blocked\n",current->name);
+          printf("%s blocked\n",cur->name);
         #endif
-      sp_unlock(&current->lk);
+      sp_unlock(&cur->lk);
 
     sp_unlock(&sem->lock);
     _yield();
@@ -73,7 +72,7 @@ void sem_signal(sem_t *sem)
   sp_lock(&sem->lock);
   sem->val=sem->val+1;
   #ifdef _DEBUG
-  printf("Task %s running on CPU#%d\n",current->name,_cpu());
+  printf("Task %s running on CPU#%d\n",cur->name,_cpu());
   printf("signal:%s->val = %d\n",sem->name,sem->val);
   #endif
     if(sem->wnum)

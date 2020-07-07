@@ -6,9 +6,7 @@ spinlock_t thread_ctrl_lock;
 static void os_init() {
   pmm->init();
   kmt->init(); // 模块先初始化
-  #ifdef DEV_ENBALE
-    dev->init();
-  #endif
+  dev->init();
 }
 
 extern void check_allocblock(void *ptr);

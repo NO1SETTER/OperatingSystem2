@@ -7,10 +7,11 @@ extern void tty_reader(void *arg);
 static void os_init() {
   pmm->init();
   kmt->init(); // 模块先初始化
-  dev->init();
-
-  kmt->create(task_alloc(), "tty_reader", tty_reader, "tty1");
-  kmt->create(task_alloc(), "tty_reader", tty_reader, "tty2");
+  #ifdef _DEV_ENABLE
+    dev->init();
+    kmt->create(task_alloc(), "tty_reader", tty_reader, "tty1");
+    kmt->create(task_alloc(), "tty_reader", tty_reader, "tty2");
+  #endif
 }
 
 extern void check_allocblock(void *ptr);

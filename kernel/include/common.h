@@ -45,11 +45,11 @@ struct task
 };//管理一个线程的信息
 task_t* currents[MAX_CPU];
 task_t* all_thread[105];
+task_t* task_alloc();
 //只记录线程的id,id对应它在all_thread中的位置
 //状态均为T_READY或T_RUNNING
-
 extern int thread_num;
-extern spinlock_t thread_ctrl_lock;//管理控制这三个链表的锁
+extern spinlock_t thread_ctrl_lock;
 
 
 struct semaphore
@@ -63,6 +63,9 @@ int wnum;
 void sem_init(sem_t *sem, const char *name, int value);
 void sem_wait(sem_t *sem);
 void sem_signal(sem_t *sem);
+
+
+
 
 void *kalloc_safe(size_t size);
 void kfree_safe(void *ptr);

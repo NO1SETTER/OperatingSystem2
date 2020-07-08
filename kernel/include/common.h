@@ -2,6 +2,7 @@
 #include <klib.h>
 #include <klib-macros.h>
 #include <amdev.h>
+#include <vfs.h>
 //#define _DEBUG_LOCAL //控制是否進行測試
 //#define _DEBUG       //控制是否輸出本地測試的調試信息
 //#define _DEV_ENABLE
@@ -32,18 +33,27 @@ struct task
 {
   struct
   {
-    char name[15];
-    int id;
+      char name[15];
+      int id;
+      int cpu;
+      int is_trap;
+      enum t_status status;
     int ct;
-    int cpu;
-    enum t_status status;
-    int is_trap;
-    spinlock_t lk;//加鎖保護訪問
-    struct task* next;//指向all_thread[id+1]
+      spinlock_t lk;//加鎖保護訪問
+      struct task* next;//指向all_thread[id+1]
+    struct
+    { inode_t* node;
+      int fd;//fd,status对于每个线程是不同的，因此要在线程中单独记录
+      int status;
+      int valid;
+    }files[100];//该线程打开的文件
+   
+    char* cur_path;//线程当前所在的路径
     _Context *ctx;//貌似只要保证它指向栈顶就ok了，上面的可以不管分配在哪里
   };
   uint8_t stack[4096];
 };//管理一个线程的信息
+
 task_t* currents[MAX_CPU];
 task_t* all_thread[105];
 task_t* task_alloc();

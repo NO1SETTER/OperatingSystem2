@@ -249,7 +249,6 @@ for(int i=0;i<DataClusters;i++)
             uint32_t bmpoffset=bheader->bfOffBits;
             uint32_t height=bheader->biHeight;
             uint32_t width=bheader->biWidth;
-            printf("bmpoffset=%d\n",bmpoffset);
             //printf("BMP Data Offset:%x\n",bheader->bfOffBits);
             //printf("FileSize = %x\n",bmpsize);
             //printf("Height=%x Width=%x\n",height,width);
@@ -425,6 +424,7 @@ for(int i=0;i<DataClusters;i++)
                 printf("bheader at cluster:%d,%x\n",cid,(unsigned)((void*)bheader-(void*)header));
               }
             #else
+            printf("bheader at cluster:%d,%x\n",cid,(unsigned)((void*)bheader-(void*)header));
             fwrite((void*)bheader+bmpoffset,1,bmpsize-sizeof(struct bitmap_header),fp);
             #endif
             char cmd[128];

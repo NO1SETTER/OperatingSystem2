@@ -15,6 +15,7 @@ enum DIR_ARRTIBUTE{ATTR_READ_ONLY=0x1,ATTR_HIDDEN=0x2,ATTR_SYSTEM=0x4,
 ATTR_VOLUME_ID=0x8,ATTR_DIRECTORY=0x10,ATTR_ARCHIVE=0x20,
 ATTR_LONG_NAME=0xF};
 enum CLUSTER_TYPE{DIRECTORY_ENTRY,BMP_HEADER,BMP_DATA,UNUSED,UNCERTAIN};
+inline int min(int a,int b){return a<b?a:b;}
 //一个cluster内可能包含多个DIRECTORY_ENTRY;
 //UNCERTAIN可能是bmp数据或者未使用
 
@@ -401,7 +402,7 @@ for(int i=0;i<DataClusters;i++)
                     if(ctype[j]!=UNCERTAIN) continue;
                     bheader=(void*)header+DataOffset+ClusterSize*j;
                     strncpy(buf+read_bytes,(void *)bheader,line_pixels-read_bytes);
-                    strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels)
+                    strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels);
                     if(line_cmp(buf,cmpbytes))
                     {
                       cid=j;break;

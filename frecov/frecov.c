@@ -126,7 +126,6 @@ assert(sizeof(struct fat_header)==512);
 assert(sizeof(struct sdir_entry)==32);
 assert(sizeof(struct ldir_entry)==32);
 assert(sizeof(struct bitmap_header)==54);
-memset(used,0,sizeof(used));
 clean();
 assert(argv[1]);
 char *fname=(char *)argv[1];

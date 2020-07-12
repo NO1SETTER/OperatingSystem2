@@ -176,10 +176,10 @@ int line_cmp(char* buf1,char* buf2,int n)
   {
     if(buf2[i]==0) continue;
     double ratio=(double)buf1[i]/(double)buf2[i];
-    if(ratio<0.66||ratio>1.5)
+    if(ratio<0.5||ratio>2)
      ct=ct+1;
   }//设定比较宽松,不能相差超过1/3
-  if(ct*3<n) return 1;
+  if(ct*5<n) return 1;
   return 0;
 }
 

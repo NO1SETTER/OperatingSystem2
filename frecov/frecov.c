@@ -176,7 +176,7 @@ int line_cmp_loose(char* buf1,char* buf2,int n)//两套标准，对直接相接�
   {
     if(buf2[i]==0) continue;
     int dif=abs(buf1[i]-buf2[i]);
-    if(dif>50)
+    if(dif>80)
      ct=ct+1;
   }//设定比较宽松,不能相差超过1/3
   if(ct*2<n) return 1;

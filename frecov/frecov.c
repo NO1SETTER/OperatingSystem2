@@ -189,10 +189,10 @@ int line_cmp_strict(char* buf1,char* buf2,int n)//两套标准，对直接相接
   for(int i=0;i<n;i++)
   {
     if(buf2[i]==0) continue;
-    double ratio=(double)buf1[i]/(double)buf2[i];
-    if(ratio<0.33||ratio>3)
+    int dif=abs(buf1[i]-buf2[i]);
+    if(dif>50)
      ct=ct+1;
-  }//设定比较宽松,不能相差超过1/3
+  }
   if(ct*3<n) return 1;
   return 0;
 }
@@ -278,7 +278,8 @@ for(int i=0;i<DataClusters;i++)
               const int line_pixels=width*3;//一行应该有的像素
               char* buf=(char*)malloc(line_pixels+1);//该块的最后一行
               char* cmpbytes=(char*)malloc(line_pixels+1);
-              int read_bytes=ClusterSize-sizeof(struct bitmap_header)-(ClusterSize-sizeof(struct bitmap_header)-1)/line_pixels*line_pixels;//最后一行已经读了的字节数,-1是为了保证所读非空
+              int read_bytes=ClusterSize-sizeof(struct bitmap_header)-(ClusterSize-sizeof(struct bitmap_header))/line_pixels*line_pixels;//最后一行已经读了的字节数,-1是为了保证所读非空
+              printf("readbytes=%d\n",read_bytes);
               strncpy(buf,(void*)bheader+(ClusterSize-read_bytes),read_bytes);
               printf("bheader at cluster:%d,%x\n",cid,(unsigned)((void*)bheader-(void*)header));
               while(bmpsize)//cid为上一次读完的完整块
@@ -306,7 +307,7 @@ for(int i=0;i<DataClusters;i++)
                 }
                 fwrite((void*)bheader,1,min(ClusterSize,bmpsize),fp);
                 bmpsize=bmpsize-min(ClusterSize,bmpsize);
-                read_bytes=ClusterSize-(line_pixels-read_bytes)-(ClusterSize-(line_pixels-read_bytes)-1)/line_pixels*line_pixels;
+                read_bytes=ClusterSize-(line_pixels-read_bytes)-(ClusterSize-(line_pixels-read_bytes))/line_pixels*line_pixels;
                 strncpy(buf,(void*)bheader+(ClusterSize-read_bytes),read_bytes);
                 printf("bheader at cluster:%d,%x\n",cid,(unsigned)((void*)bheader-(void*)header));
               }

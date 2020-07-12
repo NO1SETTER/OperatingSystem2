@@ -382,7 +382,7 @@ for(int i=0;i<DataClusters;i++)
               fclose(fp);
             #else*/
             #ifdef GREEDY_SERACH_CLUSTER
-              fwrite((void*)bheader+bmpoffset,1,ClusterSize-sizeof(struct bitmap_header),fp);//先把当前块读完
+              fwrite((void*)bheader+bmpoffset,1,ClusterSize-bmpoffset,fp);//先把当前块读完
               bmpsize=bmpsize-(ClusterSize-sizeof(struct bitmap_header));
               const int line_pixels=width*3;//一行应该有的像素
               char* buf=(char*)malloc(line_pixels+1);//该块的最后一行
@@ -393,6 +393,7 @@ for(int i=0;i<DataClusters;i++)
               {
                 cid=cid+1;
                 bheader=(void*)header+DataOffset+ClusterSize*cid;
+                printf("bheader at cluster:%d,%x\n",cid,bheader-header);
                 strncpy(buf+read_bytes,(void*)bheader,line_pixels-read_bytes);
                 strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels);//相接的下一行
                 if(!line_cmp(buf,cmpbytes,line_pixels))

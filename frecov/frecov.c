@@ -394,11 +394,11 @@ for(int i=0;i<DataClusters;i++)
               char* cmpbytes=(char*)malloc(line_pixels+1);
               int read_bytes=ClusterSize-sizeof(struct bitmap_header)-(ClusterSize-sizeof(struct bitmap_header)-1)/line_pixels*line_pixels;//最后一行已经读了的字节数,-1是为了保证所读非空
               strncpy(buf,(void*)bheader+(ClusterSize-read_bytes),read_bytes);
+              printf("bheader at cluster:%d,%x\n",cid,(unsigned)((void*)bheader-(void*)header));
               while(bmpsize)//cid为上一次读完的完整块
               {
                 cid=cid+1;
                 bheader=(void*)header+DataOffset+ClusterSize*cid;
-                printf("bheader at cluster:%d,%x\n",cid,(unsigned)((void*)bheader-(void*)header));
                 strncpy(buf+read_bytes,(void*)bheader,line_pixels-read_bytes);
                 strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels);//相接的下一行
                 if(!line_cmp(buf,cmpbytes,line_pixels))
@@ -422,6 +422,7 @@ for(int i=0;i<DataClusters;i++)
                 bmpsize=bmpsize-min(ClusterSize,bmpsize);
                 read_bytes=ClusterSize-(line_pixels-read_bytes)-(ClusterSize-(line_pixels-read_bytes)-1)/line_pixels*line_pixels;
                 strncpy(buf,(void*)bheader+(ClusterSize-read_bytes),read_bytes);
+                printf("bheader at cluster:%d,%x\n",cid,(unsigned)((void*)bheader-(void*)header));
               }
             #else
             fwrite((void*)bheader+bmpoffset,1,bmpsize-sizeof(struct bitmap_header),fp);

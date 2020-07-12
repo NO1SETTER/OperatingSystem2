@@ -10,7 +10,7 @@
 #include<sys/mman.h>
 #include<sys/stat.h>
 //#define _DEBUG
-#define GREEDY_SERACH_CLUSTER
+//#define GREEDY_SERACH_CLUSTER
 enum DIR_ARRTIBUTE{ATTR_READ_ONLY=0x1,ATTR_HIDDEN=0x2,ATTR_SYSTEM=0x4,
 ATTR_VOLUME_ID=0x8,ATTR_DIRECTORY=0x10,ATTR_ARCHIVE=0x20,
 ATTR_LONG_NAME=0xF};
@@ -270,6 +270,8 @@ for(int i=0;i<DataClusters;i++)
             FILE *fp=fopen(tmpname,"a+");
             fwrite((void *)bheader,1,sizeof(struct bitmap_header),fp);
             char ch[1]="\0";
+            for(int j=0;j<bmpoffset-sizeof(struct bitmap_header);j++)
+            fwrite((void *)ch,1,1,fp);
             #ifdef GREEDY_SERACH_CLUSTER
               fwrite((void*)bheader+bmpoffset,1,ClusterSize-bmpoffset,fp);//先把当前块读完
               bmpsize=bmpsize-ClusterSize;
@@ -409,7 +411,7 @@ int GetSize(char *fname)
       ClusterSize=header->BPB_SecPerClus*header->BPB_BytePerSec;
       DataOffset=(header->BPB_RsvdSecCnt+header->BPB_NumFATs*header->BPB_FATSz32)*header->BPB_BytePerSec;
       //printf("Data Region has 0x%x clusters\n",DataClusters);
-      printf("Cluster Size is 0x%x bytes\n",ClusterSize);
-      printf("Data Region started at 0x%x\n",DataOffset);
+      //printf("Cluster Size is 0x%x bytes\n",ClusterSize);
+      //printf("Data Region started at 0x%x\n",DataOffset);
       //printf("FAT size=%x\n",header->BPB_FATSz32*header->BPB_BytePerSec);
   }

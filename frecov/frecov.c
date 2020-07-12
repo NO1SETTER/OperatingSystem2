@@ -403,14 +403,14 @@ for(int i=0;i<DataClusters;i++)
                     bheader=(void*)header+DataOffset+ClusterSize*j;
                     strncpy(buf+read_bytes,(void *)bheader,line_pixels-read_bytes);
                     strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels);
-                    if(line_cmp(buf,cmpbytes))
+                    if(line_cmp(buf,cmpbytes,line_pixels))
                     {
                       cid=j;break;
                     }
                   }
                 }
                 fwrite((void*)bheader,1,min(ClusterSize,bmpsize),fp);
-                bmpsize=bmpsize-min(CLUSTER_TYPE,bmpsize);
+                bmpsize=bmpsize-min(ClusterSize,bmpsize);
                 read_bytes=ClusterSize-(line_pixels-read_bytes)-(ClusterSize-(line_pixels-read_bytes)-1)/line_pixels*line_pixels;
                 strncpy(buf,(void*)bheader+(ClusterSize-read_bytes),read_bytes);
               }

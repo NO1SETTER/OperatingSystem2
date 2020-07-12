@@ -179,7 +179,7 @@ int line_cmp(char* buf1,char* buf2,int n)
     if(ratio<0.25||ratio>4)
      ct=ct+1;
   }//设定比较宽松,不能相差超过1/3
-  if(ct*3<n) return 1;
+  if(ct*2<n) return 1;
   return 0;
 }
 
@@ -402,7 +402,7 @@ for(int i=0;i<DataClusters;i++)
                 strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels);//相接的下一行
                 if(!line_cmp(buf,cmpbytes,line_pixels))
                 {
-                  for(int j=0;j<DataClusters;j++)
+                  for(int j=cid+1;j<DataClusters;j++)
                   {
                     if(used[j]) continue;
                     if(ctype[j]!=UNCERTAIN) continue;

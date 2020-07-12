@@ -171,14 +171,16 @@ uint8_t Chksum(unsigned char* pFcbName)
 
 int line_cmp(char* buf1,char* buf2,int n)
 {
+  int ct=0;
   for(int i=0;i<n;i++)
   {
     if(buf2[i]==0) continue;
     double ratio=(double)buf1[i]/(double)buf2[i];
     if(ratio<0.66||ratio>1.5)
-     return 0;
+     ct=ct+1;
   }//设定比较宽松,不能相差超过1/3
-  return 1;
+  if(ct*10<n) return 1;
+  return 0;
 }
 
 void Recover(const void* header)

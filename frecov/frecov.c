@@ -181,7 +181,7 @@ int line_cmp(char* buf1,char* buf2,int n)
     int dif=abs(buf1[i]-buf2[i]);
     if(dif>50) ct=ct+1;
   }//设定比较宽松,不能相差超过1/3
-  if(ct*3<n) return 1;
+  if(ct*2<n) return 1;
   return 0;
 }
 

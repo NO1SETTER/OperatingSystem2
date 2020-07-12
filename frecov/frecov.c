@@ -114,7 +114,6 @@ struct bitmap_header//事实上它包含了信息头的一部分
 }__attribute__((packed));
 
 int ctype[1000000];//记录cluster的type
-int used[1000000];//记录有没有用过
 int GetSize(char *fname);//得到文件大小
 void SetBasicAttributes(const struct fat_header* header);//计算文件的一些属性
 uint32_t retrieve(const void *ptr,int byte);//从ptr所指的位置取出长为byte的数据
@@ -292,7 +291,6 @@ for(int i=0;i<DataClusters;i++)
                 {
                   for(int j=cid+1;j<DataClusters;j++)
                   {
-                    if(used[j]) continue;
                     if(ctype[j]!=UNCERTAIN) continue;
                     bheader=(void*)header+DataOffset+ClusterSize*j;
                     strncpy(buf+read_bytes,(void *)bheader,line_pixels-read_bytes);
@@ -300,7 +298,6 @@ for(int i=0;i<DataClusters;i++)
                     if(line_cmp_strict(buf,cmpbytes,line_pixels))
                     {
                       cid=j;
-                      used[j]=1;
                       break;
                     }
                   }

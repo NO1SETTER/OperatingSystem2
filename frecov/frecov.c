@@ -169,17 +169,29 @@ uint8_t Chksum(unsigned char* pFcbName)
   return sum;
 }
 
-int line_cmp(char* buf1,char* buf2,int n)
+int line_cmp_loose(char* buf1,char* buf2,int n)//两套标准，对直接相接的下一块松，对挑选的严
 {
   int ct=0;
   for(int i=0;i<n;i++)
   {
     if(buf2[i]==0) continue;
-    //double ratio=(double)buf1[i]/(double)buf2[i];
-    //if(ratio<0.25||ratio>4)
-     //ct=ct+1;
     int dif=abs(buf1[i]-buf2[i]);
-    if(dif>100) ct=ct+1;
+    if(dif>50)
+     ct=ct+1;
+  }//设定比较宽松,不能相差超过1/3
+  if(ct*2<n) return 1;
+  return 0;
+}
+
+int line_cmp_strict(char* buf1,char* buf2,int n)//两套标准，对直接相接的下一块松，对挑选的严
+{
+  int ct=0;
+  for(int i=0;i<n;i++)
+  {
+    if(buf2[i]==0) continue;
+    double ratio=(double)buf1[i]/(double)buf2[i];
+    if(ratio<0.33||ratio>3)
+     ct=ct+1;
   }//设定比较宽松,不能相差超过1/3
   if(ct*3<n) return 1;
   return 0;
@@ -275,7 +287,7 @@ for(int i=0;i<DataClusters;i++)
                 bheader=(void*)header+DataOffset+ClusterSize*cid;
                 strncpy(buf+read_bytes,(void*)bheader,line_pixels-read_bytes);
                 strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels);//相接的下一行
-                if(!line_cmp(buf,cmpbytes,line_pixels))
+                if(!line_cmp_loose(buf,cmpbytes,line_pixels))
                 {
                   for(int j=cid+1;j<DataClusters;j++)
                   {
@@ -284,7 +296,7 @@ for(int i=0;i<DataClusters;i++)
                     bheader=(void*)header+DataOffset+ClusterSize*j;
                     strncpy(buf+read_bytes,(void *)bheader,line_pixels-read_bytes);
                     strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels);
-                    if(line_cmp(buf,cmpbytes,line_pixels))
+                    if(line_cmp_strict(buf,cmpbytes,line_pixels))
                     {
                       cid=j;
                       used[j]=1;

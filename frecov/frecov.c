@@ -275,7 +275,7 @@ for(int i=0;i<DataClusters;i++)
             #ifdef GREEDY_SERACH_CLUSTER
               fwrite((void*)bheader+bmpoffset,1,ClusterSize-bmpoffset,fp);//先把当前块读完
               bmpsize=bmpsize-ClusterSize;
-              const int line_pixels=width*3;//一行应该有的像素
+              const int line_pixels=((width*3-1)/4+1)*4;//一行应该有的像素
               char* buf=(char*)malloc(line_pixels+1);//该块的最后一行
               char* cmpbytes=(char*)malloc(line_pixels+1);
               int read_bytes=ClusterSize-sizeof(struct bitmap_header)-(ClusterSize-sizeof(struct bitmap_header))/line_pixels*line_pixels;//最后一行已经读了的字节数,-1是为了保证所读非空

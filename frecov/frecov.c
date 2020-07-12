@@ -393,7 +393,7 @@ for(int i=0;i<DataClusters;i++)
               {
                 cid=cid+1;
                 bheader=(void*)header+DataOffset+ClusterSize*cid;
-                printf("bheader at cluster:%d,%x\n",cid,bheader-header);
+                printf("bheader at cluster:%d,%x\n",cid,(void*)bheader-(void*)header);
                 strncpy(buf+read_bytes,(void*)bheader,line_pixels-read_bytes);
                 strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels);//相接的下一行
                 if(!line_cmp(buf,cmpbytes,line_pixels))

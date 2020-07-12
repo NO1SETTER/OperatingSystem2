@@ -166,6 +166,18 @@ uint8_t Chksum(unsigned char* pFcbName)
   return sum;
 }
 
+int line_cmp(char* buf1,char* buf2,int n)
+{
+  for(int i=0;i<n;i++)
+  {
+    if(buf2[i]==0) continue;
+    double ratio=(double)buf1[i]/(double)buf2[i];
+    if(ratio<0.3333||ratio>3)
+     return 0;
+  }//设定比较宽松,不能相差超过1/3
+  return 1;
+}
+
 void Recover(const void* header)
 { 
 for(int i=0;i<DataClusters;i++)
@@ -243,7 +255,7 @@ for(int i=0;i<DataClusters;i++)
             char ch[1]="\0";
             for(int j=0;j<bmpoffset-sizeof(struct bitmap_header);j++)
             fwrite((void *)ch,1,1,fp);
-            #ifdef GREEDY_SERACH_CLUSTER
+            /*#ifdef GREEDY_SERACH_CLUSTER
 
               void *BitmapData=(void *)bheader+bmpoffset;//当前读到的指针点
               void *bdstart = (void *)bheader;//当前读到的块起始点
@@ -367,6 +379,40 @@ for(int i=0;i<DataClusters;i++)
                     }
               }
               fclose(fp);
+            #else*/
+            #ifdef GREEDY_SERACH_CLUSTER
+              fwrite((void*)bheader+bmpoffset,1,ClusterSize-sizeof(struct bitmap_header),fp);//先把当前块读完
+              bmpsize=bmpsize-(ClusterSize-sizeof(struct bitmap_header));
+              const int line_pixels=width*3;//一行应该有的像素
+              char* buf=(char*)malloc(line_pixels+1);//该块的最后一行
+              char* cmpbytes=(char*)malloc(line_pixels+1);
+              int read_bytes=ClusterSize-sizeof(struct bitmap_header)-(ClusterSize-sizeof(struct bitmap_header)-1)/line_pixels*line_pixels;//最后一行已经读了的字节数,-1是为了保证所读非空
+              strncpy(buf,(void*)bheader+(ClusterSize-read_bytes),read_bytes);
+              while(bmpsize)//cid为上一次读完的完整块
+              {
+                cid=cid+1;
+                bheader=(void*)header+DataOffset+ClusterSize*cid;
+                strncpy(buf+read_bytes,(void*)bheader,line_pixels-read_bytes);
+                strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels);//相接的下一行
+                if(!line_cmp(buf,cmpbytes,line_pixels))
+                {
+                  for(int j=0;j<DataClusters;j++)
+                  {
+                    if(ctype[j]!=UNCERTAIN) continue;
+                    bheader=(void*)header+DataOffset+ClusterSize*j;
+                    strncpy(buf+read_bytes,(void *)bheader,line_pixels-read_bytes);
+                    strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels)
+                    if(line_cmp(buf,cmpbytes))
+                    {
+                      cid=j;break;
+                    }
+                  }
+                }
+                fwrite((void*)bheader,1,min(ClusterSize,bmpsize),fp);
+                bmpsize=bmpsize-min(CLUSTER_TYPE,bmpsize);
+                read_bytes=ClusterSize-(line_pixels-read_bytes)-(ClusterSize-(line_pixels-read_bytes)-1)/line_pixels*line_pixels;
+                strncpy(buf,(void*)bheader+(ClusterSize-read_bytes),read_bytes);
+              }
             #else
             fwrite((void*)bheader+bmpoffset,1,bmpsize-sizeof(struct bitmap_header),fp);
             #endif

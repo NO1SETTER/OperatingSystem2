@@ -114,6 +114,7 @@ struct bitmap_header//事实上它包含了信息头的一部分
 }__attribute__((packed));
 
 int ctype[1000000];//记录cluster的type
+int used[1000000];//记录有没有用过
 int GetSize(char *fname);//得到文件大小
 void SetBasicAttributes(const struct fat_header* header);//计算文件的一些属性
 uint32_t retrieve(const void *ptr,int byte);//从ptr所指的位置取出长为byte的数据
@@ -126,6 +127,7 @@ assert(sizeof(struct fat_header)==512);
 assert(sizeof(struct sdir_entry)==32);
 assert(sizeof(struct ldir_entry)==32);
 assert(sizeof(struct bitmap_header)==54);
+memset(used,0,sizeod(used));
 clean();
 assert(argv[1]);
 char *fname=(char *)argv[1];
@@ -254,8 +256,8 @@ for(int i=0;i<DataClusters;i++)
             FILE *fp=fopen(tmpname,"a+");
             fwrite((void *)bheader,1,sizeof(struct bitmap_header),fp);
             char ch[1]="\0";
-            for(int j=0;j<bmpoffset-sizeof(struct bitmap_header);j++)
-            fwrite((void *)ch,1,1,fp);
+            //for(int j=0;j<bmpoffset-sizeof(struct bitmap_header);j++)
+            //fwrite((void *)ch,1,1,fp);
             /*#ifdef GREEDY_SERACH_CLUSTER
 
               void *BitmapData=(void *)bheader+bmpoffset;//当前读到的指针点
@@ -383,7 +385,7 @@ for(int i=0;i<DataClusters;i++)
             #else*/
             #ifdef GREEDY_SERACH_CLUSTER
               fwrite((void*)bheader+bmpoffset,1,ClusterSize-bmpoffset,fp);//先把当前块读完
-              bmpsize=bmpsize-(ClusterSize-sizeof(struct bitmap_header));
+              bmpsize=bmpsize-ClusterSize;
               const int line_pixels=width*3;//一行应该有的像素
               char* buf=(char*)malloc(line_pixels+1);//该块的最后一行
               char* cmpbytes=(char*)malloc(line_pixels+1);
@@ -400,13 +402,16 @@ for(int i=0;i<DataClusters;i++)
                 {
                   for(int j=0;j<DataClusters;j++)
                   {
+                    if(used[j]) continue;
                     if(ctype[j]!=UNCERTAIN) continue;
                     bheader=(void*)header+DataOffset+ClusterSize*j;
                     strncpy(buf+read_bytes,(void *)bheader,line_pixels-read_bytes);
                     strncpy(cmpbytes,(void*)bheader+line_pixels-read_bytes,line_pixels);
                     if(line_cmp(buf,cmpbytes,line_pixels))
                     {
-                      cid=j;break;
+                      cid=j;
+                      used[j]=1;
+                      break;
                     }
                   }
                 }

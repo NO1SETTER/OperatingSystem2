@@ -7,7 +7,7 @@ static int sd_init(device_t *dev) {
     dev->ptr = NULL;
   } else {
     sd->blkcnt = info.blkcnt;
-    sd->blksz  = info.blksz;
+    sd->blksz  = info.blksz;//512
     sd->buf    = pmm->alloc(sd->blksz);
   }
   return 0;

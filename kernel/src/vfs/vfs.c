@@ -3,26 +3,6 @@
 #include<user.h>
 #include<klib.h>
 //extensions
-#define nr_mnt 100
-typedef struct mounttable
-{
-char path[100];
-filesystem_t *fs;
-int valid;
-}mount_table[100];
-
-#define nr_file 300
-typedef struct filetable
-{
-  inode_t* node;
-  int linkid;
-  int valid;
-}file_table[1000];//记录打开的文件
-/*计划用树的形式规划file_table来支持link和unlink操作
-对于没被链接确实存在的文件,linkid=-1,否则指向它所被链接的文件,
-*/
-
-
 void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是一个可以直接访问的目录
 {
   for(int i=0;i<nr_mnt;i++)
@@ -44,7 +24,6 @@ void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是�
 
 filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系统
 {
-
   for(int i=0;i<nr_mnt;i++)//和每一个文件系统作比较
   {
     if(!mount_table[i].valid) continue;
@@ -57,7 +36,6 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
       { len1=j;break;
       }
     }
-
     for(int j=1;j<len2;j++)
     {
       if(mount_table[i].path[j]=='/')
@@ -72,80 +50,100 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
   return NULL;
 }
 
-
-char* get_linkname(char *path)//得到path link到文件的name
+int alloc_file_id()
 {
-int pos=-1;
 for(int i=0;i<nr_file;i++)
 {
-  if(strcmp(path,file_table[i].path)==0)
-  {pos=i;break;
+  if(!file_table[i].valid)
+  {
+    file_table[i].valid=1;
+    file_table[i].id=i;
+    return i;
   }
 }
-if(pos==-1)
-{
-  printf("Not in any file system!\n");
-  return path;
-}
-else
-{
-    while(file_table[pos].linkid!=-1)
-    {
-      pos=file_table[pos].linkid;
-      break;
-    }
-    return file_table[pos].node->path;
+return -1;
 }
 
-return NULL;
+int alloc_link_id()
+{
+for(int i=0;i<nr_link;i++)
+{
+  if(!link_table[i].valid)
+  {
+    link_table[i].valid=1;
+    return i;
+  }
+}
+return -1;
+}
+
+int alloc_fd()
+{
+for(int i=0;i<nr_ref;i++)
+{
+  if(!ref_table[i].valid)
+  {
+    ref_table[i].valid=1;
+    return i;
+  }
+}
+return -1;
 }
 
 //standard realizations
   void vfs_init()
   {
+    ufs=(filesystem_t*)kalloc_safe(sizeof(filesystem_t));
+    procfs=(filesystem_t*)kalloc_safe(sizeof(filesystem_t));
+    devfs=(filesystem_t*)kalloc_safe(sizeof(filesystem_t));
+    ufs->dev=dev_lookup("sda");
+    procfs->dev=dev_lookup("sda");
+    devfs->dev=dev_lookup("sda");
 
     vfs_mount("/",ufs);
+    vfs_mount("/proc",procfs);
+    vfs_mount("/dev",devfs);
   }
    
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd
   int vfs_write(int fd, void *buf, int count)
   {
-    for(int i=0;i<nr_file;i++)
+    if(ref_table[fd].valid)
     {
-      if(cur->files[i].valid&&cur->files[i].fd==fd)
-      {
-        filesystem_t* fs=cur->files[i].node->fs;
-        int ret=fs->ops->write(fd,buf,count);
-        return ret;
-      } 
+      if(ref_table[fd].thread_id=_cpu())
+      { 
+      int file_id=ref_table[fd].id;
+      filesystem_t* fs=file_table[file_id].fs;
+      return fs->ops->write(fd,buf,count);
+      }
     }
     return -1;
   }
 
   int vfs_read(int fd, void *buf, int count)
   {
-    for(int i=0;i<nr_file;i++)
+    if(ref_table[fd].valid)
     {
-      if(cur->files[i].valid&&cur->files[i].fd==fd)
-      {
-        filesystem_t* fs=cur->files[i].node->fs;
-        int ret=fs->ops->read(fd,buf,count);
-        return ret;
-      } 
+      if(ref_table[fd].thread_id=_cpu())
+      { 
+      int file_id=ref_table[fd].id;
+      filesystem_t* fs=file_table[file_id].fs;
+      return fs->ops->read(fd,buf,count);
+      }
     }
     return -1;
   }
 
   int vfs_close(int fd)
   {    
-    for(int i=0;i<nr_file;i++)
+    if(ref_table[fd].valid)
     {
-      if(cur->files[i].valid&&cur->files[i].fd==fd)
-      {
-        filesystem_t* fs=cur->files[i].node->fs;
-        int ret=fs->ops->close(fd);
-        return ret;
-      } 
+      if(ref_table[fd].thread_id=_cpu())
+      { 
+      int file_id=ref_table[fd].id;
+      filesystem_t* fs=file_table[file_id].fs;
+      return fs->ops->close(fd);
+      }
     }
     return -1;
   }
@@ -153,158 +151,122 @@ return NULL;
   //设定是根据pathname直接可以确定它属于哪个文件系统?
   int vfs_open(const char *pathname, int flags)
   {
-    filesystem_t* fs=find_fs(pathname);
-    assert(fs);
-
-    int fileid=-1;
-    for(int i=0;i<nr_file;i++)
-    {
-      if(file_table[i].valid)
-      {
-        if(strcmp(pathname,filetable[i].file->path)==0)
-        {
-          fileid=i;
-          while(file_table[fileid].linkid!=-1)
-          {
-            fileid=file_table[fileid].linkid;
-            break;
-          }
-        }
-      }
-    }
-
-    if(fileid!=-1)//已经加入过文件系统
-    {
-    sem_wait(&file_table[i].node->sem);
-      int fd=fs->ops->open(pathname,flags);
-      file_table[i].node->fd=fd;
-      file_table[i].node->taskid=cur->id;
-      for(int i=0;i<nr_file;i++)
-      {
-        if(valid)
-          
-      }
-    sem_signal(&file_table[i].node->sem);
-    return fd;
-    }
-    else //创建新的inode
-    {
-      inode_t* newnode=(inode_t*)kalloc_safe(sizeof(inode_t));
-      int fd=fs->ops->open(pathname,flags);
-      newnode->fd=fd;
-      newnode->fs=fs;
-      newnode->offset=0;
-      newnode->taskid=cur->id;
-      sem_init(newnode->sem,1);
-      for(int i=0;i<nr_file;i++)
-      {
-        if(!file_table[i].valid)
-        {
-          file_table[i].valid=1;
-          file_table[i].node=newnode;
-          file_table[i].linkid=-1;
-          break;
-        }
-      }
-      for(int i=0;i<nr_file;i++)
-      {
-        if(!cur->valid[i])
-        {
-          cur->id[i]=1;
-          cur->files[i]=newnode;
-          break;
-        }
-      }
-    return fd;
-    }
-    return -1;
+      filesystem_t* fs=find_fs(pathname);
+      assert(fs);
+      return fs->ops->open(pathname,flags);
   }
 
   int vfs_lseek(int fd, int offset, int whence)
   {
-    for(int i=0;i<nr_file;i++)
+    if(ref_table[fd].valid)
     {
-      if(cur->files[i].valid&&cur->files[i].fd==fd)
-      {
-        filesystem_t* fs=cur->files[i].node->fs;
-        int ret=fs->ops->lseek(fd);
-        return ret;
-      } 
+      if(ref_table[fd].thread_id=_cpu())
+      { 
+      int file_id=ref_table[fd].id;
+      filesystem_t* fs=file_table[file_id].fs;
+      return fs->ops->lseek(fd,offset,whence);
+      }
     }
     return -1;
   } 
   
-  int vfs_link(const char *oldpath, const char *newpath)
+  //link并没有打开
+  int vfs_link(const char *oldpath, const char *newpath)//创建ref
   {
     filesystem_t* fs = find_fs(oldpath);
     assert(fs==ufs);
     
     int old_id=-1;
-    for(int i=0;i<nr_file;i++)
+    for(int i=0;i<nr_link;i++)
     {
-      if(file_table[i].valid&&strcmp(oldpath,file_table[i]->node.path)==0)
+      if(link_table[i].valid&&strcmp(oldpath,link_table[i].path)==0)
       {old_id=i;break;
       }
     }
-
     if(old_id==-1)
     {
       printf("THe file:%s linked to doesn't exist\n",oldpath);
       return -1;
     }
-    
-    int new_id=-1;
-    for(int i=0;i<nr_file;i++)
-    {
-      if(!file_table[i].valid)
-      { new_id=i;break;
-      }
-    }
+    int new_id=alloc_link_id();
+    if(!link_table[new_id].pathname);
+      link_table[new_id].pathname==(char*)kalloc_safe(100);
+    strcpy(link_table[new_id].pathname,newpath);
+    ref_table[new_id].id=ref_table[old_id].id;
+    ref_table[new_id].valid=1;
 
-    inode_t* newnode=(inode_t*)=kalloc_safe(sizeof(inode_t));
-    strcpy(newnode->path,newpath);
-    file_table[new_id].node=newnode;
-    file_table[new_id].linkid=old_id;
-    file_table[new_id].valid=1;
+    int file_id=ref_table[new_id].id;
+    file_table[file_id].refct+=1;
     return 0;
   }
 
   int vfs_unlink(const char *pathname)
   {
     int id=-1;
-    for(int i=0;i<nr_file;i++)
+    for(int i=0;i<nr_link;i++)
     {
-      if(strcmp(pathname,file_table[i].inode->path)==0)
+      if(ref_table[i].valid&&strcmp(pathname,ref_table[i].pathname)==0)
       { id=i;break;
       }
     }
-    if(id==-1) return -1;
-    assert(file_table[i].node->fs==ufs);
-    file_table[i].valid=0;
-    file_table[i].linkid=-1;
-    kfree_safe(file_table[i].node);
+    if(id==-1) 
+    {
+      printf("no such file\n");
+      return -1;
+    }
+
+    int file_id=ref_table[i].id;
+    assert(file_table[file_id].fs==ufs);
+    ref_table[id].valid=0;
+    kfree_safe(ref_table[id].pathname);
+    ref_table[id].pathname=NULL;
+
+    file_table[file_id].refct-=1;
+    if(file_table[file_id].refct==0);
+      file_table[file_id].valid=0;
     return 0;
   }
   
   int vfs_fstat(int fd, struct ufs_stat *buf)
-  {
-
-  }
+{
+   if(ref_table[fd].valid)
+    {
+      if(ref_table[fd].thread_id=_cpu())
+      { 
+      int file_id=ref_table[fd].id;
+      filesystem_t* fs=file_table[file_id].fs;
+      assert(fs==ufs);
+      buf->id=file_table[file_id].id;
+      buf->type=file_table[file_id].type;
+      buf->size=file_table[file_id].size;
+      return 0;
+      }
+    }
+    return -1;
+}
 
   int vfs_mkdir(const char *pathname)
   {
-
+      filesystem_t* fs=find_fs(pathname);
+      assert(fs==ufs);
+      return fs->ops->mkdir(pathname);
   }
 
   int vfs_chdir(const char *path)
   {
-    cur->cur_path=path;
+    strcpy(cur->cur_path,path);
     return 0;
   }
 
   int vfs_dup(int fd)
   {
-
+    int new_id=alloc_fd();
+    ref_table[new_id].fd=new_id;
+    ref_table[new_id].flags=ref_table[fd].flags;
+    ref_table[new_id].id=ref_table[fd].id;
+    ref_table[new_id].thread_id=ref_table[fd].thread_id;
+    ref_table[new_id].valid=1;
+    return new_id;
   }
 
 MODULE_DEF(vfs) {

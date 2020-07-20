@@ -29,6 +29,7 @@ static void blk_write(void *buf, int blkno, int blkcnt) {
   _io_write(_DEV_STORAGE, _DEVREG_STORAGE_WRCTRL, &ctl, sizeof(ctl));
 }
 
+
 static ssize_t sd_read(device_t *dev, off_t offset, void *buf, size_t count) {
   sd_t *sd = dev->ptr;
   panic_on(!sd, "no disk");

@@ -10,14 +10,17 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <string.h>
-//#define _DEBUG
+#define _DEBUG
 
-#define MB_SIZE 1024*1024
-//0x1000是4KB,也是每一个cluster的大小,1MB有256个cluster
-#define FS_START MB_SIZE//1MB的预留空间
-#define FAT_START 1024*1024+0x1000//4KB的文件头,占1个cluster
-#define ENTRY_START 1024*1024+0x1000+5*0x1000//20KB的根目录项文件区域,占5个cluster,最多640条目录项,根目录本身的一个短目录项存放在该区域的起始
-#define DATA_START 1024*1024+0x1000+0x1000+64*0x1000//256KB的FAT表,占64个cluster
+#define MB_SIZE 1024*1024//0x1000是4KB,也是每一个cluster的大小,1MB有256个cluster
+//1MB的预留空间
+#define FS_START MB_SIZE
+//4KB的文件头,占1个cluster
+#define FAT_START FS_START+0x1000
+//256KB的FAT表,占64个cluster,最多256*32个Fat_Entry
+#define ENTRY_START FAT_START+64*0x1000
+//20KB的根目录项文件区域,占5个cluster,最多640条目录项,根目录本身的一个短目录项存放在该区域的起始
+#define DATA_START ENTRY_START+5*0x1000
 
 #define FAT_FREE 0xFFFFFFFA
 #define FAT_BAD 0xFFFFFFF7
@@ -51,12 +54,15 @@ int BASE_SIZE;
 
 struct sdir_entry//这个和标准Fat实现不一样,sdir在ldir前面，并去掉了一些不必要的属性
 {
+  uint8_t  DIR_Valid;//指示当前目录项是否还有效(由于此文件系统没有删除,valid应该一直为1)
   uint8_t  DIR_EntryType;//长文件头还是短文件头
-  uint32_t DIR_FileType:16;//文件/文件夹
-  uint32_t DIR_EntryNum:16;//目录项有几条
+  uint8_t  DIR_FileType;//文件还是文件夹
+  uint8_t  DIR_RefCt;
+  uint8_t  DIR_EntryNum;//目录项有几条
   uint32_t DIR_FstClus;//第一块
   uint32_t DIR_FileSize;//文件大小,它与目前已经写入的大小保持一致!
-  uint32_t DIR_NameLen;//名字长度
+  uint8_t  DIR_NameLen;//名字长度
+  uint8_t  DIR_Sign[3];//标识
   uint8_t  DIR_Name[15];
 }__attribute__((packed));//32byte
 
@@ -96,11 +102,11 @@ struct fat_header* fh;
 
 
 void fat_init();
-int cluster_alloc();
+int  cluster_alloc();
 void parse_args(int argc,char *argv[]);
-struct sdir_entry* make_dir_entry(struct dirent* ptr,char* pathname,char* name,char* buf);//type指示文件/目录,attr指示属性
+struct sdir_entry* make_dir_entry(struct dirent* ptr,char* name,char* buf);//type指示文件/目录,attr指示属性
 int write_data(struct sdir_entry* sdir,int offset,char* buf,int size);
-void write_dir(char* pathname,int dir_offset,int depth);
+void recursive_mkfs(char* pathname,int dir_offset,int depth);
 /*每个Sec大小为0x200即0.5KB,每个cluster大小为0x1000即4KB,考虑最大256MB有64*1024个block
 那么FAT表只用64*1024*4byte=256KB即可管理,FATSz为512Sec,16KB
 */
@@ -117,17 +123,17 @@ int main(int argc,char* argv[]){
   fh->signature_word=0xaa55;
   strcpy((char*)fh->BS_FilSysType,"FAT32");
   fat_init();
-  write_dir(argv[3],0,0);
+  recursive_mkfs(argv[3],0,0);
   munmap(disk, IMG_SIZE);
   close(fd);
 }
 
 void print_space(int depth)
 {
-#ifdef _DEBUG
-for(int i=0;i<depth*3;i++)
-printf(" ");
-#endif
+  #ifdef _DEBUG
+  for(int i=0;i<depth*3;i++)
+  printf(" ");
+  #endif
 }
 
 void xxd(const char *str,int n)
@@ -167,7 +173,8 @@ int cluster_alloc()
   return 0;
 }
 
-struct sdir_entry* make_dir_entry(struct dirent* ptr,char* pathname,char* name,char* buf)//type指示文件/目录,attr指示属性
+
+struct sdir_entry* make_dir_entry(struct dirent* ptr,char* name,char* buf)//type指示文件/目录,attr指示属性
 { //根据ptr创造一个dir_entry到buf中
   uint32_t type;
   if(ptr->d_type==DT_DIR) 
@@ -176,15 +183,17 @@ struct sdir_entry* make_dir_entry(struct dirent* ptr,char* pathname,char* name,c
   uint32_t len=strlen(name);
   uint32_t cid=cluster_alloc();//最小未用块的id
   struct sdir_entry* sdir=(struct sdir_entry* )malloc(sizeof(struct sdir_entry));
+  sdir->DIR_Valid=1;
   sdir->DIR_EntryType=SDIRENTRY;
   sdir->DIR_FileType=type;
+  sdir->DIR_RefCt=1;//初始时RefCt均为1
   sdir->DIR_EntryNum=1;
   sdir->DIR_FstClus=cid;
   fh->fat[cid].id=FAT_EOF;//该文件的第一块都写成EOF状态
   sdir->DIR_FileSize=0;//写入目录项时文件的大小还是0
   sdir->DIR_NameLen=len;
-  
-  memcpy((void*)sdir->DIR_Name,name,15);
+  strncpy((void*)sdir->DIR_Sign,"DYG",3);
+  strncpy((void*)sdir->DIR_Name,name,15);
   memcpy(buf,(void*)sdir,sizeof(struct sdir_entry));
   if(len>15)
   {
@@ -195,7 +204,7 @@ struct sdir_entry* make_dir_entry(struct dirent* ptr,char* pathname,char* name,c
       struct ldir_entry* ldir=(struct ldir_entry*)malloc(sizeof(struct ldir_entry));
       ldir->LDIR_EntryType=LDIRENTRY;
       ldir->LDIR_EndSign=DIR_NOTEND;
-      memcpy((void*)ldir->LDIR_Name,name+15+nr_ldir*30,30);
+      strncpy((void*)ldir->LDIR_Name,name+15+nr_ldir*30,30);
       memcpy(buf+sizeof(struct sdir_entry)+nr_ldir*sizeof(struct ldir_entry)
       ,(void*)ldir,sizeof(struct ldir_entry));
       free(ldir);
@@ -206,7 +215,7 @@ struct sdir_entry* make_dir_entry(struct dirent* ptr,char* pathname,char* name,c
       struct ldir_entry* ldir=(struct ldir_entry*)malloc(sizeof(struct ldir_entry));
       ldir->LDIR_EntryType=LDIRENTRY;
       ldir->LDIR_EndSign=DIR_END;
-      memcpy((void*)ldir->LDIR_Name,name+15+nr_ldir*30,len);
+      strncpy((void*)ldir->LDIR_Name,name+15+nr_ldir*30,len);
       memcpy(buf+sizeof(struct sdir_entry)+nr_ldir*sizeof(struct ldir_entry)
       ,(void*)ldir,sizeof(struct ldir_entry));
       free(ldir);
@@ -216,7 +225,7 @@ struct sdir_entry* make_dir_entry(struct dirent* ptr,char* pathname,char* name,c
 }
 
 int write_data(struct sdir_entry* sdir,int offset,char* buf,int size)
-{//像sdir指向的文件offset处写入来自buf的size个字节,返回所写到的磁盘偏移量
+{ //像sdir指向的文件offset处写入来自buf的size个字节,返回所写到的磁盘偏移量
   assert(offset<=sdir->DIR_FileSize);
   sdir->DIR_FileSize=max(sdir->DIR_FileSize,offset+size);//DIR_FileSize是已经写入的size
   int cid=sdir->DIR_FstClus;
@@ -246,7 +255,7 @@ int write_data(struct sdir_entry* sdir,int offset,char* buf,int size)
     }
     cid=nextid;
     lseek(fd,Clu(cid),SEEK_SET);
-    assert(write(fd,buf,min(ClusterSize,size))!=-1);
+    assert(write(fd,buf+write_bytes,min(ClusterSize,size))!=-1);
     assert(fsync(fd)!=-1);
     write_bytes=write_bytes+min(ClusterSize,size);
   }
@@ -254,7 +263,7 @@ int write_data(struct sdir_entry* sdir,int offset,char* buf,int size)
   return ret;
 }
 
-void write_dir(char* pathname,int dir_offset,int depth)//pathname是路径,
+void recursive_mkfs(char* pathname,int dir_offset,int depth)//pathname是路径,
 //diroffset是上层目录sdir项的偏移量,depth指示在目录树中的深度
 {
 DIR* dir=opendir(pathname);
@@ -263,15 +272,12 @@ int write_offset=0;
   while((ptr=readdir(dir))!=NULL)
   {
     if(strcmp(ptr->d_name,".")==0||strcmp(ptr->d_name,"..")==0) continue;//暂且不处理这种情况
-    #ifdef _DEBUG
-      printf("no.%d file in directory %s\n",num++,pathname);
-    #endif
     char buf[256];//允许一个文件最多八个目录项
     char d_name[256];
     strcpy(d_name,ptr->d_name);
     char cur_path[256];
     snprintf(cur_path,256,"%s/%s",pathname,d_name);
-    struct sdir_entry* now_dir= make_dir_entry(ptr,cur_path,ptr->d_name,buf);
+    struct sdir_entry* now_dir= make_dir_entry(ptr,ptr->d_name,buf);
     //make entry --> 写entry --> 写data
     print_space(depth);
     #ifdef _DEBUG
@@ -302,7 +308,7 @@ int write_offset=0;
     //目录项的文件内容在下一层递归写,非目录项在本层写
     if(ptr->d_type==DT_DIR)
     {
-        write_dir(cur_path,newdir_offset,depth+1);
+        recursive_mkfs(cur_path,newdir_offset,depth+1);
     }
     else
     {

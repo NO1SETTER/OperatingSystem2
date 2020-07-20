@@ -41,8 +41,6 @@ struct task
     int ct;
       spinlock_t lk;//加鎖保護訪問
       struct task* next;//指向all_thread[id+1]
-    inode_t* nodes[100];
-
     char cur_path[100];//线程当前所在的路径
     _Context *ctx;//貌似只要保证它指向栈顶就ok了，上面的可以不管分配在哪里
   };

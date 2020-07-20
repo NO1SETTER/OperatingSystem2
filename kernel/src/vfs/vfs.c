@@ -1,7 +1,9 @@
-#include<common.h>
-#include<devices.h>
-#include<user.h>
+#include<vfs.h>
 #include<klib.h>
+/*
+path like this/is/a/very/long/path
+*/
+
 //extensions
 void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是一个可以直接访问的目录
 {
@@ -46,15 +48,14 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
     if(len1!=len2) continue;
     if(strncmp(path,mount_table[i].path,len1)!=0) continue;
     return mount_table[i].fs;
-  }
-  return NULL;
+  }//循环内没成功默认返回ufs
+  return ufs;
 }
 
 int alloc_file_id()
 {
 for(int i=0;i<nr_file;i++)
-{
-  if(!file_table[i].valid)
+{ if(!file_table[i].valid)
   {
     file_table[i].valid=1;
     file_table[i].id=i;
@@ -67,8 +68,7 @@ return -1;
 int alloc_link_id()
 {
 for(int i=0;i<nr_link;i++)
-{
-  if(!link_table[i].valid)
+{ if(!link_table[i].valid)
   {
     link_table[i].valid=1;
     return i;
@@ -80,9 +80,9 @@ return -1;
 int alloc_fd()
 {
 for(int i=0;i<nr_ref;i++)
-{
-  if(!ref_table[i].valid)
+{ if(!ref_table[i].valid)
   {
+    ref_table[fd].fd=i;
     ref_table[i].valid=1;
     return i;
   }
@@ -103,6 +103,9 @@ return -1;
     vfs_mount("/",ufs);
     vfs_mount("/proc",procfs);
     vfs_mount("/dev",devfs);
+
+    for(int i=0;i<nr_file;i++)
+    ref_table[i].valid=link_table[i].valid=file_table[i].valid=0;
   }
    
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd
@@ -152,7 +155,6 @@ return -1;
   int vfs_open(const char *pathname, int flags)
   {
       filesystem_t* fs=find_fs(pathname);
-      assert(fs);
       return fs->ops->open(pathname,flags);
   }
 
@@ -170,80 +172,26 @@ return -1;
     return -1;
   } 
   
-  //link并没有打开
+  //link不需要打开..且link的结果是持久存在的
+  //link_table每个项存储一个pathname和指向的id
   int vfs_link(const char *oldpath, const char *newpath)//创建ref
   {
     filesystem_t* fs = find_fs(oldpath);
     assert(fs==ufs);
-    
-    int old_id=-1;
-    for(int i=0;i<nr_link;i++)
-    {
-      if(link_table[i].valid&&strcmp(oldpath,link_table[i].path)==0)
-      {old_id=i;break;
-      }
-    }
-    if(old_id==-1)
-    {
-      printf("THe file:%s linked to doesn't exist\n",oldpath);
-      return -1;
-    }
-    int new_id=alloc_link_id();
-    if(!link_table[new_id].pathname);
-      link_table[new_id].pathname==(char*)kalloc_safe(100);
-    strcpy(link_table[new_id].pathname,newpath);
-    ref_table[new_id].id=ref_table[old_id].id;
-    ref_table[new_id].valid=1;
-
-    int file_id=ref_table[new_id].id;
-    file_table[file_id].refct+=1;
-    return 0;
+    return fs->ops->link(oldpath,newpath);
   }
 
   int vfs_unlink(const char *pathname)
   {
-    int id=-1;
-    for(int i=0;i<nr_link;i++)
-    {
-      if(ref_table[i].valid&&strcmp(pathname,ref_table[i].pathname)==0)
-      { id=i;break;
-      }
-    }
-    if(id==-1) 
-    {
-      printf("no such file\n");
-      return -1;
-    }
-
-    int file_id=ref_table[i].id;
-    assert(file_table[file_id].fs==ufs);
-    ref_table[id].valid=0;
-    kfree_safe(ref_table[id].pathname);
-    ref_table[id].pathname=NULL;
-
-    file_table[file_id].refct-=1;
-    if(file_table[file_id].refct==0);
-      file_table[file_id].valid=0;
-    return 0;
+    filesystem_t* fs=find_fs(pathname);
+    assert(fs==ufs);
+    return fs->ops->unlink(pathname);
   }
   
   int vfs_fstat(int fd, struct ufs_stat *buf)
-{
-   if(ref_table[fd].valid)
-    {
-      if(ref_table[fd].thread_id=_cpu())
-      { 
-      int file_id=ref_table[fd].id;
-      filesystem_t* fs=file_table[file_id].fs;
-      assert(fs==ufs);
-      buf->id=file_table[file_id].id;
-      buf->type=file_table[file_id].type;
-      buf->size=file_table[file_id].size;
-      return 0;
-      }
-    }
-    return -1;
-}
+  {
+    return ufs->ops->fstat(fd,buf);
+  }
 
   int vfs_mkdir(const char *pathname)
   {

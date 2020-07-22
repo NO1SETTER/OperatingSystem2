@@ -225,16 +225,15 @@ int get_name(const char* path,char* name)
   int pre_inode=locate_file(abs_newpath);
     assert(pre_inode<0&&pre_inode>INT_MIN);
     pre_inode=-pre_inode;
-  
-  int new_inode=alloc_inode();
+
+  struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
+  int new_inode=make_dir_entry(T_FILE,dir);
+  ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));  
+
   file_table[new_inode].node=new_inode;
   file_table[new_inode].link_id=old_inode;
   file_table[new_inode].valid=1;
 
-  struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-  make_dir_entry(T_FILE,dir);
-  ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));
-  
   struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
   drt->inode=new_inode;
   char name[32];

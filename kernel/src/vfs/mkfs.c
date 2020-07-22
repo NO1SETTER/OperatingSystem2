@@ -5,12 +5,13 @@ int alloc_cluster()
     return 0;
 }
 
+
 int make_dir_entry(int type,struct dir_entry* dir)//type指示文件/目录,attr指示属性
 { 
   uint32_t cid=alloc_cluster();//最小未用块的id
   char EOF[4];
   *(int*)EOF=FAT_EOF;
-  int inode=alloc_inode();
+  int inode=alloc_inode();//由于新inode的建立必定伴随着新entry的建立,新inode的申请均在此中进行
   ufs->dev->ops->write(ufs->dev,Fat(cid),&EOF,4);
   dir->DIR_Valid=1;
   dir->DIR_FileType=type;

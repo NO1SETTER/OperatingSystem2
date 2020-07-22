@@ -101,4 +101,3 @@ filesystem_t* procfs;
 filesystem_t* devfs;
 
 filesystem_t* find_fs(const char* path);
-int alloc_fd();

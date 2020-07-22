@@ -65,6 +65,10 @@ int alloc_fd()
 return -1;
 }
 
+int alloc_inode()
+{
+  return 0;
+}
 //standard realizations
   void vfs_init()
   {

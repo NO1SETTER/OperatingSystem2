@@ -1,5 +1,5 @@
 #include <stdint.h>
-
+#pragma once
 #define T_DIR     1
 #define T_FILE    2
 

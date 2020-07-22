@@ -1,70 +1,87 @@
-#include<vfs.h> 
 #include<mkfs.h>
+#include<user.h>
 //extensions
-  int read_entry(device_t *dev, off_t offset, void *buf,char* name)
-  { //从offset开始只读一个short entry到buf中,但是会把之后的long entry也解析了,并且把完整的文件名字写到name里去
-    struct sdir_entry* sdir=(struct sdir_entry*)buf;
-    sd_read(dev,offset,buf,sizeof(struct sdir_entry));
-    strncpy(name,sdir_entry->DIR_Name,15);
-    
-    int nr_entry=sdir->DIR_EntryNum;
-    char buffer[sizeof(struct ldir_entry)+1];
-    for(int i=1;i<=nr_entry;i++)
+int exist_files=0;
+int locate_file(char* path_name)//默认传进来的都是绝对路径
+{//如果找到了则返回inode,没找到返回上一级inode的负值,上一级inode也没找到则返回INT_MIN
+  assert(path_name[0]=='/');
+  inode_t* now_node=&file_table[0];
+  int next_node=-1;
+  int len=strlen(path_name);
+  int lid=1,rid=1;
+  char cur_name[32];
+  for(int i=1;i<=len;i++)
+  {
+    if(path_name[i]!='/'&&i!=len) continue;
+    rid=i;
+    strncpy(cur_name,path_name+lid,rid-lid);
+    struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
+    int nr_files=now_node->size/sz(ufs_dirent);
+    next_node=-1;
+    for(int j=0;j<nr_files;j++)
     {
-      sd_read(dev,offset+i*sizeof(struct ldir_entry),buffer,sizeof(struct ldir_entry));
-      strncpy(name+15+(i-1)*30,buffer+1,30);
-    }
-    return (nr_entry+1)*sizeof(struct sdir_entry);
-  }
-
-int locate_file_entry(char* path_name)///根据path_name(绝对路径)定位该项的entry的offset
-{//如果找到了则返回offset,没找到当前应该写入的offset的负值
-      assert(path_name[0]=='/');
-      char dir_name[100];//当前文件夹的名字
-      char name[256];//当前检索到的名字
-      int lid=1,rid=1;
-      struct sdir_entry* sdir=(struct sdir_entry*)kalloc_safe(struct sdir_entry);
-      int offset=ENTRYSTART;
-      int len=strlen(abs_path);
-      for(int i=1;i<=len;i++)
+      read_data(now_node,j*sz(ufs_dirent),(char*)drt,sz(ufs_dirent));
+      if(strcmp(drt->name,cur_name)==0)//找到了
       {
-        if(abs_path[i]!='/'&&i!=strlen(struct sdir)) continue;
-        rid=i;
-        strncpy(dir_name,name+lid,rid-lid);
-        while(1)
-        {
-          int increment=read_entry(ufs->dev,offset,sdir,name);
-            if(strncmp(sdir->DIR_Sign,"DYG",3)!=0)
-            {
-              printf("No such file is this system");
-              if(i!=len)
-                return 0;
-              else
-                return -offset;
-            }
-
-            if(sdir->valid&&strcmp(dir_name,name)==0)
-            {
-            offset=Clu(sdir.DIR_FstClus);
-            break;
-            }
-            offset=offset+increment;
-        }
-        lid=i+1;
+        next_node=drt->inode;
+        break;
       }
-  return offset;
+    }
+    if(next_node==-1)
+    {
+      if(i==len) return now_node->node;
+      return INT_MIN;
+    }
+    now_node=&file_table[next_node];
+    lid=i+1;
+  }
+  return now_node->node;
 }
 
-int get_abs_path(char *path,char* abs_path)
+int get_abs_path(const char *path,char* abs_path)
 {
   if(path[0]=='/')
     strcpy(abs_path,path);
   else
-    sprintf(abs_path,"%s/%s",cur->cur_path,path)
+    sprintf(abs_path,"%s/%s",cur->cur_path,path);
   return 1;
 }
 
+int get_name(const char* path,char* name)
+{
+  int len=strlen(path);
+  int pos=0;
+  for(int i=len-1;i>=0;i--)
+  { if(path[i]=='/') 
+    {
+      pos=i;break;
+    }
+  }
+  strcpy(name,path+pos);
+  return 0;
+}
 //standard realizations
+  int ufs_init()
+  {
+    ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&exist_files,4);
+    struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
+    for(int i=0;i<exist_files;i++)
+    {
+    ufs->dev->ops->read(ufs->dev,Entry(i),dir,sz(dir_entry));
+    file_table[i].entry=Entry(i);
+    file_table[i].node=i;
+    file_table[i].refct=1;
+    file_table[i].offset=0;
+    char sem_name[32];
+    sprintf(sem_name,"semlock_file_%d",i);
+    sem_init(&file_table[i].sem,sem_name,1);
+    file_table[i].type=dir->DIR_FileType;
+    file_table[i].size=dir->DIR_FileSize;
+    file_table[i].valid=1;
+    }
+    return 0;
+  }
+
   int ufs_write(int fd, void *buf, int count)
   {
     if(ref_table[fd].thread_id!=_cpu()||!ref_table[fd].valid)
@@ -72,14 +89,14 @@ int get_abs_path(char *path,char* abs_path)
       printf("File not opened in this thread\n");
       return -1;
     }
-    int file_id=ref_table[fd].id;
-    if(!file_table[file_id].valid)
+    int inode=ref_table[fd].id;
+    if(!file_table[inode].valid)
     {
       printf("File not opened\n");
       return -1;
     }
-    int offset=file_table[file_id].offset;
-    return write_data(ufs,&file_table[file_id],offset,buf,count);
+    inode_t* node=&file_table[inode];
+    return write_data(node,node->offset,(char*)buf,count);
   }
 
   int ufs_read(int fd, void *buf, int count)
@@ -89,103 +106,85 @@ int get_abs_path(char *path,char* abs_path)
       printf("File not opened in this thread\n");
       return -1;
     }
-    int file_id=ref_table[fd].id;
-    if(!file_table[file_id].valid)
+    int inode=ref_table[fd].id;
+    if(!file_table[inode].valid)
     {
       printf("File not opened\n");
       return -1;
     }
-    int offset=file_table[file_id].offset;
-    return read_data(ufs,&file_table[file_id],offset,buf,count);
+    inode_t* node=&file_table[inode];
+    return read_data(node,node->offset,(char*)buf,count);
   }
 
-  int ufs_close(int fd)
+  int ufs_close(int fd)//只是使该文件描述符无效，不直接使得inode无效
   {
     if(ref_table[fd].thread_id!=_cpu()||!ref_table[fd].valid)
     {
       printf("File not opened in this thread\n");
       return -1;
     }
-    int file_id=ref_table[fd].id;
-    if(!file_table[file_id].valid)
+
+    int inode=ref_table[fd].id;
+    if(!file_table[inode].valid)
     {
       printf("File not opened\n");
       return -1;
     }
 
-    int entry=file_table[file_id].entry;
-    struct sdir_entry* sdir=(struct sdir_entry*)kalloc_safe(sizeof(struct sdir_entry));
-    read_data(ufs->dev,entry,sdir,sizeof(struct sdir_entry));
-    sdir->DIR_RefCt=ref_table[file_id].refct;
-    sdir->DIR_FileSize=ref_table[file_id].Size;
-    write_data(ufs->dev,entry,sdir,sizeof(struct sdir_entry));
-    ref_table[file_id].valid=0;
+    struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
+    ufs->dev->ops->read(ufs->dev,Entry(inode),dir,sz(dir_entry));
+    dir->DIR_RefCt=file_table[inode].refct;
+    dir->DIR_FileSize=file_table[inode].size;
+    ufs->dev->ops->write(ufs->dev,Entry(inode),dir,sz(dir_entry));
     return 0;
   }
 
   int ufs_open(const char *pathname, int flags)
   {
     char abs_path[100];
-    if(pathname[0]=='/')//当前目录下的文件
-    strcpy(abs_path,pathname);
-    else
-    sprintf(abs_path,"%s/%s",cur->cur_path,pathname);
+    get_abs_path(pathname,abs_path);
 
-    int new_fd=alloc_fd();
-    int file_id=-1;
-      for(int i=0;i<nr_link;i++)
+    int inode=locate_file(abs_path);
+    int fd=alloc_fd();
+    if(inode==INT_MIN)
+    {
+      printf("No such file/directory\n");
+      return -1;
+    }
+    else if(inode<0)
+    {
+      inode=-inode;
+      if(flags&O_CREAT)//创建新文件
       {
-        if(link_table[i].valid&&strcmp(link_table[i].pathname,abs_path)==0)
-        {
-          file_id=link_table[i].id;
-          break;
-        }
+        struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
+        int new_node=make_dir_entry(T_FILE,dir);
+        ufs->dev->ops->write(ufs->dev,Entry(new_node),(char*)dir,sz(dir_entry));
+        
+        char name[32];
+        get_name(pathname,name);
+        struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
+        drt->inode=new_node;
+        strcpy(drt->name,name);
+        write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
+        ref_table[fd].id=new_node;
       }
-
-    if(file_id==-1)//没打开过需要读磁盘
-    {
-    int offset=locate_file_entry(abs_path);
-    if(offset<=0)
-    {
-      if(flags&O_CREAT)//创建,只允许在已存在的文件夹下创建
-        {
-          if(offset==0) 
-          {
-            printf("Trying to create file in an unexist directory\n");
-            return-1;}
-
-          offset=-offset;
-          char name_[256];
-          char pathname_[256];
-          char buf_[256];
-          strncpy(name_,pathname+lid,rid-lid);
-          strncpy(pathname_,pathname,lid);
-          struct sdir_entry* sdir=make_dir_entry(pathname_,name_,buf_);
-          sd->write(fs->dev,offset,_buf,(sdir->DIR_EntryNum+1)*sizeof(struct sdir_entry));
-          break;
-        }
+      else
+      {
+        printf("No such file/directory\n");
+        return -1;
+      }
     }
-    int new_id=alloc_file_id();
-      file_table[new_id].offset=offset;
-      file_table[new_id].id=new_id;
-      file_table[new_id].refct=1;
-      file_table[new_id].fs=ufs;
-      sem_init(&file_table[new_id].sem);
-      file_table[new_id].type=T_FILE;
-      file_table[new_id].size=sdir.DIR_FileSize;
-    int new link_id=alloc_link_id();
-      if(!link_table[new_link_id].pathname)
-        link_id[new_link_id].pathname=(char*)malloc(100);
-      strncpy(link_id[new_link_id].pathname,abs_path,strlen(abs_path));
-      link_table[link_id].id=new_id;
-    file_id=new_id;
+    else
+    {
+      ref_table[fd].id=inode;
     }
-      ref_table[new_fd].fd=new_fd;
-      ref_table[new_fd].flags=flags;
-      ref_table[new_fd].id=file_id;
-      ref_table[new_fd].thread_id=_cpu();
-      ref_table[new_fd].valid=1;
-    return new_fd;
+
+    ref_table[fd].fd=fd;
+    ref_table[fd].flags=flags;
+    ref_table[fd].thread_id=_cpu();
+    ref_table[fd].valid=1;
+  
+    return fd;
   }
 
   int ufs_lseek(int fd, int offset, int whence)
@@ -195,14 +194,14 @@ int get_abs_path(char *path,char* abs_path)
       printf("File not opened in this thread\n");
       return -1;
     }
-    int file_id=ref_table[fd].id;
-    if(!file_table[file_id].valid)
+    int node=ref_table[fd].id;
+    if(!file_table[node].valid)
     {
       printf("File not opened\n");
       return -1;
     }
-    int off=file_table[file_id].offset;
-    int end=file_table[file_id].size;
+    int off=file_table[node].offset;
+    int end=file_table[node].size;
     switch(whence)
     {
       case SEEK_SET:off=offset;break;
@@ -210,157 +209,115 @@ int get_abs_path(char *path,char* abs_path)
       case SEEK_END:off=end+offset;break;
       default:break;
     }
-    file_table[file_id].offset=off;
+    file_table[node].offset=off;
     return off;
   }
 
-  int ufs_link(const char* oldpath.const char* newpath)
-  {
-    int old_id=-1;//判断被链接的文件是否已经被链接过了
-    int new_id=-1;
-    char abs_oldpath[256];
-    char abs_newpath[256];
-    get_abs_path(oldpath,abs_oldpath);
-    get_abs_path(newpath,abs_newpath);
+  int ufs_link(const char* oldpath,const char* newpath)
+  {/*link改为直接在文件中创建一个文件，给它设定和oldpath相同的node
+  新增加的inode的linkid设置为oldpath的inode*/
+  char abs_newpath[256];
+  char abs_oldpath[256];
+  get_abs_path(newpath,abs_newpath);
+  get_abs_path(oldpath,abs_oldpath);
+  int old_inode=locate_file(abs_oldpath);
+    assert(old_inode>=0);
+  int pre_inode=locate_file(abs_newpath);
+    assert(pre_inode<0&&pre_inode>INT_MIN);
+    pre_inode=-pre_inode;
+  
+  int new_inode=alloc_inode();
+  file_table[new_inode].node=new_inode;
+  file_table[new_inode].link_id=old_inode;
+  file_table[new_inode].valid=1;
 
-    for(int i=0;i<nr_link;i++)
-    {
-      if(link_table[i].valid&&strcmp(abs_oldpath,link_table[i].path)==0)
-      {old_id=i;break;
-      }
-    }
-
-    new_id=alloc_link_id();
-    if(old_id==-1)
-    {
-      old_id=alloc_link_id();
-      if(!link_table[old_id].pathname)
-        link_table[old_id].pathname=(char*)kalloc_safe(256);
-      strcpy(link_table[old_id].pathname,abs_oldpath);
-      link_table[old_id].id=-1;
-      link_table[old_id].refct=2;
-      link_table[old_id].valid=1;
-    }
-    else
-    {
-      while(link_table[old_id].id!=-1)
-      {  old_id=link_table[old_id].id;
-      }
-      link_table[old_id].refct+=1;
-    }
-
-      if(!link_table[new_id].pathname)
-        link_table[new_id].pathname=(char*)kalloc_safe(256);
-      strcpy(link_table[new_id].pathname,abs_newpath);
-      link_table[new_id].id=old_id;
-      link_table[new_id].refct=-1;
-      link_table[new_id].valid=1;
-    return 0;
+  struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
+  make_dir_entry(T_FILE,dir);
+  ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));
+  
+  struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
+  drt->inode=new_inode;
+  char name[32];
+  get_name(abs_newpath,name);
+  strcpy(drt->name,name);
+  write_data(&file_table[pre_inode],file_table[pre_inode].size,(char*)drt,sz(ufs_dirent));
+  return 0;
   }
 
   int ufs_unlink(const char* pathname)
   {
     char abs_path[256];
     get_abs_path(pathname,abs_path);
-    int id=-1;
-    for(int i=0;i<nr_link;i++)
+    int inode=locate_file(abs_path);
+    assert(inode>=0);
+    file_table[inode].valid=0;
+    struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
+    if(file_table[inode].link_id!=-1)//指代被disable
     {
-      if(link_table[i].valid&&strcmp(abs_path,link_table[i].pathname)==0)
-      { id=i;break;
+      file_table[inode].valid=0;
+      ufs->dev->ops->read(ufs->dev,Entry(inode),dir,sz(dir_entry));
+      dir->DIR_Valid=0;
+      ufs->dev->ops->write(ufs->dev,Entry(inode),dir,sz(dir_entry)); 
+      
+      while(file_table[inode].link_id!=-1)
+      {inode=file_table[inode].link_id;
       }
     }
 
-    char real_path[256];
-    int is_delete=0;
-    if(id==-1)//两种可能:不存在该文件或者该文件未被链接过 
+    file_table[inode].refct-=1;//检查本体需不需要disable
+    if(file_table[inode].refct==0)
     {
-      strcpy(real_path,abs_path);
-      is_delete=1;         
+      ufs->dev->ops->read(ufs->dev,Entry(inode),dir,sz(dir_entry));
+      dir->DIR_Valid=0;
+      ufs->dev->ops->write(ufs->dev,Entry(inode),dir,sz(dir_entry)); 
     }
-    else
-    {
-      link_table[id].valid=0;
-      while(link_table[id].id!=-1)
-      { id=link_table[id].id;
-      }
-      link_table[id].refct-=1;
-      assert(link_table[id].refct>=0);
-      if(refct==0)
-        {
-          strcpy(real_path,link_table[id].pathname);
-          is_delete=1;
-        }
-    }
-
-    if(is_delete)
-    {
-      int entry=locate_file_entry(real_path);
-      if(entry<=0)
-      { printf("No such file\n");
-        return -1;
-      }
-      struct sdir_entry* sdir=(struct sdir_entry*)kalloc_safe(sizeof(struct sdir_entry));
-      sd_read(ufs->dev,entry,sdir,sizeof(struct sdir_entry));
-      sdir->valid=0;
-      char FREE[4];
-      *(int *)FREE=FAT_FREE;
-      int cid=sdir->DIR_FstClus;
-      int next_id=-1;
-      while(1)
-      {
-        sd_read(ufs->dev,Fat(cid),&next_id,4);
-        sd_write(ufs->dev,Fat(cid),&FREE,4);
-        if(next_id==FAT_EOF) break;
-        cid=next_id;
-      }
-    }
+    return 0;
   }
 
   int ufs_fstat(int fd,struct ufs_stat* buf)
   {
     if(ref_table[fd].valid)
     {
-      if(ref_table[fd].thread_id=_cpu())
+      if(ref_table[fd].thread_id==_cpu())
       { 
-      int file_id=ref_table[fd].id;
-      filesystem_t* fs=file_table[file_id].fs;
+      int inode=ref_table[fd].id;
+      filesystem_t* fs=file_table[inode].fs;
       assert(fs==ufs);
-      buf->id=file_table[file_id].id;
-      buf->type=file_table[file_id].type;
-      buf->size=file_table[file_id].size;
+      
+      buf->id=file_table[inode].node;
+      buf->type=file_table[inode].type;
+      buf->size=file_table[inode].size;
       return 0;
       }
     }
     return -1;
   }
   
-  //思考:文件夹不像文件一样需要inode进行记录，只要在磁盘中进行修改即可
+
   int ufs_mkdir(const char *pathname)
   {
     char abs_path[256];//该文件夹要被创建的路径
-    get_abs_path(path,abs_path);
-
-    char path_name[256];
-    char dir_name[256];//该文件夹名字
-    
-    int pos=-1;
-    for(int i=strlen(abs_path);i>=0;i--)
+    get_abs_path(pathname,abs_path);
+    int inode=locate_file((char*)pathname);
+    if(inode>=0)
     {
-      if(abs_path[i]=='/')
-      {
-        pos=i;
-        break;}
-    }
-    strncpy(path_name,abs_path,pos);
-    strncpy(dir_name,abs_path+pos+1,strlen(abs_path)-pos-1);
-    int offset=locate_file_entry(path_name);
-    if(offset<=0)
-    {
-      printf("Trying to create directory in an unexist directory\n");
+      printf("Directory exists\n");
       return -1;
     }
-    struct sdir_entry* sdir=(struct sdir_entry*)kalloc_safe(sizeof(struct sdir_entry));
-    char buf[256];
-    make_dir_entry(dir_name,buf);
-    write_data_ondisk(fs,offset,,size);
+    else
+    {
+      char name[32];
+      get_name(pathname,name);
+      struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
+      int new_inode=make_dir_entry(T_DIR,dir);
+      ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));
+
+      inode=-inode;
+      struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
+      strcpy(drt->name,name);
+      drt->inode=new_inode;
+      write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
+      return 0;
+    }
+    return 0;
   }

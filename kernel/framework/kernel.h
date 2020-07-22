@@ -39,12 +39,6 @@ MODULE(kmt) {
   void (*sem_signal)(sem_t *sem);
 };
 
-//<<<<<<< HEAD
-typedef struct device device_t;
-MODULE(dev) {
-  void (*init)();
-  device_t *(*lookup)(const char *name);
-//=======
 struct ufs_stat;
 MODULE(vfs) {
   void (*init)();
@@ -59,5 +53,10 @@ MODULE(vfs) {
   int (*mkdir)(const char *pathname);
   int (*chdir)(const char *path);
   int (*dup)(int fd);
-//>>>>>>> 073d9b5f8f6009feefa9020243f5e4ea65dd2ff6
+};
+
+typedef struct device device_t;
+MODULE(dev) {
+  void (*init)();
+  device_t *(*lookup)(const char *name);
 };

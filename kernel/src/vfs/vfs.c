@@ -1,15 +1,15 @@
+#include<common.h>
 #include<vfs.h>
-#include<klib.h>
-/*
-path like this/is/a/very/long/path
-*/
-
 //extensions
+
+int min(int a,int b){return a<b?a:b;}
+int max(int a,int b){return a>b?a:b;}
+
 void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是一个可以直接访问的目录
 {
   for(int i=0;i<nr_mnt;i++)
   {
-    if(mount_table[i].valid&&strcmp(path,mount_table[i].mount_table)==0) 
+    if(mount_table[i].valid&&strcmp(path,mount_table[i].path)==0) 
       assert(0);
   }
   int next=-1;
@@ -52,41 +52,16 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
   return ufs;
 }
 
-int alloc_file_id()
-{
-for(int i=0;i<nr_file;i++)
-{ if(!file_table[i].valid)
-  {
-    file_table[i].valid=1;
-    file_table[i].id=i;
-    return i;
-  }
-}
-return -1;
-}
-
-int alloc_link_id()
-{
-for(int i=0;i<nr_link;i++)
-{ if(!link_table[i].valid)
-  {
-    link_table[i].valid=1;
-    return i;
-  }
-}
-return -1;
-}
-
 int alloc_fd()
 {
-for(int i=0;i<nr_ref;i++)
-{ if(!ref_table[i].valid)
-  {
-    ref_table[fd].fd=i;
-    ref_table[i].valid=1;
-    return i;
+  for(int i=0;i<nr_ref;i++)
+  { if(!ref_table[i].valid)
+    {
+      ref_table[i].fd=i;
+      ref_table[i].valid=1;
+      return i;
+    }
   }
-}
 return -1;
 }
 
@@ -96,16 +71,20 @@ return -1;
     ufs=(filesystem_t*)kalloc_safe(sizeof(filesystem_t));
     procfs=(filesystem_t*)kalloc_safe(sizeof(filesystem_t));
     devfs=(filesystem_t*)kalloc_safe(sizeof(filesystem_t));
-    ufs->dev=dev_lookup("sda");
-    procfs->dev=dev_lookup("sda");
-    devfs->dev=dev_lookup("sda");
+    ufs->dev=dev->lookup("sda");
+    procfs->dev=dev->lookup("sda");
+    devfs->dev=dev->lookup("sda");
 
     vfs_mount("/",ufs);
     vfs_mount("/proc",procfs);
     vfs_mount("/dev",devfs);
 
-    for(int i=0;i<nr_file;i++)
-    ref_table[i].valid=link_table[i].valid=file_table[i].valid=0;
+    ufs->ops->init();
+    procfs->ops->init();
+    devfs->ops->init();
+    #ifdef _VFS_DEBUG
+      #include "workload.inc";
+    #endif
   }
    
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd
@@ -113,7 +92,7 @@ return -1;
   {
     if(ref_table[fd].valid)
     {
-      if(ref_table[fd].thread_id=_cpu())
+      if(ref_table[fd].thread_id==_cpu())
       { 
       int file_id=ref_table[fd].id;
       filesystem_t* fs=file_table[file_id].fs;
@@ -127,7 +106,7 @@ return -1;
   {
     if(ref_table[fd].valid)
     {
-      if(ref_table[fd].thread_id=_cpu())
+      if(ref_table[fd].thread_id==_cpu())
       { 
       int file_id=ref_table[fd].id;
       filesystem_t* fs=file_table[file_id].fs;
@@ -141,7 +120,7 @@ return -1;
   {    
     if(ref_table[fd].valid)
     {
-      if(ref_table[fd].thread_id=_cpu())
+      if(ref_table[fd].thread_id==_cpu())
       { 
       int file_id=ref_table[fd].id;
       filesystem_t* fs=file_table[file_id].fs;
@@ -162,7 +141,7 @@ return -1;
   {
     if(ref_table[fd].valid)
     {
-      if(ref_table[fd].thread_id=_cpu())
+      if(ref_table[fd].thread_id==_cpu())
       { 
       int file_id=ref_table[fd].id;
       filesystem_t* fs=file_table[file_id].fs;
@@ -217,7 +196,8 @@ return -1;
     return new_id;
   }
 
-MODULE_DEF(vfs) {
+
+MODULE_DEF(vfs) = {
   .init=vfs_init,
   .write=vfs_write,
   .read=vfs_read,

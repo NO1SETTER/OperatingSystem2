@@ -65,10 +65,25 @@ int alloc_fd()
 return -1;
 }
 
+//希望做的是通过管理inode直接管理文件号的分配，并且同步到磁盘中的文件系统中去
+int inode_set[10000];//记录小于max_inode可用的inode
+int max_inode=-1;
+int nr_inode=0;
+void push_inode(int x){inode_set[nr_inode++]=x;}
+int pop_inode(){return inode_set[--nr_inode];}
 int alloc_inode()
 {
-  return 0;
+  if(max_inode==-1) max_inode=exist_files;
+  assert(nr_inode>=0);
+  int ret=-1;
+  if(nr_inode) ret=pop_inode();
+  else ret=max_inode;
+  while(file_table[ret].valid)
+  {ret=ret+1;}
+  max_inode=ret+1;
+  return ret;
 }
+
 //standard realizations
   void vfs_init()
   {

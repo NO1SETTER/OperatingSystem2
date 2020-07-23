@@ -157,16 +157,19 @@ int get_name(const char* path,char* name)
       if(flags&O_CREAT)//创建新文件
       {
         struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-        int new_node=make_dir_entry(T_FILE,dir);
-        ufs->dev->ops->write(ufs->dev,Entry(new_node),(char*)dir,sz(dir_entry));
+        int new_inode=make_dir_entry(T_FILE,dir);
+        ufs->dev->ops->write(ufs->dev,Entry(new_inode),(char*)dir,sz(dir_entry));
         
         char name[32];
         get_name(pathname,name);
         struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
-        drt->inode=new_node;
+        drt->inode=new_inode;
         strcpy(drt->name,name);
         write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
-        ref_table[fd].id=new_node;
+        ref_table[fd].id=new_inode;
+        file_table[new_inode].node=new_inode;
+        file_table[new_inode].link_id=-1;
+        file_table[new_inode].valid=1;
       }
       else
       {
@@ -233,12 +236,11 @@ int get_name(const char* path,char* name)
   file_table[new_inode].node=new_inode;
   file_table[new_inode].link_id=old_inode;
   file_table[new_inode].valid=1;
-
-  struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
-  drt->inode=new_inode;
   char name[32];
   get_name(abs_newpath,name);
+  struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
   strcpy(drt->name,name);
+  drt->inode=new_inode;
   write_data(&file_table[pre_inode],file_table[pre_inode].size,(char*)drt,sz(ufs_dirent));
   return 0;
   }
@@ -305,13 +307,13 @@ int get_name(const char* path,char* name)
     }
     else
     {
-      char name[32];
-      get_name(pathname,name);
       struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
       int new_inode=make_dir_entry(T_DIR,dir);
       ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));
 
       inode=-inode;
+      char name[32];
+      get_name(pathname,name);
       struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
       strcpy(drt->name,name);
       drt->inode=new_inode;

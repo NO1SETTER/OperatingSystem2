@@ -1,8 +1,17 @@
 #include<stdint.h>
 #include<mkfs.h>
+
+int cluster_set[10000];//记录小于max_cluster可用的cluster
+int start_cluster=(DATA_START-FS_START)/ClusterSize;
+int max_cluster=(DATA_START-FS_START)/ClusterSize;
+int nr_cluster=0;
+void push_cluster(int x) {cluster_set[nr_cluster++]=x;}
+int pop_cluster() {return cluster_set[--nr_cluster];}
 int alloc_cluster()
 {
-    return 0;
+    assert(nr_cluster>=0);
+    if(nr_cluster) return pop_cluster();
+    return max_cluster;
 }
 
 
@@ -11,8 +20,8 @@ int make_dir_entry(int type,struct dir_entry* dir)//type指示文件/目录,attr
   uint32_t cid=alloc_cluster();//最小未用块的id
   char EOF[4];
   *(int*)EOF=FAT_EOF;
+  ufs->dev->ops->write(ufs->dev,Fat(cid),EOF,4);
   int inode=alloc_inode();//由于新inode的建立必定伴随着新entry的建立,新inode的申请均在此中进行
-  ufs->dev->ops->write(ufs->dev,Fat(cid),&EOF,4);
   dir->DIR_Valid=1;
   dir->DIR_FileType=type;
   dir->DIR_RefCt=1;//初始时RefCt均为1

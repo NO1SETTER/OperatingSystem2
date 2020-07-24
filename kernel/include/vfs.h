@@ -47,8 +47,7 @@ struct fsops
 //open时,建立一个inode节点,此后关于文件信息的修改只在inode上完成，只在close时把信息回写到磁盘中
 struct inode
 {
-  int entry;//entry偏移量
-  int node;//node的计数
+  int node;//node的计数,根据node可以直接确定entry的偏移量为Entry(node)
   int refct;//引用计数
   int offset;//指针偏移
 

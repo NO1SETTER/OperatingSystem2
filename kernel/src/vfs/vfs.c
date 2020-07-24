@@ -10,7 +10,10 @@ void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是�
   for(int i=0;i<nr_mnt;i++)
   {
     if(mount_table[i].valid&&strcmp(path,mount_table[i].path)==0) 
-      assert(0);
+      {
+        printf("This filesystem has been mounted\n");
+        assert(0);
+      }
   }
   int next=-1;
   for(int i=0;i<nr_mnt;i++)
@@ -113,8 +116,8 @@ int alloc_inode()
     {
       if(ref_table[fd].thread_id==_cpu())
       { 
-      int file_id=ref_table[fd].id;
-      filesystem_t* fs=file_table[file_id].fs;
+      int inode=ref_table[fd].id;
+      filesystem_t* fs=file_table[inode].fs;
       return fs->ops->write(fd,buf,count);
       }
     }
@@ -188,7 +191,12 @@ int alloc_inode()
   
   int vfs_fstat(int fd, struct ufs_stat *buf)
   {
-    return ufs->ops->fstat(fd,buf);
+    if(ref_table[fd].valid)
+    {
+      if(ref_table[fd].thread_id==_cpu())
+        return ufs->ops->fstat(fd,buf);
+    }
+    return -1;
   }
 
   int vfs_mkdir(const char *pathname)

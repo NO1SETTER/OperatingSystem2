@@ -1,18 +1,18 @@
 #include<mkfs.h>
 #include<user.h>
 //extensions
-int exist_files=0;
+
 int locate_file(char* path_name)//默认传进来的都是绝对路径
-{//如果找到了则返回inode,没找到返回上一级inode的负值,上一级inode也没找到则返回INT_MIN
+{//如果找到了则返回inode,没找到返回上一级inode的负值,上一级inode也没找到则不允许创建返回INT_MIN,
   assert(path_name[0]=='/');
-  inode_t* now_node=&file_table[0];
+  inode_t* now_node=&file_table[0];//根目录的inode
   int next_node=-1;
   int len=strlen(path_name);
   int lid=1,rid=1;
-  char cur_name[32];
+  char cur_name[32];//当前检索到的文件夹
   for(int i=1;i<=len;i++)
   {
-    if(path_name[i]!='/'&&i!=len) continue;
+    if(path_name[i]!='/'&&i!=len) continue;//i==len时代表访问到末尾,单独访问
     rid=i;
     strncpy(cur_name,path_name+lid,rid-lid);
     struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
@@ -29,7 +29,7 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径
     }
     if(next_node==-1)
     {
-      if(i==len) return now_node->node;
+      if(i==len) return -now_node->node;
       return INT_MIN;
     }
     now_node=&file_table[next_node];
@@ -61,14 +61,14 @@ int get_name(const char* path,char* name)
   return 0;
 }
 //standard realizations
+  int exist_files=0;
   int ufs_init()
   {
     ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&exist_files,4);
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-    for(int i=0;i<exist_files;i++)
+    for(int i=0;i<exist_files;i++)//初始inode的加载在这里完成
     {
     ufs->dev->ops->read(ufs->dev,Entry(i),dir,sz(dir_entry));
-    file_table[i].entry=Entry(i);
     file_table[i].node=i;
     file_table[i].refct=1;
     file_table[i].offset=0;
@@ -78,19 +78,16 @@ int get_name(const char* path,char* name)
     file_table[i].type=dir->DIR_FileType;
     file_table[i].size=dir->DIR_FileSize;
     file_table[i].valid=1;
+    file_table[i].type=T_FILE;
+    file_table[i].size=0;
     }
     return 0;
   }
 
   int ufs_write(int fd, void *buf, int count)
-  {
-    if(ref_table[fd].thread_id!=_cpu()||!ref_table[fd].valid)
-    {
-      printf("File not opened in this thread\n");
-      return -1;
-    }
+  { //检查已经在vfs层完成了
     int inode=ref_table[fd].id;
-    if(!file_table[inode].valid)
+    if(file_table[inode].refct==0)//refct才表明本体状态,valid不表明
     {
       printf("File not opened\n");
       return -1;
@@ -101,13 +98,8 @@ int get_name(const char* path,char* name)
 
   int ufs_read(int fd, void *buf, int count)
   {
-    if(ref_table[fd].thread_id!=_cpu()||!ref_table[fd].valid)
-    {
-      printf("File not opened in this thread\n");
-      return -1;
-    }
     int inode=ref_table[fd].id;
-    if(!file_table[inode].valid)
+    if(file_table[inode].refct==0)
     {
       printf("File not opened\n");
       return -1;
@@ -118,24 +110,19 @@ int get_name(const char* path,char* name)
 
   int ufs_close(int fd)//只是使该文件描述符无效，不直接使得inode无效
   {
-    if(ref_table[fd].thread_id!=_cpu()||!ref_table[fd].valid)
-    {
-      printf("File not opened in this thread\n");
-      return -1;
-    }
-
     int inode=ref_table[fd].id;
-    if(!file_table[inode].valid)
+    if(file_table[inode].refct==0)
     {
       printf("File not opened\n");
       return -1;
     }
-
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     ufs->dev->ops->read(ufs->dev,Entry(inode),dir,sz(dir_entry));
     dir->DIR_RefCt=file_table[inode].refct;
     dir->DIR_FileSize=file_table[inode].size;
     ufs->dev->ops->write(ufs->dev,Entry(inode),dir,sz(dir_entry));
+    
+    ref_table[fd].valid=0;
     return 0;
   }
 
@@ -168,8 +155,16 @@ int get_name(const char* path,char* name)
         write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
         ref_table[fd].id=new_inode;
         file_table[new_inode].node=new_inode;
+        file_table[new_inode].refct=1;
+        file_table[new_inode].offset=0;
         file_table[new_inode].link_id=-1;
+        file_table[new_inode].fs=ufs;
         file_table[new_inode].valid=1;
+        file_table[new_inode].type=T_DIR;
+        file_table[new_inode].size=0;
+        char sem_name[32];
+        sprintf(sem_name,"semlock_file_%d",new_inode);
+        sem_init(&file_table[new_inode].sem,sem_name,1);
       }
       else
       {
@@ -192,11 +187,6 @@ int get_name(const char* path,char* name)
 
   int ufs_lseek(int fd, int offset, int whence)
   {
-    if(ref_table[fd].thread_id!=_cpu()||!ref_table[fd].valid)
-    {
-      printf("File not opened in this thread\n");
-      return -1;
-    }
     int node=ref_table[fd].id;
     if(!file_table[node].valid)
     {
@@ -277,10 +267,7 @@ int get_name(const char* path,char* name)
 
   int ufs_fstat(int fd,struct ufs_stat* buf)
   {
-    if(ref_table[fd].valid)
-    {
-      if(ref_table[fd].thread_id==_cpu())
-      { 
+    
       int inode=ref_table[fd].id;
       filesystem_t* fs=file_table[inode].fs;
       assert(fs==ufs);
@@ -289,9 +276,6 @@ int get_name(const char* path,char* name)
       buf->type=file_table[inode].type;
       buf->size=file_table[inode].size;
       return 0;
-      }
-    }
-    return -1;
   }
   
 

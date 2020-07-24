@@ -88,6 +88,7 @@ int alloc_inode()
 }
 
 //standard realizations
+#define _VFS_DEBUG
   void vfs_init()
   {
     ufs=(filesystem_t*)kalloc_safe(sizeof(filesystem_t));
@@ -105,7 +106,7 @@ int alloc_inode()
     procfs->ops->init();
     devfs->ops->init();
     #ifdef _VFS_DEBUG
-      #include "workload.inc";
+      #include "workload.inc"
     #endif
   }
    

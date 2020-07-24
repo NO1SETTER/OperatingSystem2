@@ -1,4 +1,5 @@
 #include<devices.h>
+#include<user.h>
 #pragma once
 #define sz(x) sizeof(struct x)
 int min(int a,int b);

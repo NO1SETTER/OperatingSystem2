@@ -1,5 +1,4 @@
 #include<mkfs.h>
-#include<user.h>
 //extensions
 
 int locate_file(char* path_name)//默认传进来的都是绝对路径

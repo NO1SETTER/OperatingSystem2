@@ -12,6 +12,7 @@ static void os_init() {
     kmt->create(task_alloc(), "tty_reader", tty_reader, "tty1");
     kmt->create(task_alloc(), "tty_reader", tty_reader, "tty2");
   #endif
+  vfs->init();
 }
 
 extern void check_allocblock(void *ptr);

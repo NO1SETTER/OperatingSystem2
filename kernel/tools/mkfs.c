@@ -111,11 +111,11 @@ int main(int argc,char* argv[]){
   int pt;
   if((pt=lseek(fd,0,SEEK_END))<FS_START)
   {
-    printf("size %d\n",pt);
     recursive_mkfs(argv[3],start_node,0);
     fh->BS_ExistFiles=inode_ct;
      printf("%d files in total\n",inode_ct);
   }
+  printf("size %d\n",pt);
   munmap(disk, IMG_SIZE);
   close(fd);
 }

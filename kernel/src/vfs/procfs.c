@@ -26,10 +26,25 @@ int valid;
 
 struct proc_inode* proc_table[10000]; 
 
-int nr_proc;
-int alloc_proc_inode()
+int nr_proc=0;
+int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不用管data_block的分配
 {
-    return 1;}
+  int ret=-1;
+  for(int i=0;i<nr_proc;i++)
+  {
+    if(proc_table[i]==NULL||(proc_table[i]&&!proc_table[i]->valid))
+    {ret=i;break;}
+  }
+  if(ret==-1)
+  {
+    while(proc_table[nr_proc]&&proc_table[nr_proc]->valid)
+    nr_proc=nr_proc+1;
+  }
+  ret=nr_proc;
+  if(!proc_table[ret]) proc_table[ret]=(struct proc_inode*)kalloc_safe(sz(proc_inode));
+  proc_table[ret]->valid=1;
+  return ret;
+}
 
 int get_proc_type(char* pathname)
 {

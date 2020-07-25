@@ -60,29 +60,6 @@ int get_name(const char* path,char* name)
   return 0;
 }
 //standard realizations
-  int exist_files=0;
-  int ufs_init()
-  {
-    ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&exist_files,4);
-    struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-    for(int i=0;i<exist_files;i++)//初始inode的加载在这里完成
-    {
-    ufs->dev->ops->read(ufs->dev,Entry(i),dir,sz(dir_entry));
-    file_table[i].node=i;
-    file_table[i].refct=1;
-    file_table[i].offset=0;
-    char sem_name[32];
-    sprintf(sem_name,"semlock_file_%d",i);
-    sem_init(&file_table[i].sem,sem_name,1);
-    file_table[i].type=dir->DIR_FileType;
-    file_table[i].size=dir->DIR_FileSize;
-    file_table[i].valid=1;
-    file_table[i].type=T_FILE;
-    file_table[i].size=0;
-    }
-    return 0;
-  }
-
   int ufs_write(int fd, void *buf, int count)
   { //检查已经在vfs层完成了
     int inode=ref_table[fd].id;
@@ -304,4 +281,40 @@ int get_name(const char* path,char* name)
       return 0;
     }
     return 0;
+  }
+
+  int exist_files=0;
+  filesystem_t* ufs_init()
+  {
+    ufs=(filesystem_t*)kalloc_safe(sz(filesystem));
+    ufs->dev=dev->lookup("sda");
+    ufs->ops->init=ufs_init;
+    ufs->ops->write=ufs_write;
+    ufs->ops->read=ufs_read;
+    ufs->ops->close=ufs_close;
+    ufs->ops->open=ufs_open;
+    ufs->ops->lseek=ufs_lseek;
+    ufs->ops->link=ufs_link;
+    ufs->ops->unlink=ufs_unlink;
+    ufs->ops->fstat=ufs_fstat;
+    ufs->ops->mkdir=ufs_mkdir;
+
+    ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&exist_files,4);
+    struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
+    for(int i=0;i<exist_files;i++)//初始inode的加载在这里完成
+    {
+    ufs->dev->ops->read(ufs->dev,Entry(i),dir,sz(dir_entry));
+    file_table[i].node=i;
+    file_table[i].refct=1;
+    file_table[i].offset=0;
+    char sem_name[32];
+    sprintf(sem_name,"semlock_file_%d",i);
+    sem_init(&file_table[i].sem,sem_name,1);
+    file_table[i].type=dir->DIR_FileType;
+    file_table[i].size=dir->DIR_FileSize;
+    file_table[i].valid=1;
+    file_table[i].type=T_FILE;
+    file_table[i].size=0;
+    }
+    return ufs;
   }

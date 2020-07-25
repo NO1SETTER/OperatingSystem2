@@ -89,18 +89,15 @@ int alloc_inode()
 
 //standard realizations
 #define _VFS_DEBUG
+extern filesystem_t* ufs_init();
+extern filesystem_t* procfs_init();
+extern filesystem_t* devfs_init();
+
   void vfs_init()
   {
-    ufs=(filesystem_t*)kalloc_safe(sizeof(filesystem_t));
-    procfs=(filesystem_t*)kalloc_safe(sizeof(filesystem_t));
-    devfs=(filesystem_t*)kalloc_safe(sizeof(filesystem_t));
-    ufs->dev=dev->lookup("sda");
-    procfs->dev=dev->lookup("sda");
-    devfs->dev=dev->lookup("sda");
-
-    vfs_mount("/",ufs);
-    vfs_mount("/proc",procfs);
-    vfs_mount("/dev",devfs);
+    vfs_mount("/",ufs_init());
+    vfs_mount("/proc",procfs_init());
+    vfs_mount("/dev",devfs_init());
 
     ufs->ops->init();
     procfs->ops->init();

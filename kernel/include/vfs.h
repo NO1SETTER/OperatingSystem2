@@ -6,15 +6,6 @@ int min(int a,int b);
 int max(int a,int b);
 //以上是mkfs中的实现
 /*
-架构
-
-     |
-     | ufs
-     |
-vfs->| devfs
-     |
-     | procfs
-     |
 vfs和ufs/devfs/procfs具有相同的API,对于某个文件,我们用vfsAPI进行操作，事实上是确定它所属的文件系统后
 转化成用该文件的API进行操作
 */
@@ -31,7 +22,7 @@ device_t* dev;
 
 struct fsops
 {
-  int (*init)();
+  filesystem_t* (*init)();
   int (*write)(int fd, void *buf, int count);
   int (*read)(int fd, void *buf, int count);
   int (*close)(int fd);
@@ -93,8 +84,11 @@ typedef struct refitem
   int valid;
 }ref_t;
 ref_t ref_table[1000];//设定:fd即为下标
+/*ref_table为所有文件系统共用，id指向该文件系统的实体管理数组
+file_table为ufs专有,proc_table为procfs专有*/
 
 int alloc_inode();//分配一个持久存在的inode唯一始终指向某一个文件
+int alloc_proc_inode();
 int alloc_fd();//分配一个最小未用fd,也就是我们想实现的alloc_ref_id
 
 filesystem_t* ufs;

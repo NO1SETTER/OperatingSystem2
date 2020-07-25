@@ -108,14 +108,9 @@ int main(int argc,char* argv[]){
   assert(start_node==0);
   lseek(fd,Entry(start_node),SEEK_SET);
   assert(write(fd,buf,sizeof(struct dir_entry))!=-1);
-  int pt;
-  if((pt=lseek(fd,0,SEEK_END))<FS_START)
-  {
-    recursive_mkfs(argv[3],start_node,0);
-    fh->BS_ExistFiles=inode_ct;
-     printf("%d files in total\n",inode_ct);
-  }
-  printf("size %d\n",pt);
+  recursive_mkfs(argv[3],start_node,0);
+  fh->BS_ExistFiles=inode_ct;
+  printf("%d files in total\n",inode_ct);
   munmap(disk, IMG_SIZE);
   close(fd);
 }

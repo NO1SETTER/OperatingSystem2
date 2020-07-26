@@ -173,6 +173,7 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
   {return -1;
   }
 
+extern int ufs_mkdir(const char* pathname);
   filesystem_t* procfs_init()
   {
     procfs=(filesystem_t*)kalloc_safe(sz(filesystem));
@@ -185,7 +186,9 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
     procfs->ops->link=procfs_link;
     procfs->ops->unlink=procfs_unlink;
     procfs->ops->fstat=procfs_fstat;
+      printf("6%p %p\n",(void*)ufs_mkdir,(void*)ufs->ops->mkdir);
     procfs->ops->mkdir=procfs_mkdir;
+      printf("5%p %p\n",(void*)ufs_mkdir,(void*)ufs->ops->mkdir);
     return procfs;
   }
   //extra

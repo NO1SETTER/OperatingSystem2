@@ -269,11 +269,11 @@ int get_name(const char* path,char* name)
     }
     else
     {
-          assert(0);
+        
       struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
       int new_inode=make_dir_entry(T_DIR,dir);
       ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));
-
+        assert(0);
       inode=-inode;
       char name[32];
       get_name(pathname,name);

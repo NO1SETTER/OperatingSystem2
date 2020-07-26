@@ -314,6 +314,8 @@ int get_name(const char* path,char* name)
     file_table[i].node=i;
     file_table[i].refct=dir->DIR_RefCt;
     file_table[i].offset=0;
+    file_table[i].link_id=-1;
+    file_table[i].fs=ufs;
     char sem_name[32];
     sprintf(sem_name,"semlock_file_%d",i);
     sem_init(&file_table[i].sem,sem_name,1);

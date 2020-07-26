@@ -105,6 +105,7 @@ extern   int ufs_mkdir(const char *pathname);
     printf("3%p %p\n",(void*)ufs_mkdir,(void*)ufs->ops->mkdir);
     vfs_mount("/dev",devfs_init());
     printf("4%p %p\n",(void*)ufs_mkdir,(void*)ufs->ops->mkdir);
+    printf("777 %p %p %p\n",(void*)ufs->ops,(void*)procfs->ops,(void*)devfs->ops);
   }
    
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd

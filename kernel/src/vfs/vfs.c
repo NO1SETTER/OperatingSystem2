@@ -116,11 +116,6 @@ extern filesystem_t* devfs_init();
     ufs->ops->init();
     procfs->ops->init();
     devfs->ops->init();
-
-    char buf[64]="IWANTODIE";
-    ufs->dev->ops->write(ufs->dev,0x20000,buf,64);
-    //xxd((const char*)buf,64);
-    assert(0);
   }
    
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd

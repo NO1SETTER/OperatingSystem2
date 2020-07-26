@@ -105,7 +105,6 @@ int main(int argc,char* argv[]){
   fat_init();
   char buf[256];//Entry(0)写入的是根目录
   int start_node=make_dir_entry(T_DIR,buf);
-  assert(start_node==0);
   lseek(fd,Entry(start_node),SEEK_SET);
   assert(write(fd,buf,sizeof(struct dir_entry))!=-1);
   recursive_mkfs(argv[3],start_node,0);

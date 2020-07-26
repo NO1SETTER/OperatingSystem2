@@ -92,16 +92,6 @@ void vfs_test()
   #include "workload.inc"
 }
 
-void xxd(const char *str,int n)
-{
-  printf("xxd:");
-  for(int i=0;i<n;i++)
-  {
-    if(i%16==0) printf("\n");
-    printf("%x ",str[i]);
-  }
-  printf("\n");
-}
 //standard realizations
 extern filesystem_t* ufs_init();
 extern filesystem_t* procfs_init();
@@ -112,10 +102,6 @@ extern filesystem_t* devfs_init();
     vfs_mount("/",ufs_init());
     vfs_mount("/proc",procfs_init());
     vfs_mount("/dev",devfs_init());
-
-    ufs->ops->init();
-    procfs->ops->init();
-    devfs->ops->init();
   }
    
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd

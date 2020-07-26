@@ -106,7 +106,6 @@ struct dev_inode dev_table[3];//直接分配好
   {
     devfs=(filesystem_t*)kalloc_safe(sz(filesystem));
     strcpy(devfs->name,"devfs");
-    devfs->ops->init=devfs_init;
     devfs->ops->write=devfs_write;
     devfs->ops->read=devfs_read;
     devfs->ops->close=devfs_close;

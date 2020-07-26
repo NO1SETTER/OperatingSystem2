@@ -312,7 +312,7 @@ int get_name(const char* path,char* name)
     {
     ufs->dev->ops->read(ufs->dev,Entry(i),dir,sz(dir_entry));
     file_table[i].node=i;
-    file_table[i].refct=1;
+    file_table[i].refct=dir->DIR_RefCt;
     file_table[i].offset=0;
     char sem_name[32];
     sprintf(sem_name,"semlock_file_%d",i);
@@ -320,8 +320,6 @@ int get_name(const char* path,char* name)
     file_table[i].type=dir->DIR_FileType;
     file_table[i].size=dir->DIR_FileSize;
     file_table[i].valid=1;
-    file_table[i].type=T_FILE;
-    file_table[i].size=0;
     }
     return ufs;
   }

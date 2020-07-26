@@ -1,7 +1,6 @@
 #include <devices.h>
 
 static int sd_init(device_t *dev) {
-  assert(0);
   sd_t *sd = dev->ptr;
   _DEV_STORAGE_INFO_t info;
   if (_io_read(_DEV_STORAGE, _DEVREG_STORAGE_INFO, &info, sizeof(info)) <= 0) {
@@ -47,6 +46,7 @@ static ssize_t sd_read(device_t *dev, off_t offset, void *buf, size_t count) {
 }
 
 static ssize_t sd_write(device_t *dev, off_t offset, const void *buf, size_t count) {
+  assert(0);
   sd_t *sd = dev->ptr;
   panic_on(!sd, "no disk");
   uint32_t pos = 0;

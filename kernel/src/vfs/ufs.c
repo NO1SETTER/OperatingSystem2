@@ -3,6 +3,7 @@
 
 int locate_file(char* path_name)//默认传进来的都是绝对路径
 {//如果找到了则返回inode,没找到返回上一级inode的负值,上一级inode也没找到则不允许创建返回INT_MIN,
+  assert(0);
   assert(path_name[0]=='/');
   inode_t* now_node=&file_table[1];//根目录的inode
   int next_node=-1;

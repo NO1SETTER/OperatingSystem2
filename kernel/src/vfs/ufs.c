@@ -257,7 +257,6 @@ int get_name(const char* path,char* name)
 
   int ufs_mkdir(const char *pathname)
   {
-    assert(0);
     char abs_path[256];//该文件夹要被创建的路径
     get_abs_path(pathname,abs_path);
     int inode=locate_file((char*)pathname);
@@ -282,6 +281,7 @@ int get_name(const char* path,char* name)
       write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
       return 0;
     }
+    assert(0);
     return 0;
   }
 

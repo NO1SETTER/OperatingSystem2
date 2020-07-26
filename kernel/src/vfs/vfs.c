@@ -231,7 +231,7 @@ extern filesystem_t* devfs_init();
 
   int vfs_chdir(const char *path)
   {
-    printf("change current dir of thread:%d to %s",cur->id,path);
+    printf("change current dir of thread:%d to %s\n",cur->id,path);
     strcpy(cur->cur_path,path);
     return 0;
   }

@@ -87,8 +87,12 @@ int alloc_inode()
   return ret;
 }
 
+void vfs_test()
+{
+  #include "workload.inc"
+}
+
 //standard realizations
-#define _VFS_DEBUG
 extern filesystem_t* ufs_init();
 extern filesystem_t* procfs_init();
 extern filesystem_t* devfs_init();
@@ -102,9 +106,6 @@ extern filesystem_t* devfs_init();
     ufs->ops->init();
     procfs->ops->init();
     devfs->ops->init();
-    #ifdef _VFS_DEBUG
-      #include "workload.inc"
-    #endif
   }
    
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd

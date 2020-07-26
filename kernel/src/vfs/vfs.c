@@ -117,9 +117,9 @@ extern filesystem_t* devfs_init();
     procfs->ops->init();
     devfs->ops->init();
 
-    char buf[64];
-    ufs->dev->ops->read(ufs->dev,0x20000,buf,64);
-    xxd((const char*)buf,64);
+    char buf[64]="IWANTODIE";
+    ufs->dev->ops->write(ufs->dev,0x20000,buf,64);
+    //xxd((const char*)buf,64);
     assert(0);
   }
    

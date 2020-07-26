@@ -107,7 +107,7 @@ extern filesystem_t* devfs_init();
     procfs->ops->init();
     devfs->ops->init();
 
-    char buf[64]="nmsl.nmsl.nmsl/nmslnmslnmslsnmsl";
+    char buf[64]="IWantToAffirmThis";
     ufs->dev->ops->write(ufs->dev,0x200000,buf,64);
     assert(0);
   }

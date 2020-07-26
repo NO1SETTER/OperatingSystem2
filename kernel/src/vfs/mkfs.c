@@ -79,7 +79,8 @@ int write_data(inode_t* node,int offset,char* buf,int size)
 
 int read_data(inode_t* node,int offset,char* buf,int size)
 {
-    printf("read from file:%d,its current size is:%d\nread_bytes:%d\n",node->node,node->size,size);
+    printf("read from file:%d,its current size is:%d\n",node->node,node->size);
+    printf("read %d bytes from offset:%d\n",size,offset);
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     filesystem_t *fs=node->fs;
     fs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));

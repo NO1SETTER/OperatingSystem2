@@ -272,6 +272,7 @@ int get_name(const char* path,char* name)
         
       struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
       int new_inode=make_dir_entry(T_DIR,dir);
+      printf("new_inode=%d\n",new_inode);
       ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));
       
       inode=-inode;
@@ -280,12 +281,10 @@ int get_name(const char* path,char* name)
       struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
       strcpy(drt->name,name);
       drt->inode=new_inode;
-        assert(0);
       write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
       assert(0);
       return 0;
     }
-    assert(0);
     return -1;
   }
 

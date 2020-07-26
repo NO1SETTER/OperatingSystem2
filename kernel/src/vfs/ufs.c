@@ -279,10 +279,11 @@ int get_name(const char* path,char* name)
       strcpy(drt->name,name);
       drt->inode=new_inode;
       write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
+       assert(0);
       return 0;
     }
-    assert(0);
-    return 0;
+   
+    return -1;
   }
 
   int exist_files=0;

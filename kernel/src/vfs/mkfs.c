@@ -38,7 +38,6 @@ int write_data(inode_t* node,int offset,char* buf,int size)
     printf("write to file:%d,its current size is:%d\nwrite_bytes:%d\n",node->node,node->size,size);
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     filesystem_t *fs=node->fs;
-    assert(fs==ufs);
     fs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));
     if(offset>dir->DIR_FileSize)
     {
@@ -83,13 +82,14 @@ int read_data(inode_t* node,int offset,char* buf,int size)
     printf("read from file:%d,its current size is:%d\nread_bytes:%d\n",node->node,node->size,size);
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     filesystem_t *fs=node->fs;
-    fs->dev->ops->read(fs->dev,offset,&dir,sz(dir_entry));
+    fs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));
     if(offset+size>dir->DIR_FileSize)
     {
         printf("Read overflow\n");
         return -1;
     }
     int cid = dir->DIR_FstClus;
+
     while(offset>ClusterSize)
     {
         fs->dev->ops->read(fs->dev,Fat(cid),&cid,4);

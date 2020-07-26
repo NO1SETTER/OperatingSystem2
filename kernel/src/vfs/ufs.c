@@ -302,7 +302,7 @@ int get_name(const char* path,char* name)
 
     ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&exist_files,4);
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-    for(int i=0;i<exist_files;i++)//初始inode的加载在这里完成
+    for(int i=1;i<=exist_files;i++)//初始inode的加载在这里完成,文件从1开始,因为0无法区分locate_file的结果
     {
     ufs->dev->ops->read(ufs->dev,Entry(i),dir,sz(dir_entry));
     file_table[i].node=i;

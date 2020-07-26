@@ -38,7 +38,7 @@ int fd;
 void* disk;
 int IMG_SIZE;
 int BASE_SIZE;
-int inode_ct=0;
+int inode_ct=1;
 struct dir_entry
 {
   uint8_t  DIR_Valid;//指示当前目录项是否还有效(由于此文件系统没有删除,valid应该一直为1)

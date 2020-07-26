@@ -33,6 +33,7 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径
     }
     now_node=&file_table[next_node];
     lid=i+1;
+    printf("haha\n");
   }
   return now_node->node;
 }
@@ -260,7 +261,6 @@ int get_name(const char* path,char* name)
 
     char abs_path[256];//该文件夹要被创建的路径
     get_abs_path(pathname,abs_path);
-    assert(0);
     int inode=locate_file((char*)pathname);
     printf("mkdir inode=%d\n",inode);
     if(inode>=0)

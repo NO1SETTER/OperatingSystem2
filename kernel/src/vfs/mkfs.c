@@ -88,8 +88,8 @@ int read_data(inode_t* node,int offset,char* buf,int size)
         printf("Read overflow\n");
         return -1;
     }
-    int cid = dir->DIR_FstClus;
 
+    int cid = dir->DIR_FstClus;
     while(offset>ClusterSize)
     {
         fs->dev->ops->read(fs->dev,Fat(cid),&cid,4);

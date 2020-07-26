@@ -98,7 +98,7 @@ void xxd(const char *str,int n)
   for(int i=0;i<n;i++)
   {
     if(i%16==0) printf("\n");
-    printf("%.2x",str[i]);
+    printf("%x",str[i]);
     if(i%2) printf(" ");
   }
   printf("\n");

@@ -1,6 +1,7 @@
 #include <devices.h>
 
 static int sd_init(device_t *dev) {
+  assert(0);
   sd_t *sd = dev->ptr;
   _DEV_STORAGE_INFO_t info;
   if (_io_read(_DEV_STORAGE, _DEVREG_STORAGE_INFO, &info, sizeof(info)) <= 0) {

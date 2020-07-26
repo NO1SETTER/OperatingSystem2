@@ -35,6 +35,7 @@ int make_dir_entry(int type,struct dir_entry* dir)//type指示文件/目录,attr
 //向node指向的文件的offset处写入来自buf的size个字节
 int write_data(inode_t* node,int offset,char* buf,int size)
 {
+    printf("write to file:%d,its current size is:%d\n",node->node,node->size);
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     filesystem_t *fs=node->fs;
     ufs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));
@@ -78,6 +79,7 @@ int write_data(inode_t* node,int offset,char* buf,int size)
 
 int read_data(inode_t* node,int offset,char* buf,int size)
 {
+    printf("read from file:%d,its current size is:%d\n",node->node,node->size);
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     filesystem_t *fs=node->fs;
     fs->dev->ops->read(fs->dev,offset,&dir,sz(dir_entry));

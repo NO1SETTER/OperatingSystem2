@@ -2,7 +2,7 @@
 //extensions
 
 int locate_file(char* path_name)//默认传进来的都是绝对路径
-{//如果找到了则返回inode,没找到返回上一级inode的负值,上一级inode也没找到则不允许创建返回INT_MIN,
+{//如果找到了则返回inode,没找到返回上一级inode的负值,上一级inode也没找到则不允许创建返回INT_MIN
   assert(path_name[0]=='/');
   inode_t* now_node=&file_table[1];//根目录的inode
   int next_node=-1;
@@ -12,7 +12,6 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径
   for(int i=1;i<=len;i++)
   {
     if(path_name[i]!='/'&&i!=len) continue;//i==len时代表访问到末尾,单独访问
-    assert(0);
     rid=i;
     strncpy(cur_name,path_name+lid,rid-lid);
     struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
@@ -34,7 +33,6 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径
     }
     now_node=&file_table[next_node];
     lid=i+1;
-    printf("haha\n");
   }
   return now_node->node;
 }

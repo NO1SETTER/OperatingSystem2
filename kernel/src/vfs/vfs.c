@@ -107,9 +107,9 @@ extern filesystem_t* devfs_init();
     procfs->ops->init();
     devfs->ops->init();
 
-    char buf[64]="IWantToAffirmThis";
-    int ret=ufs->dev->ops->write(ufs->dev,0x20000,buf,64);
-    printf("name:%s ret=%d\n",ufs->dev->name,ret);
+    char buf[64];
+    ufs->dev->ops->read(ufs->dev,0x20000,buf,64);
+    printf("read:%s\n",buf);
     assert(0);
   }
    

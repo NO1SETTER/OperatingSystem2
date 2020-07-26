@@ -96,12 +96,14 @@ void vfs_test()
 extern filesystem_t* ufs_init();
 extern filesystem_t* procfs_init();
 extern filesystem_t* devfs_init();
-
+extern   int ufs_mkdir(const char *pathname);
   void vfs_init()
   {
     vfs_mount("/",ufs_init());
     vfs_mount("/proc",procfs_init());
     vfs_mount("/dev",devfs_init());
+
+    printf("%p %p\n",(void*)ufs_mkdir,(void*)ufs->ops->mkdir);
   }
    
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd

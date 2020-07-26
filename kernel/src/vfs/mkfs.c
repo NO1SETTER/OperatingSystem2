@@ -38,7 +38,8 @@ int write_data(inode_t* node,int offset,char* buf,int size)
     printf("write to file:%d,its current size is:%d\nwrite_bytes:%d\n",node->node,node->size,size);
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     filesystem_t *fs=node->fs;
-    ufs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));
+    assert(fs==ufs);
+    fs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));
     if(offset>dir->DIR_FileSize)
     {
         printf("Write overflow\n");

@@ -176,6 +176,7 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
   filesystem_t* procfs_init()
   {
     procfs=(filesystem_t*)kalloc_safe(sz(filesystem));
+    strcpy(procfs->name,"procfs");
     procfs->ops->init=procfs_init;
     procfs->ops->write=procfs_write;
     procfs->ops->read=procfs_read;

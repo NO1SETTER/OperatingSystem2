@@ -287,6 +287,7 @@ int get_name(const char* path,char* name)
   filesystem_t* ufs_init()
   {
     ufs=(filesystem_t*)kalloc_safe(sz(filesystem));
+    strcpy(ufs->name,"ufs");
     ufs->dev=dev->lookup("sda");
     ufs->ops->init=ufs_init;
     ufs->ops->write=ufs_write;

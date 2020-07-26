@@ -110,6 +110,9 @@ extern filesystem_t* devfs_init();
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd
   int vfs_write(int fd, void *buf, int count)
   {
+    #ifdef DEBUG_
+      printf("write to fd:%d\n",fd);
+    #endif
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
@@ -124,6 +127,9 @@ extern filesystem_t* devfs_init();
 
   int vfs_read(int fd, void *buf, int count)
   {
+    #ifdef DEBUG_
+      printf("read from fd:%d\n",fd);
+    #endif
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
@@ -137,7 +143,10 @@ extern filesystem_t* devfs_init();
   }
 
   int vfs_close(int fd)
-  {    
+  { 
+    #ifdef DEBUG_
+      printf("close fd:%d\n",fd);
+    #endif
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
@@ -153,12 +162,19 @@ extern filesystem_t* devfs_init();
   //设定是根据pathname直接可以确定它属于哪个文件系统?
   int vfs_open(const char *pathname, int flags)
   {
-      filesystem_t* fs=find_fs(pathname);
-      return fs->ops->open(pathname,flags);
+    filesystem_t* fs=find_fs(pathname);
+    int fd = fs->ops->open(pathname,flags);
+    #ifdef DEBUG_
+      printf("file:%s in fs:%s is allocated a fd:%d\n",pathname,fs->name,fd);
+    #endif
+    return fd;
   }
 
   int vfs_lseek(int fd, int offset, int whence)
   {
+    #ifdef DEBUG_
+      printf("lseek fd:%d\n",fd);
+    #endif
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
@@ -175,6 +191,9 @@ extern filesystem_t* devfs_init();
   //link_table每个项存储一个pathname和指向的id
   int vfs_link(const char *oldpath, const char *newpath)//创建ref
   {
+    #ifdef DEBUG_
+      printf("link %s to %s\n",newpath,oldpath);
+    #endif
     filesystem_t* fs = find_fs(oldpath);
     assert(fs==ufs);
     return fs->ops->link(oldpath,newpath);
@@ -182,6 +201,9 @@ extern filesystem_t* devfs_init();
 
   int vfs_unlink(const char *pathname)
   {
+    #ifdef DEBUG_
+      printf("unlink %s\n",pathname);
+    #endif
     filesystem_t* fs=find_fs(pathname);
     assert(fs==ufs);
     return fs->ops->unlink(pathname);
@@ -189,6 +211,7 @@ extern filesystem_t* devfs_init();
   
   int vfs_fstat(int fd, struct ufs_stat *buf)
   {
+    printf("fstat fd:%d\n",fd);
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
@@ -199,6 +222,7 @@ extern filesystem_t* devfs_init();
 
   int vfs_mkdir(const char *pathname)
   {
+    printf("mkdir:%s\n",pathname);
       filesystem_t* fs=find_fs(pathname);
       assert(fs==ufs);
       return fs->ops->mkdir(pathname);
@@ -206,6 +230,7 @@ extern filesystem_t* devfs_init();
 
   int vfs_chdir(const char *path)
   {
+    printf("change current dir of thread:%d to %s",cur->id,path);
     strcpy(cur->cur_path,path);
     return 0;
   }

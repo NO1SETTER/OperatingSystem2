@@ -2,6 +2,7 @@
 #include<user.h>
 #pragma once
 #define sz(x) sizeof(struct x)
+#define DEBUG_
 int min(int a,int b);
 int max(int a,int b);
 //以上是mkfs中的实现
@@ -16,6 +17,7 @@ typedef struct indops indops_t;
 
 struct filesystem
 {
+char name[32];
 fsops_t* ops;
 device_t* dev;
 };

@@ -233,7 +233,7 @@ extern filesystem_t* devfs_init();
 
   int vfs_mkdir(const char *pathname)
   {
-    printf("mkdir:%s\n",pathname);
+      printf("mkdir:%s\n",pathname);
       filesystem_t* fs=find_fs(pathname);
       assert(fs==ufs);
       return fs->ops->mkdir(pathname);

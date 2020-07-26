@@ -4,7 +4,7 @@
 int locate_file(char* path_name)//默认传进来的都是绝对路径
 {//如果找到了则返回inode,没找到返回上一级inode的负值,上一级inode也没找到则不允许创建返回INT_MIN,
   assert(path_name[0]=='/');
-  inode_t* now_node=&file_table[0];//根目录的inode
+  inode_t* now_node=&file_table[1];//根目录的inode
   int next_node=-1;
   int len=strlen(path_name);
   int lid=1,rid=1;
@@ -260,6 +260,7 @@ int get_name(const char* path,char* name)
     char abs_path[256];//该文件夹要被创建的路径
     get_abs_path(pathname,abs_path);
     int inode=locate_file((char*)pathname);
+    printf("mkdir inode=%d\n",inode);
     if(inode>=0)
     {
       printf("Directory exists\n");

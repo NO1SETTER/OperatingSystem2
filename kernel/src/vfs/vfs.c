@@ -92,6 +92,17 @@ void vfs_test()
   #include "workload.inc"
 }
 
+void xxd(const char *str,int n)
+{
+  printf("xxd:");
+  for(int i=0;i<n;i++)
+  {
+    if(i%16==0) printf("\n");
+    printf("%.2hhx",str[i]);
+    if(i%2) printf(" ");
+  }
+  printf("\n");
+}
 //standard realizations
 extern filesystem_t* ufs_init();
 extern filesystem_t* procfs_init();
@@ -109,7 +120,7 @@ extern filesystem_t* devfs_init();
 
     char buf[64];
     ufs->dev->ops->read(ufs->dev,0x20000,buf,64);
-    printf("read:%s\n",buf);
+    xxd((const char*)buf,64);
     assert(0);
   }
    

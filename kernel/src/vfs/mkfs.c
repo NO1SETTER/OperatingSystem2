@@ -85,12 +85,14 @@ int read_data(inode_t* node,int offset,char* buf,int size)
     filesystem_t *fs=node->fs;
     fs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));
     
-    if(offset+size>dir->DIR_FileSize)
+    printf("size:%d size:%d\n",dir->DIR_FileSize,node->size);
+
+    if(offset+size>node->size)
     {
         printf("Read overflow\n");
         return -1;
     }
-
+    assert(0);
     int cid = dir->DIR_FstClus;
     printf("First Cluster at %d\n",cid);
     while(offset>ClusterSize)

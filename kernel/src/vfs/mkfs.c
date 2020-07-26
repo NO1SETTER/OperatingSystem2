@@ -73,7 +73,6 @@ int write_data(inode_t* node,int offset,char* buf,int size)
         fs->dev->ops->write(fs->dev,Clu(cid),buf+write_bytes,min(size,ClusterSize));
         write_bytes=write_bytes+min(ClusterSize,size);
     }
-    assert(0);
     fs->dev->ops->write(fs->dev,Fat(cid),&EOF,4);
     return write_start;
 }
@@ -115,6 +114,7 @@ int read_data(inode_t* node,int offset,char* buf,int size)
         }
         cid=next_id;
     }
+    assert(0);
     return read_start;
 }
 

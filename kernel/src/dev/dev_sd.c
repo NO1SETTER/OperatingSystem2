@@ -1,4 +1,5 @@
 #include <devices.h>
+#include <klib.h>
 
 static int sd_init(device_t *dev) {
   sd_t *sd = dev->ptr;

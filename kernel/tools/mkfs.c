@@ -247,7 +247,7 @@ int nr_file=0;
 void parse_args(int argc,char *argv[])
 {
   assert(argc==4);
-  assert((fd = open(argv[2], O_RDWR) > 0);
+  assert((fd = open(argv[2], O_RDWR|O_CREAT,S_IRWXU)) > 0);
   IMG_SIZE=atoi(argv[1])*MB_SIZE;
   BASE_SIZE=(lseek(fd,0,SEEK_END)/MB_SIZE+1)*MB_SIZE;
   assert(ftruncate(fd,BASE_SIZE+IMG_SIZE)==0);

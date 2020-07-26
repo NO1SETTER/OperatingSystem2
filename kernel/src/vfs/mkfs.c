@@ -83,6 +83,7 @@ int read_data(inode_t* node,int offset,char* buf,int size)
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     filesystem_t *fs=node->fs;
     fs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));
+    assert(0);
     if(offset+size>dir->DIR_FileSize)
     {
         printf("Read overflow\n");
@@ -115,7 +116,6 @@ int read_data(inode_t* node,int offset,char* buf,int size)
         }
         cid=next_id;
     }
-    assert(0);
     return read_start;
 }
 

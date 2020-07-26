@@ -300,7 +300,7 @@ int get_name(const char* path,char* name)
     ufs->ops->unlink=ufs_unlink;
     ufs->ops->fstat=ufs_fstat;
     ufs->ops->mkdir=ufs_mkdir;
-
+    printf("1%p %p\n",(void*)ufs_mkdir,(void*)ufs->ops->mkdir);
     ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&exist_files,4);
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     for(int i=1;i<=exist_files;i++)//初始inode的加载在这里完成,文件从1开始,因为0无法区分locate_file的结果
@@ -318,5 +318,6 @@ int get_name(const char* path,char* name)
     file_table[i].type=T_FILE;
     file_table[i].size=0;
     }
+    printf("2%p %p\n",(void*)ufs_mkdir,(void*)ufs->ops->mkdir);
     return ufs;
   }

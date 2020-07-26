@@ -257,7 +257,7 @@ int get_name(const char* path,char* name)
 
   int ufs_mkdir(const char *pathname)
   {
-    assert(0);
+
     char abs_path[256];//该文件夹要被创建的路径
     get_abs_path(pathname,abs_path);
     int inode=locate_file((char*)pathname);
@@ -269,6 +269,7 @@ int get_name(const char* path,char* name)
     }
     else
     {
+          assert(0);
       struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
       int new_inode=make_dir_entry(T_DIR,dir);
       ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));

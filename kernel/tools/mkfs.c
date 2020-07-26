@@ -110,9 +110,9 @@ int main(int argc,char* argv[]){
   assert(write(fd,buf,sizeof(struct dir_entry))!=-1);
   recursive_mkfs(argv[3],start_node,0);
   fh->BS_ExistFiles=inode_ct;
-  printf("%d files in total\n",inode_ct);
-  munmap(disk, IMG_SIZE);
   close(fd);
+  munmap(disk, IMG_SIZE);
+  printf("%d files in total\n",inode_ct);
 }
 
 //文件第一块分配,在这里完成

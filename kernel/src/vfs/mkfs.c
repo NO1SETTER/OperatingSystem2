@@ -77,6 +77,18 @@ int write_data(inode_t* node,int offset,char* buf,int size)
     return write_start;
 }
 
+void xxd(const char *str,int n)
+{
+  printf("xxd:");
+  for(int i=0;i<n;i++)
+  {
+    if(i%16==0) printf("\n");
+    printf("%.2hhx",str[i]);
+    if(i%2) printf(" ");
+  }
+  printf("\n");
+}
+
 int read_data(inode_t* node,int offset,char* buf,int size)
 {
     printf("read from file:%d,its current size is:%d\n",node->node,node->size);
@@ -86,7 +98,7 @@ int read_data(inode_t* node,int offset,char* buf,int size)
     printf("inode = %d\n",node->node);
     printf("entry_offset = %x\n",Entry(node->node));
     fs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));
-    
+    xxd((void*)dir,32);
     printf("size:%d size:%d\n",dir->DIR_FileSize,node->size);
 
     if(offset+size>node->size)

@@ -49,3 +49,5 @@ int make_dir_entry(int type,struct dir_entry* buf);//type指示文件/目录,att
 int write_data(inode_t* node,int offset,char* buf,int size);
 int read_data(inode_t* node,int offset,char* buf,int size);
 int cluster_alloc();
+
+void xxd(const char *str,int n);

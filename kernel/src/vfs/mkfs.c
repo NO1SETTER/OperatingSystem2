@@ -77,17 +77,7 @@ int write_data(inode_t* node,int offset,char* buf,int size)
     return write_start;
 }
 
-void xxd(const char *str,int n)
-{
-  printf("xxd:");
-  for(int i=0;i<n;i++)
-  {
-    if(i%16==0) printf("\n");
-    printf("%x",str[i]);
-    if(i%2) printf(" ");
-  }
-  printf("\n");
-}
+
 
 int read_data(inode_t* node,int offset,char* buf,int size)
 {
@@ -135,5 +125,17 @@ int read_data(inode_t* node,int offset,char* buf,int size)
         cid=next_id;
     }
     return read_start;
+}
+
+void xxd(const char *str,int n)
+{
+  printf("xxd:");
+  for(int i=0;i<n;i++)
+  {
+    if(i%16==0) printf("\n");
+    printf("%02x",str[i]);
+    if(i%2) printf(" ");
+  }
+  printf("\n");
 }
 

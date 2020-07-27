@@ -94,9 +94,10 @@ int read_data(inode_t* node,int offset,char* buf,int size)
         printf("Read overflow\n");
         return -1;
     }
-    assert(0);
+    
     int cid = dir->DIR_FstClus;
     printf("First Cluster at %d\n",cid);
+    assert(0);
     while(offset>ClusterSize)
     {
         fs->dev->ops->read(fs->dev,Fat(cid),&cid,4);

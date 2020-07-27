@@ -97,6 +97,7 @@ int read_data(inode_t* node,int offset,char* buf,int size)
     filesystem_t *fs=node->fs;
     printf("inode = %d\n",node->node);
     printf("entry_offset = %x\n",Entry(node->node));
+    assert(fs==ufs);
     fs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));
     xxd((void*)dir,32);
     printf("size:%d size:%d\n",dir->DIR_FileSize,node->size);

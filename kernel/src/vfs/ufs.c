@@ -321,6 +321,7 @@ int get_name(const char* path,char* name)
     sem_init(&file_table[i].sem,sem_name,1);
     file_table[i].type=dir->DIR_FileType;
     file_table[i].size=dir->DIR_FileSize;
+    printf("file[%d] size:%d\n",i,file_table[i].size);
     file_table[i].valid=1;
     }
     return ufs;

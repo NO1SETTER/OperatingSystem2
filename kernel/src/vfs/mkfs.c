@@ -88,7 +88,6 @@ int read_data(inode_t* node,int offset,char* buf,int size)//应该以node中的�
     
     int cid=node->cid;
     printf("First Cluster at %d\n",cid);
-    assert(0);
     while(offset>ClusterSize)
     {
         fs->dev->ops->read(fs->dev,Fat(cid),&cid,4);

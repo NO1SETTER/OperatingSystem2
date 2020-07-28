@@ -342,7 +342,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
       strcpy(drt->name,name);
       drt->inode=new_inode;
-      assert(0);
+    
       write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
       file_table[new_inode].node=new_inode;
       file_table[new_inode].refct=0;
@@ -353,6 +353,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       file_table[new_inode].type=T_DIR;
       file_table[new_inode].size=0;
       file_table[new_inode].cid=dir->DIR_FstClus;
+        assert(0);
       char sem_name[32];
       sprintf(sem_name,"semlock_file_%d",new_inode);
       sem_init(&file_table[new_inode].sem,sem_name,1);

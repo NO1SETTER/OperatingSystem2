@@ -52,8 +52,8 @@ int write_data(inode_t* node,int offset,char* buf,int size)
         offset=offset-ClusterSize;
     }
     int write_start=Clu(cid)+offset;
-    fs->dev->ops->write(fs->dev,write_start,buf,min(size,ClusterSize));
-    int write_bytes=min(ClusterSize-write_start,size);
+    fs->dev->ops->write(fs->dev,write_start,buf,min(ClusterSize-offset,size));
+    int write_bytes=min(ClusterSize-offset,size);
     int next_id;
     
     char EOF[4];
@@ -96,7 +96,7 @@ int read_data(inode_t* node,int offset,char* buf,int size)//应该以node中的�
     }
 
     int read_start=Clu(cid)+offset;
-    fs->dev->ops->read(fs->dev,read_start,buf,min(size,ClusterSize));
+    fs->dev->ops->read(fs->dev,read_start,buf,min(ClusterSize-offset,size));
     int read_bytes=min(ClusterSize-offset,size);
     int next_id;
 

@@ -32,9 +32,9 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支
       for(int j=0;j<nr_files;j++)
       {
         read_data(now_node,j*sz(ufs_dirent),(char*)drt,sz(ufs_dirent));
-        /*for(int k=0;k<depth*2;k++)
+        for(int k=0;k<depth*2;k++)
           printf(" ");
-        printf("drt->name=%s\n",drt->name);*/
+        printf("drt->name=%s\n",drt->name);
         if(strcmp(drt->name,cur_name)==0)//找到了
         {
           next_node=drt->inode;

@@ -323,7 +323,6 @@ int get_name(const char* path,char* name)
     for(int i=1;i<=exist_files;i++)//初始inode的加载在这里完成,文件从1开始,因为0无法区分locate_file的结果
     {
     ufs->dev->ops->read(ufs->dev,Entry(i),dir,sz(dir_entry));
-    printf("read from %x\n",Entry(i));
     file_table[i].node=i;
     file_table[i].refct=dir->DIR_RefCt;
     file_table[i].offset=0;
@@ -335,7 +334,6 @@ int get_name(const char* path,char* name)
     file_table[i].type=dir->DIR_FileType;
     file_table[i].size=dir->DIR_FileSize;
     file_table[i].cid=dir->DIR_FstClus;
-    printf("file[%d] size:%d\n",i,file_table[i].size);
     file_table[i].valid=1;
     }
     return ufs;

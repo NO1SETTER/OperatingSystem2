@@ -78,7 +78,7 @@ int write_data(inode_t* node,int offset,char* buf,int size)
 
 int read_data(inode_t* node,int offset,char* buf,int size)//应该以node中的数据为准,磁盘中的数据可能未更新
 {
-    printf("Read from file:%d,its current size is:%d\nwrite_bytes:%d\n",node->node,node->size,size);
+    printf("Read from file:%d,its current size is:%d\nread_bytes:%d\n",node->node,node->size,size);
     filesystem_t* fs=node->fs;
     if(offset+size>node->size)
     {

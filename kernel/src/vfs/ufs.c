@@ -262,6 +262,7 @@ int get_name(const char* path,char* name)
     char abs_path[256];//该文件夹要被创建的路径
     get_abs_path(pathname,abs_path);
     int inode=locate_file((char*)pathname);
+          assert(0);
     printf("mkdir inode=%d\n",inode);
     if(inode>=0)
     {
@@ -282,7 +283,6 @@ int get_name(const char* path,char* name)
       strcpy(drt->name,name);
       drt->inode=new_inode;
       write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
-      assert(0);
       file_table[new_inode].node=new_inode;
       file_table[new_inode].refct=0;
       file_table[new_inode].offset=0;

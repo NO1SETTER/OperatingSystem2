@@ -54,17 +54,49 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支
   return now_node->node;
 }
 
-int get_abs_path(const char *path,char* abs_path)
+int get_abs_path(const char *path,char* abs_path)//能够处理/.和/..以达到最简
 {
-  if(path[0]=='/')
-    strcpy(abs_path,path);
+  char raw_path[256];
+  if(path[0]=='/')  
+    strcpy(raw_path,path);
   else 
   {
-    if(strcmp(cur->cur_path,"/")==0)
-    sprintf(abs_path,"/%s",path);
-    else
-    sprintf(abs_path,"%s/%s",cur->cur_path,path);
+    if(strcmp(cur->cur_path,"/")==0)  sprintf(raw_path,"/%s",path);
+    else  sprintf(raw_path,"%s/%s",cur->cur_path,path);
   }
+      int stack[32];//看作栈的结构,stack[i]，记录第(i+1)个斜杠在raw_path中的位置
+      int nr_slash=0;
+      int lid=1,rid=1;
+      char cur_name[32];
+      for(int i=1;i<=strlen(raw_path);i++)
+      {
+          if(i<strlen(raw_path))
+          { if(raw_path[i]!='/') continue;
+          }
+
+          rid=i;
+          strncpy(cur_name,raw_path+lid,rid-lid);
+          cur_name[rid-lid]='\0';
+          printf("cur->name=%s\n",cur_name);
+          if(strcmp(cur_name,".")==0) assert(1);
+          else if(strcmp(cur_name,"..")==0)
+                nr_slash=nr_slash-1;
+          else
+                stack[nr_slash++]=lid-1;
+          lid=i+1;
+      }
+      int abs_len=0;
+      for(int i=0;i<nr_slash;i++)
+      {
+          abs_path[abs_len++]='/';
+          int j=stack[i]+1;
+          while(raw_path[j]!='/') 
+          {
+              abs_path[abs_len++]=raw_path[j++];
+          }
+      }
+      abs_path[abs_len]='\0';
+
   return 1;
 }
 

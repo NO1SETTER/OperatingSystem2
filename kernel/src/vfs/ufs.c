@@ -47,14 +47,14 @@ int get_abs_path(const char *path,char* abs_path)
   return 1;
 }
 
-int get_name(const char* path,char* name)
+int get_name(const char* path,char* name)//默认path是绝对路径
 {
   int len=strlen(path);
   int pos=0;
   for(int i=len-1;i>=0;i--)
   { if(path[i]=='/') 
     {
-      pos=i;break;
+      pos=i+1;break;
     }
   }
   strcpy(name,path+pos);

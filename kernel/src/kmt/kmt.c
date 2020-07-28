@@ -49,6 +49,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
   task->status=T_READY;//状态
   task->is_trap=0;
   task->ct=0;
+  strcpy(task->cur_path,"/");//初始设置为根目录
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置

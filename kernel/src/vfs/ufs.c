@@ -279,7 +279,6 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       
       char name[32];
       get_name(pathname,name);
-      printf("+++++++++++name:%s\n",name);
       struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
       strcpy(drt->name,name);
       drt->inode=new_inode;

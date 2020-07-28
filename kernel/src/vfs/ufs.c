@@ -332,7 +332,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     else
     {
       inode=-inode;
-      
+      assert(0);
       struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
       int new_inode=make_dir_entry(T_DIR,inode,dir);
       ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));

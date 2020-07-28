@@ -20,6 +20,8 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径
     for(int j=0;j<nr_files;j++)
     {
       read_data(now_node,j*sz(ufs_dirent),(char*)drt,sz(ufs_dirent));
+      for(int k=0;k<(i-1)*2;k++)
+        printf(" ");
       printf("drt->name=%s\n",drt->name);
       if(strcmp(drt->name,cur_name)==0)//找到了
       {

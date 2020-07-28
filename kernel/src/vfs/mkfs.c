@@ -36,17 +36,15 @@ int make_dir_entry(int type,struct dir_entry* dir)//type指示文件/目录,attr
 int write_data(inode_t* node,int offset,char* buf,int size)
 {
     printf("write to file:%d,its current size is:%d\nwrite_bytes:%d\n",node->node,node->size,size);
-    struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-    filesystem_t *fs=node->fs;
-    fs->dev->ops->read(fs->dev,Entry(node->node),&dir,sz(dir_entry));
-    if(offset>dir->DIR_FileSize)
+    filesystem_t* fs=node->fs;
+    if(offset>node->size)
     {
         printf("Write overflow\n");
         return -1;
     }
 
     node->size=max(node->size,offset+size);
-    int cid = dir->DIR_FstClus;
+    int cid = node->cid;
     while(offset>ClusterSize)
     {
         ufs->dev->ops->read(fs->dev,Fat(cid),&cid,4);
@@ -64,7 +62,6 @@ int write_data(inode_t* node,int offset,char* buf,int size)
          fs->dev->ops->read(fs->dev,Fat(cid),&next_id,4);
         if(next_id==FAT_EOF)
         {
-
             next_id=alloc_cluster();
             fs->dev->ops->write(fs->dev,Fat(cid),&next_id,4);
             fs->dev->ops->write(fs->dev,Fat(next_id),&EOF,4);
@@ -79,25 +76,17 @@ int write_data(inode_t* node,int offset,char* buf,int size)
 
 
 
-int read_data(inode_t* node,int offset,char* buf,int size)
+int read_data(inode_t* node,int offset,char* buf,int size)//应该以node中的数据为准,磁盘中的数据可能未更新
 {
-    printf("read from file:%d,its current size is:%d\n",node->node,node->size);
-    printf("read %d bytes from offset:%d\n",size,offset);
-    struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-    filesystem_t *fs=node->fs;
-    printf("inode = %d\n",node->node);
-    printf("entry_offset = %x\n",Entry(node->node));
-    ufs->dev->ops->read(ufs->dev,Entry(1),dir,sz(dir_entry));
-    xxd((void*)dir,32);
-    printf("size:%d size:%d\n",dir->DIR_FileSize,node->size);
-
+    printf("Read from file:%d,its current size is:%d\nwrite_bytes:%d\n",node->node,node->size,size);
+    filesystem_t* fs=node->fs;
     if(offset+size>node->size)
     {
         printf("Read overflow\n");
         return -1;
     }
     
-    int cid = dir->DIR_FstClus;
+    int cid=node->cid;
     printf("First Cluster at %d\n",cid);
     assert(0);
     while(offset>ClusterSize)

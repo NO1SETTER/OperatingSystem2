@@ -136,8 +136,9 @@ int get_name(const char* path,char* name)
         file_table[new_inode].link_id=-1;
         file_table[new_inode].fs=ufs;
         file_table[new_inode].valid=1;
-        file_table[new_inode].type=T_DIR;
+        file_table[new_inode].type=T_FILE;//仅允许创建T_FILE类型
         file_table[new_inode].size=0;
+        file_table[new_inode].cid=dir->DIR_FstClus;
         char sem_name[32];
         sprintf(sem_name,"semlock_file_%d",new_inode);
         sem_init(&file_table[new_inode].sem,sem_name,1);
@@ -269,20 +270,30 @@ int get_name(const char* path,char* name)
     }
     else
     {
-        
+      inode=-inode;
+      
       struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
       int new_inode=make_dir_entry(T_DIR,dir);
-      printf("new_inode=%d\n",new_inode);
       ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));
       
-      inode=-inode;
       char name[32];
       get_name(pathname,name);
       struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
       strcpy(drt->name,name);
       drt->inode=new_inode;
       write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
-      assert(0);
+      file_table[new_inode].node=new_inode;
+      file_table[new_inode].refct=0;
+      file_table[new_inode].offset=0;
+      file_table[new_inode].link_id=-1;
+      file_table[new_inode].fs=ufs;
+      file_table[new_inode].valid=1;
+      file_table[new_inode].type=T_DIR;
+      file_table[new_inode].size=0;
+      file_table[new_inode].cid=dir->DIR_FstClus;
+      char sem_name[32];
+      sprintf(sem_name,"semlock_file_%d",new_inode);
+      sem_init(&file_table[new_inode].sem,sem_name,1);
       return 0;
     }
     return -1;
@@ -323,6 +334,7 @@ int get_name(const char* path,char* name)
     sem_init(&file_table[i].sem,sem_name,1);
     file_table[i].type=dir->DIR_FileType;
     file_table[i].size=dir->DIR_FileSize;
+    file_table[i].cid=dir->DIR_FstClus;
     printf("file[%d] size:%d\n",i,file_table[i].size);
     file_table[i].valid=1;
     }

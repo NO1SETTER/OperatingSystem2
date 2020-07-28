@@ -53,6 +53,7 @@ struct inode
   int valid;//是否有效,一旦被加载,该inode保持有效
   int type;//文件或目录
   int size;//文件大小
+  int cid;//第一块的id
 };
 /*逻辑:每个文件都对应一个节点,打开某个文件时先在file_table中查找,如果有添加新的ref项即可,如没有创建新的inode
 加入file_table,当文件关闭时不释放,只设置taskid即可*/

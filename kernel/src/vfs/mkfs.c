@@ -13,6 +13,7 @@ int alloc_cluster()
     int ret=-1;
     if(nr_cluster) ret=pop_cluster();
     else ret=max_cluster;
+    max_cluster=ret+1;
     return ret;
 }
 

@@ -17,4 +17,8 @@ image:
 
 run:
 	@( echo -n $(mainargs); ) | dd if=/dev/stdin of=$(BINARY) bs=512 count=2 seek=1 conv=notrunc status=none
+ifeq ($(RELOAD),on)
+	/home/ebata/os-workbench/kernel/tools/mkfs 64 /home/ebata/img/fs.img /home/ebata/Downloads/ics2019/nemu/src/isa/x86
+endif
+	/home/ebata/img/load
 	@qemu-system-x86_64 -serial stdio -machine accel=tcg -smp "$(smp)" -drive format=raw,file=$(BINARY)

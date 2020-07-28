@@ -1,5 +1,6 @@
 #include "x86-qemu.h"
 #include <amdev.h>
+#include <klib.h>
 
 void __am_vga_init();
 void __am_timer_init();

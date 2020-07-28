@@ -357,6 +357,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       char sem_name[32];
       sprintf(sem_name,"semlock_file_%d",new_inode);
       sem_init(&file_table[new_inode].sem,sem_name,1);
+      assert(0);
       return 0;
     }
     return -1;

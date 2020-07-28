@@ -97,14 +97,13 @@ int read_data(inode_t* node,int offset,char* buf,int size)//应该以node中的�
 
     int read_start=Clu(cid)+offset;
     fs->dev->ops->read(fs->dev,read_start,buf,min(size,ClusterSize));
-    int read_bytes=min(ClusterSize-read_start,size);
+    int read_bytes=min(ClusterSize-offset,size);
     int next_id;
 
     while(read_bytes<size)
     {
         fs->dev->ops->read(fs->dev,Clu(cid),buf+read_bytes,min(size,ClusterSize));
         read_bytes=read_bytes+min(ClusterSize,size);
-        printf("read_bytes=%d\n",read_bytes);
         fs->dev->ops->read(fs->dev,Fat(cid),&next_id,4);
         if(next_id==FAT_EOF&&read_bytes!=size)
         {

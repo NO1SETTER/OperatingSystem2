@@ -104,7 +104,7 @@ int read_data(inode_t* node,int offset,char* buf,int size)//应该以node中的�
     {
         fs->dev->ops->read(fs->dev,Clu(cid),buf+read_bytes,min(size,ClusterSize));
         read_bytes=read_bytes+min(ClusterSize,size);
-        
+        printf("read_bytes=%d\n",read_bytes);
         fs->dev->ops->read(fs->dev,Fat(cid),&next_id,4);
         if(next_id==FAT_EOF&&read_bytes!=size)
         {

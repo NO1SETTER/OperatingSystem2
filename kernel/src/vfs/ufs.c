@@ -37,6 +37,9 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支
         printf("drt->name=%s\n",drt->name);
         if(strcmp(drt->name,cur_name)==0)//找到了
         {
+          for(int k=0;k<depth*2;k++)
+          printf(" ");
+          printf("match\n");
           next_node=drt->inode;
           break;
         }

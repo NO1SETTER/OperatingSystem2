@@ -329,9 +329,10 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     
     int exist_files=0;
     ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&exist_files,4);
+     printf("exist_files:%d\n",exist_files);
     exist_files=exist_files-1;
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-    printf("exist_files:%d\n",exist_files);
+   
     for(int i=1;i<=exist_files;i++)//初始inode的加载在这里完成,文件从1开始,因为0无法区分locate_file的结果
     {
     ufs->dev->ops->read(ufs->dev,Entry(i),dir,sz(dir_entry));

@@ -282,6 +282,7 @@ int get_name(const char* path,char* name)
       strcpy(drt->name,name);
       drt->inode=new_inode;
       write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
+      assert(0);
       file_table[new_inode].node=new_inode;
       file_table[new_inode].refct=0;
       file_table[new_inode].offset=0;

@@ -45,10 +45,11 @@ struct dir_entry
   uint8_t  DIR_FileType;//文件还是文件夹
   uint8_t  DIR_RefCt;//引用计数
   uint32_t DIR_Inode;//Inode号，对应它们是第几个Entry项目
+  uint32_t DIR_FatherInode;
   uint32_t DIR_FstClus;//第一块
   uint32_t DIR_FileSize;//文件大小,它与目前已经写入的大小保持一致!
   uint8_t  DIR_Sign[3];//标识
-  uint8_t  DIR_Padding[14];
+  uint8_t  DIR_Padding[10];
 }__attribute__((packed));//32byte
 //entry项均不存储名字,名字由目录文件内的ufs_dirent项存储,任意一个文件的entry项即为
 
@@ -56,6 +57,7 @@ struct fat_entry
 {
   uint32_t id;
 };
+
 struct fat_header//类似FAT32实现,但是事实上它包括了Data之前的所有部分
 {
     uint8_t  BS_jmpBoot[3];//boot code
@@ -81,7 +83,7 @@ struct fat_header//类似FAT32实现,但是事实上它包括了Data之前的所
 struct fat_header* fh;
 
 void parse_args(int argc,char *argv[]);
-int make_dir_entry(int type,char* buf);//type指示文件/目录,attr指示属性;//type指示文件/目录,attr指示属性
+int make_dir_entry(int type,int fid,char* buf);//type指示文件/目录,fid为父目录的id,attr指示属性;
 int write_data(struct dir_entry* dir,int offset,char* buf,int size);
 void recursive_mkfs(char* pathname,int inode,int depth);
 /*每个Sec大小为0x200即0.5KB,每个cluster大小为0x1000即4KB,考虑最大256MB有64*1024个block
@@ -127,7 +129,8 @@ int main(int argc,char* argv[]){
   strcpy((char*)fh->BS_FilSysType,"FAT32");
   fat_init();
   char buf[256];//Entry(0)写入的是根目录
-  int start_node=make_dir_entry(T_DIR,buf);
+  int start_node=make_dir_entry(T_DIR,-1,buf);//根目录的father_id设置为-1
+  assert(start_node==-1);
   lseek(fd,Entry(start_node),SEEK_SET);
   assert(write(fd,buf,sizeof(struct dir_entry))!=-1);
   recursive_mkfs(argv[3],start_node,0);
@@ -139,16 +142,16 @@ int main(int argc,char* argv[]){
 }
 
 
-int make_dir_entry(int type,char* buf)//type指示文件/目录,attr指示属性
+int make_dir_entry(int type,int fid,char* buf)//type指示文件/目录,attr指示属性
 { 
   uint32_t cid=cluster_alloc();//最小未用块的id
   fh->fat[cid].id=FAT_EOF;//该文件的第一块都写成EOF状态
-
   struct dir_entry* dir=(struct dir_entry* )malloc(sizeof(struct dir_entry));
   dir->DIR_Valid=1;
   dir->DIR_FileType=type;
   dir->DIR_RefCt=1;//初始时RefCt均为1
   dir->DIR_Inode=inode_ct++;
+  dir->DIR_FatherInode=fid;
   dir->DIR_FstClus=cid;
   dir->DIR_FileSize=0;//写入目录项时文件的大小还是0
   strncpy((void*)dir->DIR_Sign,"DYG",3);
@@ -210,7 +213,7 @@ int nr_file=0;
 
     char buf[33];
     int type=ptr->d_type==DT_DIR?T_DIR:T_FILE;
-    int this_inode=make_dir_entry(type,buf); 
+    int this_inode=make_dir_entry(type,inode,buf); 
     lseek(fd,Entry(this_inode),SEEK_SET);
     assert(write(fd,buf,sizeof(struct dir_entry))!=-1);
 

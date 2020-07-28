@@ -1,7 +1,7 @@
 #include<mkfs.h>
 //extensions
 
-int locate_file(char* path_name)//默认传进来的都是绝对路径
+int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支持/.和/..
 {//如果找到了则返回inode,没找到返回上一级inode的负值,上一级inode也没找到则不允许创建返回INT_MIN
   assert(path_name[0]=='/');
   inode_t* now_node=&file_table[1];//根目录的inode
@@ -15,19 +15,31 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径
     if(path_name[i]!='/'&&i!=len) continue;//i==len时代表访问到末尾,单独访问
     rid=i;
     strncpy(cur_name,path_name+lid,rid-lid);
-    struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
-    int nr_files=now_node->size/sz(ufs_dirent);
     next_node=-1;
-    for(int j=0;j<nr_files;j++)
+    if(strcmp(cur_name,".")==0)
     {
-      read_data(now_node,j*sz(ufs_dirent),(char*)drt,sz(ufs_dirent));
-      for(int k=0;k<depth*2;k++)
-        printf(" ");
-      printf("drt->name=%s\n",drt->name);
-      if(strcmp(drt->name,cur_name)==0)//找到了
+      next_node=now_node->node;
+    }
+    else if(strcmp(cur_name,"..")==0)
+    {
+      next_node=now_node->fnode;
+    }
+    else
+    {
+      struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
+      int nr_files=now_node->size/sz(ufs_dirent);
+      
+      for(int j=0;j<nr_files;j++)
       {
-        next_node=drt->inode;
-        break;
+        read_data(now_node,j*sz(ufs_dirent),(char*)drt,sz(ufs_dirent));
+        for(int k=0;k<depth*2;k++)
+          printf(" ");
+        printf("drt->name=%s\n",drt->name);
+        if(strcmp(drt->name,cur_name)==0)//找到了
+        {
+          next_node=drt->inode;
+          break;
+        }
       }
     }
     if(next_node==-1)
@@ -130,7 +142,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       if(flags&O_CREAT)//创建新文件
       {
         struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-        int new_inode=make_dir_entry(T_FILE,dir);
+        int new_inode=make_dir_entry(T_FILE,inode,dir);
         ufs->dev->ops->write(ufs->dev,Entry(new_inode),(char*)dir,sz(dir_entry));
         
         char name[32];
@@ -204,10 +216,10 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     assert(old_inode>=0);
   int pre_inode=locate_file(abs_newpath);
     assert(pre_inode<0&&pre_inode>INT_MIN);
-    pre_inode=-pre_inode;
-
+  
+  pre_inode=-pre_inode;
   struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-  int new_inode=make_dir_entry(T_FILE,dir);
+  int new_inode=make_dir_entry(T_FILE,pre_inode,dir);
   ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));  
 
   file_table[new_inode].node=new_inode;
@@ -283,7 +295,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       inode=-inode;
       
       struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-      int new_inode=make_dir_entry(T_DIR,dir);
+      int new_inode=make_dir_entry(T_DIR,inode,dir);
       ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));
       
       char name[32];
@@ -337,6 +349,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     {
     ufs->dev->ops->read(ufs->dev,Entry(i),dir,sz(dir_entry));
     file_table[i].node=i;
+    file_table[i].fnode=dir->DIR_FatherInode;
     file_table[i].refct=dir->DIR_RefCt;
     file_table[i].offset=0;
     file_table[i].link_id=-1;

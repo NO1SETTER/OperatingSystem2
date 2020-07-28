@@ -38,15 +38,16 @@ struct dir_entry
   uint8_t  DIR_FileType;//文件还是文件夹
   uint8_t  DIR_RefCt;//引用计数
   uint32_t DIR_Inode;//Inode号，对应它们是第几个Entry项目
+  uint32_t DIR_FatherInode;//父目录的Inode号
   uint32_t DIR_FstClus;//第一块
   uint32_t DIR_FileSize;//文件大小,它与目前已经写入的大小保持一致!
   uint8_t  DIR_Sign[3];//标识
-  uint8_t  DIR_Padding[14];
+  uint8_t  DIR_Padding[10];
 }__attribute__((packed));//32byte
 //entry项均不存储名字,名字由目录文件内的ufs_dirent项存储,任意一个文件的entry项即为
 
 
-int make_dir_entry(int type,struct dir_entry* buf);//type指示文件/目录,attr指示属性
+int make_dir_entry(int type,int fid,struct dir_entry* buf);//type指示文件/目录,attr指示属性
 int write_data(inode_t* node,int offset,char* buf,int size);
 int read_data(inode_t* node,int offset,char* buf,int size);
 int cluster_alloc();

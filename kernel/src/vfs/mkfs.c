@@ -18,7 +18,7 @@ int alloc_cluster()
 }
 
 
-int make_dir_entry(int type,struct dir_entry* dir)//type指示文件/目录,attr指示属性
+int make_dir_entry(int type,int fid,struct dir_entry* dir)//type指示文件/目录,attr指示属性
 { 
   uint32_t cid=alloc_cluster();//最小未用块的id
   char EOF[4];
@@ -29,6 +29,7 @@ int make_dir_entry(int type,struct dir_entry* dir)//type指示文件/目录,attr
   dir->DIR_FileType=type;
   dir->DIR_RefCt=1;//初始时RefCt均为1
   dir->DIR_Inode=inode;
+  dir->DIR_FatherInode=fid;
   dir->DIR_FstClus=cid;
   dir->DIR_FileSize=0;//写入目录项时文件的大小还是0
   strncpy((void*)dir->DIR_Sign,"DYG",3);

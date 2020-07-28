@@ -42,6 +42,7 @@ struct fsops
 struct inode
 {
   int node;//node的计数,根据node可以直接确定entry的偏移量为Entry(node)
+  int fnode;//父目录的inode
   int refct;//引用计数
   int offset;//指针偏移
 

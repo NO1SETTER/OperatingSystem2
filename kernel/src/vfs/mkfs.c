@@ -35,7 +35,8 @@ int make_dir_entry(int type,struct dir_entry* dir)//type指示文件/目录,attr
 //向node指向的文件的offset处写入来自buf的size个字节
 int write_data(inode_t* node,int offset,char* buf,int size)
 {
-    printf("write to file:%d,its current size is:%d\nwrite_bytes:%d\n",node->node,node->size,size);
+    printf("Write to file:%d, size:%d\n",node->node,node->size);
+    printf("Write %d bytes at offset %d\n",size,offset);
     filesystem_t* fs=node->fs;
     if(offset>node->size)
     {
@@ -78,7 +79,8 @@ int write_data(inode_t* node,int offset,char* buf,int size)
 
 int read_data(inode_t* node,int offset,char* buf,int size)//应该以node中的数据为准,磁盘中的数据可能未更新
 {
-    printf("Read from file:%d,its current size is:%d\nread_bytes:%d\n",node->node,node->size,size);
+    printf("Read from file:%d, size:%d\n",node->node,node->size);
+    printf("Read %d bytes at offset %d\n",size,offset);
     filesystem_t* fs=node->fs;
     if(offset+size>node->size)
     {

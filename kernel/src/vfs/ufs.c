@@ -74,10 +74,11 @@ int get_abs_path(const char *path,char* abs_path)//能够处理/.和/..以达到
       int stack[32];//看作栈的结构,stack[i]，记录第(i+1)个斜杠在raw_path中的位置
       int nr_slash=0;
       int lid=1,rid=1;
+      int len=strlen(raw_path);
       char cur_name[32];
-      for(int i=1;i<=strlen(raw_path);i++)
+      for(int i=1;i<=len;i++)
       {
-          if(i<strlen(raw_path))
+          if(i<len)
           { if(raw_path[i]!='/') continue;
           }
 
@@ -97,9 +98,8 @@ int get_abs_path(const char *path,char* abs_path)//能够处理/.和/..以达到
       {
           abs_path[abs_len++]='/';
           int j=stack[i]+1;
-          while(raw_path[j]!='/') 
-          {
-              abs_path[abs_len++]=raw_path[j++];
+          while(j<len&&raw_path[j]!='/') 
+          {  abs_path[abs_len++]=raw_path[j++];
           }
       }
       abs_path[abs_len]='\0';

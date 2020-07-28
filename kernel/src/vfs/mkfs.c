@@ -98,6 +98,8 @@ int read_data(inode_t* node,int offset,char* buf,int size)
     ufs->dev->ops->read(ufs->dev,Entry(1),dir,sz(dir_entry));
     xxd((void*)dir,32);
     printf("entry_offset = %x\n",Entry(node->node));
+    ufs->dev->ops->read(ufs->dev,Entry(1),dir,sz(dir_entry));
+    xxd((void*)dir,32);
     ufs->dev->ops->read(ufs->dev,Entry(node->node),&dir,sz(dir_entry));
     xxd((void*)dir,32);
     printf("size:%d size:%d\n",dir->DIR_FileSize,node->size);

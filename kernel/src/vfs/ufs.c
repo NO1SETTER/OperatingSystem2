@@ -85,7 +85,6 @@ int get_abs_path(const char *path,char* abs_path)//能够处理/.和/..以达到
           rid=i;
           strncpy(cur_name,raw_path+lid,rid-lid);
           cur_name[rid-lid]='\0';
-          printf("cur->name=%s\n",cur_name);
           if(strcmp(cur_name,".")==0) assert(1);
           else if(strcmp(cur_name,"..")==0)
                 nr_slash=nr_slash-1;
@@ -103,7 +102,6 @@ int get_abs_path(const char *path,char* abs_path)//能够处理/.和/..以达到
           }
       }
       abs_path[abs_len]='\0';
-  printf("abs_path=%s\n",abs_path);
   return 1;
 }
 

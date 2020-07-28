@@ -9,6 +9,7 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径
   int len=strlen(path_name);
   int lid=1,rid=1;
   char cur_name[32];//当前检索到的文件夹
+  int depth=0;
   for(int i=1;i<=len;i++)
   {
     if(path_name[i]!='/'&&i!=len) continue;//i==len时代表访问到末尾,单独访问
@@ -20,7 +21,7 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径
     for(int j=0;j<nr_files;j++)
     {
       read_data(now_node,j*sz(ufs_dirent),(char*)drt,sz(ufs_dirent));
-      for(int k=0;k<(i-1)*2;k++)
+      for(int k=0;k<depth*2;k++)
         printf(" ");
       printf("drt->name=%s\n",drt->name);
       if(strcmp(drt->name,cur_name)==0)//找到了
@@ -36,6 +37,7 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径
     }
     now_node=&file_table[next_node];
     lid=i+1;
+    depth=depth+1;
   }
   return now_node->node;
 }

@@ -56,7 +56,14 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支
 
 int get_abs_path(const char *path,char* abs_path)//能够处理/.和/..以达到最简
 {
-  char raw_path[256];
+  if(path[0]=='/')  
+    strcpy(abs_path,path);
+  else 
+  {
+    if(strcmp(cur->cur_path,"/")==0)  sprintf(abs_path,"/%s",path);
+    else  sprintf(abs_path,"%s/%s",cur->cur_path,path);
+  }
+  /*char raw_path[256];
   if(path[0]=='/')  
     strcpy(raw_path,path);
   else 
@@ -96,7 +103,7 @@ int get_abs_path(const char *path,char* abs_path)//能够处理/.和/..以达到
           }
       }
       abs_path[abs_len]='\0';
-       printf("                  abs_path=%s               \n",abs_path);
+*/
   return 1;
 }
 

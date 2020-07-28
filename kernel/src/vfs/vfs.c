@@ -122,7 +122,7 @@ extern   int ufs_mkdir(const char *pathname);
   int vfs_write(int fd, void *buf, int count)
   {
     #ifdef DEBUG_
-      printf("write to fd:%d\n",fd);
+      printf("\nwrite to fd:%d\n",fd);
     #endif
     if(ref_table[fd].valid)
     {
@@ -139,7 +139,7 @@ extern   int ufs_mkdir(const char *pathname);
   int vfs_read(int fd, void *buf, int count)
   {
     #ifdef DEBUG_
-      printf("read from fd:%d\n",fd);
+      printf("\nread from fd:%d\n",fd);
     #endif
     if(ref_table[fd].valid)
     {
@@ -156,7 +156,7 @@ extern   int ufs_mkdir(const char *pathname);
   int vfs_close(int fd)
   { 
     #ifdef DEBUG_
-      printf("close fd:%d\n",fd);
+      printf("\nclose fd:%d\n",fd);
     #endif
     if(ref_table[fd].valid)
     {
@@ -176,7 +176,7 @@ extern   int ufs_mkdir(const char *pathname);
     filesystem_t* fs=find_fs(pathname);
     int fd = fs->ops->open(pathname,flags);
     #ifdef DEBUG_
-      printf("file:%s in fs:%s is allocated a fd:%d\n",pathname,fs->name,fd);
+      printf("\nfile:%s in fs:%s is allocated a fd:%d\n",pathname,fs->name,fd);
     #endif
     return fd;
   }
@@ -184,7 +184,7 @@ extern   int ufs_mkdir(const char *pathname);
   int vfs_lseek(int fd, int offset, int whence)
   {
     #ifdef DEBUG_
-      printf("lseek fd:%d\n",fd);
+      printf("\nlseek fd:%d\n",fd);
     #endif
     if(ref_table[fd].valid)
     {
@@ -203,7 +203,7 @@ extern   int ufs_mkdir(const char *pathname);
   int vfs_link(const char *oldpath, const char *newpath)//创建ref
   {
     #ifdef DEBUG_
-      printf("link %s to %s\n",newpath,oldpath);
+      printf("\nlink %s to %s\n",newpath,oldpath);
     #endif
     filesystem_t* fs = find_fs(oldpath);
     assert(fs==ufs);
@@ -213,7 +213,7 @@ extern   int ufs_mkdir(const char *pathname);
   int vfs_unlink(const char *pathname)
   {
     #ifdef DEBUG_
-      printf("unlink %s\n",pathname);
+      printf("\nunlink %s\n",pathname);
     #endif
     filesystem_t* fs=find_fs(pathname);
     assert(fs==ufs);
@@ -222,7 +222,7 @@ extern   int ufs_mkdir(const char *pathname);
   
   int vfs_fstat(int fd, struct ufs_stat *buf)
   {
-    printf("fstat fd:%d\n",fd);
+    printf("\nfstat fd:%d\n",fd);
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
@@ -235,7 +235,7 @@ extern   int ufs_mkdir(const char *pathname);
   {
       char abs_path[256];
       get_abs_path(pathname,abs_path);
-      printf("mkdir:%s\n",abs_path);
+      printf("\nmkdir:%s\n",abs_path);
       filesystem_t* fs=find_fs(abs_path);
       assert(fs==ufs);
       return fs->ops->mkdir(abs_path);
@@ -245,7 +245,7 @@ extern   int ufs_mkdir(const char *pathname);
   {
     char abs_path[256];
     get_abs_path(path,abs_path);
-    printf("change current dir of thread:%d from %s to %s\n",cur->id,cur->cur_path,abs_path);
+    printf("\nchange current dir of thread:%d from %s to %s\n",cur->id,cur->cur_path,abs_path);
     strcpy(cur->cur_path,abs_path);
     printf("cur_path is %s\n",cur->cur_path);
     return 0;

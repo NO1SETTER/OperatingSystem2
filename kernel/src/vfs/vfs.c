@@ -233,10 +233,12 @@ extern   int ufs_mkdir(const char *pathname);
 
   int vfs_mkdir(const char *pathname)
   {
-      printf("mkdir:%s\n",pathname);
-      filesystem_t* fs=find_fs(pathname);
+      char abs_path[256];
+      get_abs_path(pathname,abs_path);
+      printf("mkdir:%s\n",abs_path);
+      filesystem_t* fs=find_fs(abs_path);
       assert(fs==ufs);
-      return fs->ops->mkdir(pathname);
+      return fs->ops->mkdir(abs_path);
   }
 
   int vfs_chdir(const char *path)

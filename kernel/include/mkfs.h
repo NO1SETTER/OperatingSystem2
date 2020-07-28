@@ -27,7 +27,8 @@ struct fat_header//类似FAT32实现,但是事实上它包括了Data之前的所
 {
     uint8_t  padding1[47];
     uint32_t BS_ExistFiles;
-    uint8_t  padding2[461];//补充空位
+    uint32_t BS_UsedCluster;
+    uint8_t  padding2[457];//补充空位
     uint8_t  padding3[512*7];
 }__attribute__((packed));
 

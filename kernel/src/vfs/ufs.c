@@ -310,7 +310,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
   }
 
 
-  int exist_files=0;
+
   filesystem_t* ufs_init()
   {
     ufs=(filesystem_t*)kalloc_safe(sz(filesystem));
@@ -326,6 +326,8 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     ufs->ops->unlink=ufs_unlink;
     ufs->ops->fstat=ufs_fstat;
     ufs->ops->mkdir=ufs_mkdir;
+    
+    int exist_files=0;
     ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&exist_files,4);
     exist_files=exist_files-1;
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));

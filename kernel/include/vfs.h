@@ -76,7 +76,6 @@ int valid;
 mount_t mount_table[100];
 
 inode_t file_table[2000];
-extern int exist_files;
 
 typedef struct refitem
 {

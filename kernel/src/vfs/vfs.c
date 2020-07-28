@@ -1,5 +1,6 @@
 #include<common.h>
 #include<vfs.h>
+#include<mkfs.h>
 //extensions
 
 int min(int a,int b){return a<b?a:b;}
@@ -88,7 +89,7 @@ void push_inode(int x){inode_set[nr_inode++]=x;}
 int pop_inode(){return inode_set[--nr_inode];}
 int alloc_inode()
 {
-  if(max_inode==-1) max_inode=exist_files;
+  if(max_inode==-1) ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&max_inode,4);
   assert(nr_inode>=0);
   int ret=-1;
   if(nr_inode) ret=pop_inode();

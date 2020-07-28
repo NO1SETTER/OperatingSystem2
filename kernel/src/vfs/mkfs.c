@@ -2,16 +2,18 @@
 #include<mkfs.h>
 
 int cluster_set[10000];//记录小于max_cluster可用的cluster
-int start_cluster=(DATA_START-FS_START)/ClusterSize;
-int max_cluster=(DATA_START-FS_START)/ClusterSize;
+int max_cluster=-1;
 int nr_cluster=0;
 void push_cluster(int x) {cluster_set[nr_cluster++]=x;}
 int pop_cluster() {return cluster_set[--nr_cluster];}
 int alloc_cluster()
 {
+    if(max_cluster==-1) ufs->dev->ops->read(ufs->dev,FS_START+51,(void*)&max_cluster,4);
     assert(nr_cluster>=0);
-    if(nr_cluster) return pop_cluster();
-    return max_cluster;
+    int ret=-1;
+    if(nr_cluster) ret=pop_cluster();
+    else ret=max_cluster;
+    return ret;
 }
 
 

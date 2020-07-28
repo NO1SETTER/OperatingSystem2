@@ -72,16 +72,14 @@ struct fat_header//类似FAT32实现,但是事实上它包括了Data之前的所
     uint8_t  BS_VolLab[11];
     uint8_t  BS_FilSysType[8];//字符串"FAT32"
     uint32_t BS_ExistFiles;
-    uint8_t  padding1[459];//补充空位
+    uint32_t BS_UsedClusters;
+    uint8_t  padding1[455];//补充空位
     uint32_t signature_word:16;//0xaa55
     uint8_t  padding2[512*7];
     struct   fat_entry fat[(ENTRY_START-FAT_START)/sizeof(struct fat_entry)];
 }__attribute__((packed));
 struct fat_header* fh;
 
-
-void fat_init();
-int  cluster_alloc();
 void parse_args(int argc,char *argv[]);
 int make_dir_entry(int type,char* buf);//type指示文件/目录,attr指示属性;//type指示文件/目录,attr指示属性
 int write_data(struct dir_entry* dir,int offset,char* buf,int size);
@@ -89,30 +87,6 @@ void recursive_mkfs(char* pathname,int inode,int depth);
 /*每个Sec大小为0x200即0.5KB,每个cluster大小为0x1000即4KB,考虑最大256MB有64*1024个block
 那么FAT表只用64*1024*4byte=256KB即可管理,FATSz为512Sec,16KB
 */
-
-int main(int argc,char* argv[]){
-  parse_args(argc,argv);
-  fh=(struct fat_header*)(disk+FS_START);
-  fh->BPB_BytePerSec=0x0200;
-  fh->BPB_SecPerClus=0x8;
-  fh->BPB_RsvdSecCnt=0x8;
-  fh->BPB_NumFATs=0x1;
-  fh->BPB_TotSec32=IMG_SIZE/fh->BPB_BytePerSec;
-  fh->BPB_FATSz32=0x200;
-  fh->BS_ExistFiles=0;
-  fh->signature_word=0xaa55;
-  strcpy((char*)fh->BS_FilSysType,"FAT32");
-  fat_init();
-  char buf[256];//Entry(0)写入的是根目录
-  int start_node=make_dir_entry(T_DIR,buf);
-  lseek(fd,Entry(start_node),SEEK_SET);
-  assert(write(fd,buf,sizeof(struct dir_entry))!=-1);
-  recursive_mkfs(argv[3],start_node,0);
-  fh->BS_ExistFiles=inode_ct;
-  close(fd);
-  munmap(disk, IMG_SIZE);
-  printf("%d files in total\n",inode_ct);
-}
 
 //文件第一块分配,在这里完成
 void fat_init()
@@ -137,6 +111,31 @@ int cluster_alloc()
     return min_cid-1;
   }
   return 0;
+}
+
+int main(int argc,char* argv[]){
+  parse_args(argc,argv);
+  fh=(struct fat_header*)(disk+FS_START);
+  fh->BPB_BytePerSec=0x0200;
+  fh->BPB_SecPerClus=0x8;
+  fh->BPB_RsvdSecCnt=0x8;
+  fh->BPB_NumFATs=0x1;
+  fh->BPB_TotSec32=IMG_SIZE/fh->BPB_BytePerSec;
+  fh->BPB_FATSz32=0x200;
+  fh->BS_ExistFiles=0;
+  fh->signature_word=0xaa55;
+  strcpy((char*)fh->BS_FilSysType,"FAT32");
+  fat_init();
+  char buf[256];//Entry(0)写入的是根目录
+  int start_node=make_dir_entry(T_DIR,buf);
+  lseek(fd,Entry(start_node),SEEK_SET);
+  assert(write(fd,buf,sizeof(struct dir_entry))!=-1);
+  recursive_mkfs(argv[3],start_node,0);
+  fh->BS_ExistFiles=inode_ct;
+  fh->BS_UsedClusters=min_cid;
+  close(fd);
+  munmap(disk, IMG_SIZE);
+  printf("%d files in total\n",inode_ct);
 }
 
 

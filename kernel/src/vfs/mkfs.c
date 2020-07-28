@@ -88,11 +88,13 @@ int read_data(inode_t* node,int offset,char* buf,int size)
     xxd((void*)ddir,32);
     printf("read from file:%d,its current size is:%d\n",node->node,node->size);
     printf("read %d bytes from offset:%d\n",size,offset);
+     ufs->dev->ops->read(ufs->dev,Entry(1),ddir,sz(dir_entry));
+    xxd((void*)ddir,32);
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     filesystem_t *fs=node->fs;
     printf("inode = %d\n",node->node);
     printf("entry_offset = %x\n",Entry(node->node));
-    ufs->dev->ops->read(ufs->dev,Entry(1),&dir,sz(dir_entry));
+    ufs->dev->ops->read(ufs->dev,Entry(node->node),&dir,sz(dir_entry));
     xxd((void*)dir,32);
     printf("size:%d size:%d\n",dir->DIR_FileSize,node->size);
 

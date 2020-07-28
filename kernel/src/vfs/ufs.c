@@ -96,6 +96,7 @@ int get_abs_path(const char *path,char* abs_path)//能够处理/.和/..以达到
           }
       }
       abs_path[abs_len]='\0';
+       printf("                  abs_path=%s               \n",abs_path);
   return 1;
 }
 

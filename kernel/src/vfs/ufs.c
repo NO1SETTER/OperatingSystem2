@@ -20,7 +20,7 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径
     for(int j=0;j<nr_files;j++)
     {
       read_data(now_node,j*sz(ufs_dirent),(char*)drt,sz(ufs_dirent));
-      printf("drt->name=%s\n",drt->name);
+      //printf("drt->name=%s\n",drt->name);
       if(strcmp(drt->name,cur_name)==0)//找到了
       {
         next_node=drt->inode;
@@ -275,6 +275,7 @@ int get_name(const char* path,char* name)
       
       struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
       int new_inode=make_dir_entry(T_DIR,dir);
+      assert(0);
       ufs->dev->ops->write(ufs->dev,Entry(new_inode),dir,sz(dir_entry));
       
       char name[32];

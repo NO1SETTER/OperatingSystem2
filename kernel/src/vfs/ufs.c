@@ -42,8 +42,13 @@ int get_abs_path(const char *path,char* abs_path)
 {
   if(path[0]=='/')
     strcpy(abs_path,path);
-  else
+  else 
+  {
+    if(strcmp(cur->cur_path,"/")==0)
+    sprintf(abs_path,"/%s",path);
+    else
     sprintf(abs_path,"%s/%s",cur->cur_path,path);
+  }
   return 1;
 }
 

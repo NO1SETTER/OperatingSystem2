@@ -288,17 +288,6 @@ int get_name(const char* path,char* name)
     return -1;
   }
 
-void xxd(const char *str,int n)
-{
-  printf("xxd:");
-  for(int i=0;i<n;i++)
-  {
-    if(i%16==0) printf("\n");
-    printf("%.2hhx",str[i]);
-    if(i%2) printf(" ");
-  }
-  printf("\n");
-}
 
   int exist_files=0;
   filesystem_t* ufs_init()

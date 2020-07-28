@@ -240,8 +240,10 @@ extern   int ufs_mkdir(const char *pathname);
 
   int vfs_chdir(const char *path)
   {
+    char abs_path[256];
+    get_abs_path(path,abs_path);
     printf("change current dir of thread:%d to %s\n",cur->id,path);
-    strcpy(cur->cur_path,path);
+    strcpy(cur->cur_path,abs_path);
     return 0;
   }
 

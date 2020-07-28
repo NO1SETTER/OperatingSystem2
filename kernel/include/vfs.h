@@ -100,3 +100,6 @@ filesystem_t* devfs;
 
 void xxd(const char* str,int n);
 filesystem_t* find_fs(const char* path);
+
+int get_abs_path(const char *path,char* abs_path);
+int get_name(const char* path,char* name);

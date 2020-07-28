@@ -173,7 +173,7 @@ extern   int ufs_mkdir(const char *pathname);
   //设定是根据pathname直接可以确定它属于哪个文件系统?
   int vfs_open(const char *pathname, int flags)
   {
-    printf("open: %s\n",pathname);
+    printf("\nopen: %s\n",pathname);
     filesystem_t* fs=find_fs(pathname);
     int fd = fs->ops->open(pathname,flags);
     #ifdef DEBUG_

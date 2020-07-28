@@ -167,6 +167,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     get_abs_path(pathname,abs_path);
 
     int inode=locate_file(abs_path);
+    printf("inode=%d\n",inode);
     int fd=alloc_fd();
     if(inode==INT_MIN)
     {
@@ -321,6 +322,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     char abs_path[256];//该文件夹要被创建的路径
     get_abs_path(pathname,abs_path);
     int inode=locate_file((char*)pathname);
+    printf("inode=%d\n",inode);
     printf("mkdir inode=%d\n",inode);
     if(inode>=0)
     {

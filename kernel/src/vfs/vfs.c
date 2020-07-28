@@ -176,7 +176,7 @@ extern   int ufs_mkdir(const char *pathname);
     filesystem_t* fs=find_fs(pathname);
     int fd = fs->ops->open(pathname,flags);
     #ifdef DEBUG_
-      printf("\nfile:%s in fs:%s is allocated a fd:%d\n",pathname,fs->name,fd);
+      printf("file:%s in fs:%s is allocated a fd:%d\n",pathname,fs->name,fd);
     #endif
     return fd;
   }

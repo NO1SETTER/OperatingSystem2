@@ -55,6 +55,18 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
   return ufs;
 }
 
+void xxd(const char *str,int n)
+{
+  printf("xxd:");
+  for(int i=0;i<n;i++)
+  {
+    if(i%16==0) printf("\n");
+    printf("%.2hhx",str[i]);
+    if(i%2) printf(" ");
+  }
+  printf("\n");
+}
+
 int alloc_fd()
 {
   for(int i=0;i<nr_ref;i++)

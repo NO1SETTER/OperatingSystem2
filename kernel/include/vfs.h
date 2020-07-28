@@ -97,4 +97,5 @@ filesystem_t* ufs;
 filesystem_t* procfs;
 filesystem_t* devfs;
 
+void xxd(const char* str,int n);
 filesystem_t* find_fs(const char* path);

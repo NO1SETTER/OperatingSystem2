@@ -46,6 +46,7 @@ int write_data(inode_t* node,int offset,char* buf,int size)
 
     node->size=max(node->size,offset+size);
     int cid = node->cid;
+    printf("First Cluster at %d\n",cid);
     while(offset>ClusterSize)
     {
         ufs->dev->ops->read(fs->dev,Fat(cid),&cid,4);

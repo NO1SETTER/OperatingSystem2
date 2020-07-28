@@ -67,9 +67,9 @@ void xxd(const char *str,int n)
   printf("\n");
 }
 
-int alloc_fd()
+int alloc_fd()//所有fd从1开始
 {
-  for(int i=0;i<nr_ref;i++)
+  for(int i=1;i<nr_ref;i++)
   { if(!ref_table[i].valid)
     {
       ref_table[i].fd=i;

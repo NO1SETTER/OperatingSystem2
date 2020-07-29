@@ -21,6 +21,7 @@ struct proc_inode//proc_inode通过inode继承一些文件属性
 {
 char path_name[64];
 int proc_type;
+int offset;
 int size;
 struct data_block* data;
 int valid;
@@ -90,7 +91,7 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
         nblock->size=min(count-write_bytes,DATA_SIZE);
         write_bytes=write_bytes+min(count-write_bytes,DATA_SIZE);
     }
-    return 0;
+    return count;
 }
 //standard realizations
   int procfs_write(int fd, void *buf, int count)
@@ -111,7 +112,7 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
           read_bytes=read_bytes+min(count-read_bytes,data->size);
       }
       if(read_bytes<count) return -1;
-      return 0;
+      return count;
   }
 
   int procfs_close(int fd)//只是使该文件描述符无效，不直接使得inode无效
@@ -146,17 +147,16 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
 
   int procfs_fstat(int fd,struct ufs_stat* buf)
   {
-    int node=ref_table[fd].id;
-    if(!proc_table[fd]->valid)
-    {return -1;}
+    if(!ref_table[fd].valid) return -1;
 
+    int node=ref_table[fd].id;
     buf->id=node;
     buf->size=proc_table[node]->size;
     switch(proc_table[node]->proc_type)
     {
         case PROC_ROOT:case PROC_DIR:buf->type=T_DIR; break;
         case PROC_MEMINFO:case PROC_CPUINFO:case PROC_NAME:
-        buf->type=T_FILE;buf->size=0;break;
+        buf->type=T_FILE;break;
         default:break;
     }
     return 0;
@@ -204,6 +204,7 @@ int procfs_create(int pid,char* name)//线程创建时调用
     strcpy(proc_table[proc_id1]->path_name,path);
     proc_table[proc_id1]->proc_type=PROC_DIR;
     proc_table[proc_id1]->size=0;
+    proc_table[proc_id1]->offset=0;
     proc_table[proc_id1]->valid=1;
     nr_proc=max(nr_proc,proc_id1);
 
@@ -212,6 +213,7 @@ int procfs_create(int pid,char* name)//线程创建时调用
     strcpy(proc_table[proc_id2]->path_name,path);
     proc_table[proc_id2]->proc_type=PROC_NAME;
     proc_table[proc_id2]->size=0;
+    proc_table[proc_id2]->offset=0;
     proc_table[proc_id2]->valid=1;
     nr_proc=max(nr_proc,proc_id2);
 

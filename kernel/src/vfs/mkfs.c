@@ -52,6 +52,7 @@ int write_data(inode_t* node,int offset,char* buf,int size)
     }
 
     node->size=max(node->size,offset+size);
+    node->offset=offset+size;
     int cid = node->cid;
     printf("First Cluster at %d\n",cid);
     while(offset>ClusterSize)
@@ -80,13 +81,13 @@ int write_data(inode_t* node,int offset,char* buf,int size)
         write_bytes=write_bytes+min(ClusterSize,size);
     }
     fs->dev->ops->write(fs->dev,Fat(cid),&EOF,4);
-    return write_start;
+    return size;
 }
 
 
 
-int read_data(inode_t* node,int offset,char* buf,int size)//应该以node中的数据为准,磁盘中的数据可能未更新
-{
+int read_data(inode_t* node,int offset,char* buf,int size)
+{//应该以node中的数据为准,磁盘中的数据可能未更新
     //printf("Read from file:%d, size:%d\n",node->node,node->size);
     //printf("Read %d bytes at offset %d\n",size,offset);
     filesystem_t* fs=node->fs;
@@ -96,6 +97,7 @@ int read_data(inode_t* node,int offset,char* buf,int size)//应该以node中的�
         return -1;
     }
     
+    node->offset=offset+size;
     int cid=node->cid;
     while(offset>ClusterSize)
     {
@@ -120,7 +122,7 @@ int read_data(inode_t* node,int offset,char* buf,int size)//应该以node中的�
         }
         cid=next_id;
     }
-    return read_start;
+    return size;
 }
 
 

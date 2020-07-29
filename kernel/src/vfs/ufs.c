@@ -97,6 +97,12 @@ int get_abs_path(const char *path,char* abs_path)//能够处理/.和/..以达到
           {  abs_path[abs_len++]=raw_path[j++];
           }
       }
+      
+      if(nr_slash==0)
+      {
+          abs_path[0]='/';
+          abs_len=1;
+      }
       abs_path[abs_len]='\0';
   return 1;
 }

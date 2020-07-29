@@ -63,7 +63,6 @@ struct indops
 {
 };
 
-//vfs
 #define nr_mnt 100
 #define nr_file 1000
 #define nr_ref 1000
@@ -77,7 +76,6 @@ int valid;
 mount_t mount_table[100];
 
 inode_t file_table[2000];
-
 typedef struct refitem
 {
   int fd;
@@ -90,16 +88,20 @@ ref_t ref_table[1000];//设定:fd即为下标
 /*ref_table为所有文件系统共用，id指向该文件系统的实体管理数组
 file_table为ufs专有,proc_table为procfs专有*/
 
-int alloc_inode();//分配一个持久存在的inode唯一始终指向某一个文件
-int alloc_proc_inode();
-int alloc_fd();//分配一个最小未用fd,也就是我们想实现的alloc_ref_id
-
 filesystem_t* ufs;
 filesystem_t* procfs;
 filesystem_t* devfs;
 
+//alloc
+int alloc_inode();//分配一个持久存在的inode唯一始终指向某一个文件
+int alloc_proc_inode();
+int alloc_fd();//分配一个最小未用fd,也就是我们想实现的alloc_ref_id
+extern sem_t inode_lock;
+extern sem_t proc_inode_lock;
+extern sem_t fd_lock;
+
+//tool_functions
 void xxd(const char* str,int n);
 filesystem_t* find_fs(const char* path);
-
 int get_abs_path(const char *path,char* abs_path);
 int get_name(const char* path,char* name);

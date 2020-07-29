@@ -50,4 +50,7 @@ struct dir_entry
 int make_dir_entry(int type,int fid,struct dir_entry* buf);//type指示文件/目录,attr指示属性
 int write_data(inode_t* node,int offset,char* buf,int size);
 int read_data(inode_t* node,int offset,char* buf,int size);
-int cluster_alloc();
+
+//cluster
+int alloc_cluster();
+extern sem_t cluster_lock;

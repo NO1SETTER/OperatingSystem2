@@ -1,6 +1,5 @@
 #include<mkfs.h>
 //extensions
-
 int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支持/.和/..
 {//如果找到了则返回inode,没找到返回上一级inode的负值,上一级inode也没找到则不允许创建返回INT_MIN
   assert(path_name[0]=='/');
@@ -59,14 +58,7 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支
 }
 
 int get_abs_path(const char *path,char* abs_path)//能够处理/.和/..以达到最简
-{/*
-  if(path[0]=='/')  
-    strcpy(abs_path,path);
-  else 
-  {
-    if(strcmp(cur->cur_path,"/")==0)  sprintf(abs_path,"/%s",path);
-    else  sprintf(abs_path,"%s/%s",cur->cur_path,path);
-  }*/
+{
  char raw_path[256];
   if(path[0]=='/')  
     strcpy(raw_path,path);
@@ -122,6 +114,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
   strcpy(name,path+pos);
   return 0;
 }
+
 //standard realizations
   int ufs_write(int fd, void *buf, int count)
   { //检查已经在vfs层完成了

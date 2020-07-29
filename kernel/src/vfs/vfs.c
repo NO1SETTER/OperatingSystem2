@@ -1,8 +1,11 @@
 #include<common.h>
 #include<vfs.h>
 #include<mkfs.h>
-//extensions
 
+sem_t inode_lock;
+sem_t fd_lock;
+
+//extensions
 int min(int a,int b){return a<b?a:b;}
 int max(int a,int b){return a>b?a:b;}
 
@@ -70,15 +73,19 @@ void xxd(const char *str,int n)
 
 int alloc_fd()//所有fd从1开始
 {
+  sem_wait(&fd_lock);
+  int ret=-1;
   for(int i=1;i<nr_ref;i++)
   { if(!ref_table[i].valid)
     {
       ref_table[i].fd=i;
       ref_table[i].valid=1;
-      return i;
+      ret=i;
+      break;
     }
   }
-return -1;
+  sem_signal(&fd_lock);
+  return ret;
 }
 
 //希望做的是通过管理inode直接管理文件号的分配，并且同步到磁盘中的文件系统中去
@@ -89,6 +96,7 @@ void push_inode(int x){inode_set[nr_inode++]=x;}
 int pop_inode(){return inode_set[--nr_inode];}
 int alloc_inode()
 {
+  sem_wait(&inode_lock);
   if(max_inode==-1) ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&max_inode,4);
   assert(nr_inode>=0);
   int ret=-1;
@@ -97,6 +105,7 @@ int alloc_inode()
   while(file_table[ret].valid)
   {ret=ret+1;}
   max_inode=ret+1;
+  sem_signal(&inode_lock);
   return ret;
 }
 
@@ -109,13 +118,17 @@ void vfs_test()
 extern filesystem_t* ufs_init();
 extern filesystem_t* procfs_init();
 extern filesystem_t* devfs_init();
-extern   int ufs_mkdir(const char *pathname);
+extern int ufs_mkdir(const char *pathname);
   void vfs_init()
   {
     for(int i=0;i<nr_mnt;i++) mount_table[i].valid = 0;
     vfs_mount("/",ufs_init());
     vfs_mount("/proc",procfs_init());
     vfs_mount("/dev",devfs_init());
+    sem_init(&inode_lock,"inode_lock",1);
+    sem_init(&proc_inode_lock,"proc_inode_lock",1);
+    sem_init(&fd_lock,"fd_lock",1);
+    sem_init(&cluster_lock,"cluster_lock",1);
   }
    
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd

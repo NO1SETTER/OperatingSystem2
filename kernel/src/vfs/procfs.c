@@ -6,6 +6,8 @@
 #define PROC_NAME 4
 #define DATA_SIZE 32
 
+sem_t proc_inode_lock;
+
 int PROC_ROOT_ID;
 struct data_block//设定
 {
@@ -29,6 +31,7 @@ struct proc_inode* proc_table[10000];
 int nr_proc=0;
 int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不用管data_block的分配
 {
+  sem_wait(&proc_inode_lock);
   int ret=-1;
   for(int i=0;i<nr_proc;i++)
   {
@@ -43,6 +46,7 @@ int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不
   ret=nr_proc;
   if(!proc_table[ret]) proc_table[ret]=(struct proc_inode*)kalloc_safe(sz(proc_inode));
   proc_table[ret]->valid=1;
+  sem_signal(&proc_inode_lock);
   return ret;
 }
 

@@ -115,9 +115,11 @@ int alloc_inode()
   return ret;
 }
 
+#include "traverse.inc"
 void vfs_test()
 {
   #include "workload.inc"
+  traverse("");
 }
 
 //standard realizations

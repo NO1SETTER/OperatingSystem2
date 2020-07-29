@@ -51,27 +51,27 @@ void set_trap(task_t* t)
 {
   if(trap_task==t)//由于上次自陷调度原线程出现的情况，这种情况下简单置1即可
   {
-    sp_lock(&t->lk);
+    kmt->spin_lock(&t->lk);
     t->is_trap=1;
-    sp_unlock(&t->lk);
+    kmt->spin_unlock(&t->lk);
     return;
   }
   if(trap_task)
   {
-    sp_lock(&trap_task->lk);
+    kmt->spin_lock(&trap_task->lk);
     trap_task->is_trap=0;
     #ifdef _DEBUG
       printf("%s set free from trap with status:%d\n",trap_task->name,trap_task->status);
     #endif
-    sp_unlock(&trap_task->lk);
+    kmt->spin_unlock(&trap_task->lk);
   }
-    sp_lock(&t->lk);
+    kmt->spin_lock(&t->lk);
     t->is_trap=1;
     trap_task=t;
     #ifdef _DEBUG
       printf("%s set trapped with status:%d\n",trap_task->name,trap_task->status);
     #endif
-    sp_unlock(&t->lk);
+    kmt->spin_unlock(&t->lk);
 }
 
 void print_thread()

@@ -49,12 +49,13 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
   task->status=T_READY;//状态
   task->is_trap=0;
   task->ct=0;
+  task->sem_ct=0;
   strcpy(task->cur_path,"/");//初始设置为根目录
   _Area stack=(_Area){ task->stack,task->stack+STACK_SIZE};
   task->ctx=_kcontext(stack,entry,arg);//设置栈空间以及上下文
   //上下文存在于栈顶,task中的ctx指针指向该位置
-  sp_lockinit(&task->lk,"task_lock");
-  sp_lock(&thread_ctrl_lock);
+  kmt->spin_init(&task->lk,"task_lock");
+  kmt->spin_lock(&thread_ctrl_lock);
     task->id=thread_num;//id设置为当前进程数
     if(thread_num > 0)
     {
@@ -62,7 +63,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
       task->next=all_thread[0];
     }
     all_thread[thread_num++]=task;//添加到所有线程中
-  sp_unlock(&thread_ctrl_lock);
+  kmt->spin_unlock(&thread_ctrl_lock);
   #ifdef _DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
   #endif
@@ -71,9 +72,9 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
 
 static void kmt_teardown(task_t *t)
 {
-  sp_lock(&thread_ctrl_lock);
+  kmt->spin_lock(&thread_ctrl_lock);
     t->status=T_DEAD;
-  sp_unlock(&thread_ctrl_lock);
+  kmt->spin_unlock(&thread_ctrl_lock);
   kfree_safe(t->stack);
 }
 
@@ -81,7 +82,7 @@ MODULE_DEF(kmt) = {
   .init=kmt_init,
   .spin_init=sp_lockinit,
   .spin_lock=(void*)sp_lock,
-  .spin_lock=(void*)sp_unlock,
+  .spin_unlock=(void*)sp_unlock,
   .create=kmt_create,
   .teardown=kmt_teardown,
   .sem_init=sem_init,
@@ -91,12 +92,12 @@ MODULE_DEF(kmt) = {
 
 _Context* kmt_context_save(_Event ev,_Context* c)
 {
-  sp_lock(&cur->lk);
+  kmt->spin_lock(&cur->lk);
     cur->ctx=c;
     #ifdef _DEBUG
       printf("CPU#%d save context for %s\n",_cpu(),cur->name);
     #endif
-  sp_unlock(&cur->lk);
+  kmt->spin_unlock(&cur->lk);
   return NULL;
 }
 
@@ -111,16 +112,16 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
         cur=all_thread[0];
       else
       {
-        sp_lock(&cur->lk);
+        kmt->spin_lock(&cur->lk);
         if(cur->status==T_RUNNING)
           cur->status=T_READY;//虽然ready但是由于is_trap保护它暂时不会被调度
-        sp_unlock(&cur->lk);
+        kmt->spin_unlock(&cur->lk);
       }
       
       int round=0;
       while(1)
       {
-        sp_lock(&cur->lk);
+        kmt->spin_lock(&cur->lk);
         if(cur->status==T_READY&&cur->is_trap==0)
         {
           cur->status=T_RUNNING;
@@ -137,7 +138,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
           break;/*如果跑了很多轮仍然找不到可用的其他线程，并且当前陷入线程
           是可用的，那么我们选取它作为下一个线程,is_trap仍然保持并在下次自陷时舒心*/
         }
-        sp_unlock(&cur->lk);
+        kmt->spin_unlock(&cur->lk);
         cur=cur->next;
         round=round+1;
       }

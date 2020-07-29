@@ -103,3 +103,4 @@ typedef struct {
   uint32_t blkcnt, blksz;
   uint8_t *buf;
 } sd_t;
+extern sem_t sda_lock;

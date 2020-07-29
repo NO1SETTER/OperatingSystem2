@@ -1,6 +1,7 @@
 #include <devices.h>
 #include <klib.h>
 
+sem_t sda_lock;
 static int sd_init(device_t *dev) {
   sd_t *sd = dev->ptr;
   _DEV_STORAGE_INFO_t info;
@@ -11,6 +12,7 @@ static int sd_init(device_t *dev) {
     sd->blksz  = info.blksz;//512
     sd->buf    = pmm->alloc(sd->blksz);
   }
+  sem_init(&sda_lock,"sda_lock",1);
   return 0;
 }
 
@@ -32,6 +34,7 @@ static void blk_write(void *buf, int blkno, int blkcnt) {
 
 
 static ssize_t sd_read(device_t *dev, off_t offset, void *buf, size_t count) {
+  sem_wait(&sda_lock);
   sd_t *sd = dev->ptr;
   panic_on(!sd, "no disk");
   uint32_t pos = 0;
@@ -43,10 +46,12 @@ static ssize_t sd_read(device_t *dev, off_t offset, void *buf, size_t count) {
     pos   += n;
     offset = st + sd->blksz;
   }
+  sem_signal(&sda_lock);
   return pos;
 }
 
 static ssize_t sd_write(device_t *dev, off_t offset, const void *buf, size_t count) {
+  sem_wait(&sda_lock);
   sd_t *sd = dev->ptr;
   panic_on(!sd, "no disk");
   uint32_t pos = 0;
@@ -61,6 +66,7 @@ static ssize_t sd_write(device_t *dev, off_t offset, const void *buf, size_t cou
     pos   += n;
     offset = st + sd->blksz;
   }
+  sem_signal(&sda_lock);
   return pos;
 }
 

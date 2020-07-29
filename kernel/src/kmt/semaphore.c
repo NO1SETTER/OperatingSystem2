@@ -44,32 +44,33 @@ void sem_init(sem_t *sem, const char *name, int value)
 
 void sem_wait(sem_t *sem)
 {
-  sp_lock(&sem->lock);//sem->lock用于控制一切对sem的修改
+  kmt->spin_lock(&sem->lock);//sem->lock用于控制一切对sem的修改
   #ifdef _DEBUG
   printf("Task %s running on CPU#%d\n",cur->name,_cpu());
   printf("wait:%s->val = %d\n",sem->name,sem->val);
   #endif
   if(--sem->val<0) 
   {
-      sp_lock(&cur->lk);
+      kmt->spin_lock(&cur->lk);
         cur->is_trap=1;
         cur->status=T_WAITING;
+        cur->sem_ct=cur->sem_ct+1;//只有被阻塞的才需要增加sem_ct
         sem->waiter[sem->wnum++]=cur->id;
         #ifdef _DEBUG
           printf("%s blocked\n",cur->name);
         #endif
-      sp_unlock(&cur->lk);
+      kmt->spin_unlock(&cur->lk);
 
-    sp_unlock(&sem->lock);
+    kmt->spin_unlock(&sem->lock);
     _yield();
     return;
   }
-  sp_unlock(&sem->lock);
+  kmt->spin_unlock(&sem->lock);
 }
 
 void sem_signal(sem_t *sem)
 {
-  sp_lock(&sem->lock);
+  kmt->spin_lock(&sem->lock);
   sem->val=sem->val+1;
   #ifdef _DEBUG
   printf("Task %s running on CPU#%d\n",cur->name,_cpu());
@@ -89,15 +90,18 @@ void sem_signal(sem_t *sem)
         }
         assert(no!=-1);
 
-      sp_lock(&all_thread[sem->waiter[no]]->lk);
-      all_thread[sem->waiter[no]]->status=T_READY;//刚恢复活跃的线程一定尚未被调度
-      sp_unlock(&all_thread[sem->waiter[no]]->lk);
+      task_t* tsk=all_thread[sem->waiter[no]];
+      kmt->spin_lock(&tsk->lk);
+        tsk->sem_ct=tsk->sem_ct-1;//在waiter中的task的sem_ct一定大于0,否则不会被加入到waiter中
+        if(tsk->sem_ct==0)
+          tsk->status=T_READY;//刚恢复活跃的线程一定尚未被调度
+      kmt->spin_unlock(&tsk->lk);
       #ifdef _DEBUG
         printf("%s activated\n",all_thread[sem->waiter[no]]->name);
       #endif
-      for(int i=no;i<sem->wnum-1;i++)
+      for(int i=no;i<sem->wnum-1;i++)//无论该线程有没有被唤醒，它都不受此sem的限制,因此从waiter中移除
       sem->waiter[i]=sem->waiter[i+1];
       sem->wnum=sem->wnum-1;
     }
-  sp_unlock(&sem->lock);
+  kmt->spin_unlock(&sem->lock);
 }

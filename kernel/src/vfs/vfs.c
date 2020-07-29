@@ -33,10 +33,16 @@ void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是�
 
 filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系统
 {
+  if(path[0]!='/')
+  {
+    char abs_path[256];
+    get_abs_path(path,abs_path);
+    strcpy(abs_path,path);
+  }
   for(int i=0;i<nr_mnt;i++)//和每一个文件系统作比较
   {
     if(!mount_table[i].valid) continue;
-    assert(path[0]=='/'&&mount_table[i].path[0]=='/');
+    assert(mount_table[i].path[0]=='/');
     
     int len1=strlen(path),len2=strlen(mount_table[i].path);
     for(int j=1;j<len1;j++)
@@ -125,28 +131,30 @@ extern int ufs_mkdir(const char *pathname);
     vfs_mount("/",ufs_init());
     vfs_mount("/proc",procfs_init());
     vfs_mount("/dev",devfs_init());
+
     sem_init(&inode_lock,"inode_lock",1);
     sem_init(&proc_inode_lock,"proc_inode_lock",1);
     sem_init(&fd_lock,"fd_lock",1);
     sem_init(&cluster_lock,"cluster_lock",1);
   }
-   
+  
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd
   int vfs_write(int fd, void *buf, int count)
   {
-    #ifdef DEBUG_
-      printf("\nwrite to fd:%d\n",fd);
-    #endif
+    printf("\nwrite to fd:%d\n",fd);
+    int ret=-1;
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
       { 
       int inode=ref_table[fd].id;
+      sem_wait(&file_table[inode].sem);
       filesystem_t* fs=file_table[inode].fs;
-      return fs->ops->write(fd,buf,count);
+      ret=fs->ops->write(fd,buf,count);;
+      sem_signal(&file_table[inode].sem);
       }
     }
-    return -1;
+    return ret;
   }
 
   int vfs_read(int fd, void *buf, int count)
@@ -154,16 +162,19 @@ extern int ufs_mkdir(const char *pathname);
     #ifdef DEBUG_
       printf("\nread from fd:%d\n",fd);
     #endif
+    int ret=-1;
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
       { 
-      int file_id=ref_table[fd].id;
-      filesystem_t* fs=file_table[file_id].fs;
-      return fs->ops->read(fd,buf,count);
+      int inode=ref_table[fd].id;
+      sem_wait(&file_table[inode].sem);
+      filesystem_t* fs=file_table[inode].fs;
+      ret=fs->ops->read(fd,buf,count);;
+      sem_signal(&file_table[inode].sem);
       }
     }
-    return -1;
+    return ret;
   }
 
   int vfs_close(int fd)
@@ -171,16 +182,19 @@ extern int ufs_mkdir(const char *pathname);
     #ifdef DEBUG_
       printf("\nclose fd:%d\n",fd);
     #endif
+    int ret=-1;
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
       { 
-      int file_id=ref_table[fd].id;
-      filesystem_t* fs=file_table[file_id].fs;
-      return fs->ops->close(fd);
+      int inode=ref_table[fd].id;
+      sem_wait(&file_table[inode].sem);
+      filesystem_t* fs=file_table[inode].fs;
+      ret=fs->ops->close(fd);;
+      sem_signal(&file_table[inode].sem);
       }
     }
-    return -1;
+    return ret;
   }
 
   //设定是根据pathname直接可以确定它属于哪个文件系统?
@@ -200,16 +214,19 @@ extern int ufs_mkdir(const char *pathname);
     #ifdef DEBUG_
       printf("\nlseek fd:%d\n",fd);
     #endif
+    int ret=-1;
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
       { 
-      int file_id=ref_table[fd].id;
-      filesystem_t* fs=file_table[file_id].fs;
-      return fs->ops->lseek(fd,offset,whence);
+      int inode=ref_table[fd].id;
+      sem_wait(&file_table[inode].sem);
+      filesystem_t* fs=file_table[inode].fs;
+      ret=fs->ops->lseek(fd,offset,whence);
+      sem_signal(&file_table[inode].sem);
       }
     }
-    return -1;
+    return ret;
   } 
   
   //link不需要打开..且link的结果是持久存在的
@@ -247,12 +264,10 @@ extern int ufs_mkdir(const char *pathname);
 
   int vfs_mkdir(const char *pathname)
   {
-      char abs_path[256];
-      get_abs_path(pathname,abs_path);
-      printf("\nmkdir:%s\n",abs_path);
-      filesystem_t* fs=find_fs(abs_path);
+      printf("\nmkdir:%s\n",pathname);
+      filesystem_t* fs=find_fs(pathname);
       assert(fs==ufs);
-      return fs->ops->mkdir(abs_path);
+      return fs->ops->mkdir(pathname);
   }
 
   int vfs_chdir(const char *path)

@@ -310,6 +310,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       buf->id=file_table[inode].node;
       buf->type=file_table[inode].type;
       buf->size=file_table[inode].size;
+      printf("id=%d type=%d size=%d\n",buf->id,buf->type,buf->size);
       return 0;
   }
   

@@ -275,6 +275,8 @@ extern int ufs_mkdir(const char *pathname);
     char abs_path[256];
     get_abs_path(path,abs_path);
     printf("\nchange current dir of thread:%d from %s to %s\n",cur->id,cur->cur_path,abs_path);
+    printf("\nchange current dir of thread:%d from %s to %s\n",cur->id,cur->cur_path,path);
+    
     strcpy(cur->cur_path,abs_path);
     printf("cur_path is %s\n",cur->cur_path);
     return 0;

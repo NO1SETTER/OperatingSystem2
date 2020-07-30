@@ -150,13 +150,14 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       printf("File not opened\n");
       return -1;
     }
+    
+    ref_table[fd].valid=0;
+    file_table[inode].offset=0;
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
     ufs->dev->ops->read(ufs->dev,Entry(inode),dir,sz(dir_entry));
     dir->DIR_RefCt=file_table[inode].refct;
     dir->DIR_FileSize=file_table[inode].size;
     ufs->dev->ops->write(ufs->dev,Entry(inode),dir,sz(dir_entry));
-    
-    ref_table[fd].valid=0;
     return 0;
   }
 
@@ -357,6 +358,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       char sem_name[32];
       sprintf(sem_name,"semlock_file_%d",new_inode);
       sem_init(&file_table[new_inode].sem,sem_name,1);
+      file_table[inode].offset=0;
       return 0;
     }
     return -1;

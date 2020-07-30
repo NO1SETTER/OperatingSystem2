@@ -127,7 +127,9 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       return -1;
     }
     inode_t* node=&file_table[inode];
-    return write_data(node,node->offset,(char*)buf,count);
+    write_data(node,node->offset,(char*)buf,count);
+    node->offset=node->offset+count;
+    return count; 
   }
 
   int ufs_read(int fd, void *buf, int count)
@@ -139,7 +141,9 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       return -1;
     }
     inode_t* node=&file_table[inode];
-    return read_data(node,node->offset,(char*)buf,count);
+    read_data(node,node->offset,(char*)buf,count);
+    node->offset=node->offset+count;
+    return count;
   }
 
   int ufs_close(int fd)//只是使该文件描述符无效，不直接使得inode无效

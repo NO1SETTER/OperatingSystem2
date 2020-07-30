@@ -52,7 +52,6 @@ int write_data(inode_t* node,int offset,char* buf,int size)
     }
 
     node->size=max(node->size,offset+size);
-    node->offset=offset+size;
     int cid = node->cid;
     printf("First Cluster at %d\n",cid);
     while(offset>ClusterSize)
@@ -96,8 +95,6 @@ int read_data(inode_t* node,int offset,char* buf,int size)
         printf("Read overflow\n");
         return -1;
     }
-    
-    node->offset=offset+size;
     int cid=node->cid;
     while(offset>ClusterSize)
     {

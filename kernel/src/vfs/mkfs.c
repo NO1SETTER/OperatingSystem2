@@ -42,18 +42,21 @@ int make_dir_entry(int type,int fid,struct dir_entry* dir)//type指示文件/目
 //向node指向的文件的offset处写入来自buf的size个字节
 int write_data(inode_t* node,int offset,char* buf,int size)
 {
+    #ifdef DEBUG_
     printf("Write to file:%d, size:%d\n",node->node,node->size);
     printf("Write %d bytes at offset %d\n",size,offset);
+    #endif
     filesystem_t* fs=node->fs;
     if(offset>node->size)
     {
+        #ifdef DEBUG_
         printf("Write overflow\n");
+        #endif
         return -1;
     }
 
     node->size=max(node->size,offset+size);
     int cid = node->cid;
-    printf("First Cluster at %d\n",cid);
     while(offset>ClusterSize)
     {
         ufs->dev->ops->read(fs->dev,Fat(cid),&cid,4);
@@ -87,20 +90,23 @@ int write_data(inode_t* node,int offset,char* buf,int size)
 
 int read_data(inode_t* node,int offset,char* buf,int size)
 {//应该以node中的数据为准,磁盘中的数据可能未更新
-//返回
+    #ifdef DEBUG_
     printf("Read from file:%d, size:%d\n",node->node,node->size);
     printf("Read %d bytes at offset %d\n",size,offset);
+    #endif
     filesystem_t* fs=node->fs;
     if(offset+size>node->size)
     {
+        #ifdef DEBUG_
         printf("Read overflow\n");
+        #endif
         return -1;
     }
     int cid=node->cid;
     while(offset>ClusterSize)
     {
-        fs->dev->ops->read(fs->dev,Fat(cid),&cid,4);
-        offset=offset-ClusterSize;
+      fs->dev->ops->read(fs->dev,Fat(cid),&cid,4);
+      offset=offset-ClusterSize;
     }
 
     int read_start=Clu(cid)+offset;
@@ -115,7 +121,9 @@ int read_data(inode_t* node,int offset,char* buf,int size)
         fs->dev->ops->read(fs->dev,Fat(cid),&next_id,4);
         if(next_id==FAT_EOF&&read_bytes!=size)
         {
+            #ifdef DEBUG_
             printf("read outside file\n");
+            #endif
             return -1;
         }
         cid=next_id;

@@ -119,7 +119,7 @@ int alloc_inode()
 void vfs_test()
 {
   #include "workload.inc"
-  printf("NOWSTARTTRAVERSE\n");
+  printf("segsegsegseg\n");
   traverse("");
 }
 
@@ -144,7 +144,9 @@ extern int ufs_mkdir(const char *pathname);
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd
   int vfs_write(int fd, void *buf, int count)
   {
-    printf("\nwrite to fd:%d\n",fd);
+    #ifdef DEBUG_
+      printf("\nwrite to fd:%d\n",fd);
+    #endif
     int ret=-1;
     if(ref_table[fd].valid)
     {
@@ -203,12 +205,11 @@ extern int ufs_mkdir(const char *pathname);
   //设定是根据pathname直接可以确定它属于哪个文件系统?
   int vfs_open(const char *pathname, int flags)
   {
-    printf("\nopen: %s\n",pathname);
+    #ifdef DEBUG_
+      printf("\nopen: %s\n",pathname);
+    #endif
     filesystem_t* fs=find_fs(pathname);
     int fd = fs->ops->open(pathname,flags);
-    #ifdef DEBUG_
-      printf("file:%s in fs:%s is allocated a fd:%d\n",pathname,fs->name,fd);
-    #endif
     return fd;
   }
 
@@ -244,6 +245,7 @@ extern int ufs_mkdir(const char *pathname);
     return fs->ops->link(oldpath,newpath);
   }
 
+
   int vfs_unlink(const char *pathname)
   {
     #ifdef DEBUG_
@@ -253,10 +255,13 @@ extern int ufs_mkdir(const char *pathname);
     assert(fs==ufs);
     return fs->ops->unlink(pathname);
   }
+
   
   int vfs_fstat(int fd, struct ufs_stat *buf)
   {
-    printf("\nfstat fd:%d\n",fd);
+    #ifdef DEBUG_
+      printf("\nfstat fd:%d\n",fd);
+    #endif
     if(ref_table[fd].valid)
     {
       if(ref_table[fd].thread_id==_cpu())
@@ -265,9 +270,12 @@ extern int ufs_mkdir(const char *pathname);
     return -1;
   }
 
+
   int vfs_mkdir(const char *pathname)
   {
+    #ifdef DEBUG_
       printf("\nmkdir:%s\n",pathname);
+    #endif
       filesystem_t* fs=find_fs(pathname);
       assert(fs==ufs);
       return fs->ops->mkdir(pathname);
@@ -277,14 +285,18 @@ extern int ufs_mkdir(const char *pathname);
   {
     char abs_path[256];
     get_abs_path(path,abs_path);
-    printf("\nchange current dir of thread:%d from %s to %s\n",cur->id,cur->cur_path,abs_path);
+    #ifdef DEBUG_
+    printf("\nchdir thread:%d from %s to %s\n",cur->id,cur->cur_path,abs_path);
+    #endif
     strcpy(cur->cur_path,abs_path);
-    printf("cur_path is %s\n",cur->cur_path);
     return 0;
   }
 
   int vfs_dup(int fd)
   {
+    #ifdef DEBUG_
+      printf("\n dup:%d\n",fd);
+    #endif
     int new_id=alloc_fd();
     ref_table[new_id].fd=new_id;
     ref_table[new_id].flags=ref_table[fd].flags;

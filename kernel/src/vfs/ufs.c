@@ -123,10 +123,14 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     int inode=ref_table[fd].id;
     if(file_table[inode].refct==0)//refct才表明本体状态,valid不表明
     {
-      printf("File not opened\n");
+      #ifdef DEBUG_
+        printf("File not opened\n");
+      #endif
       return -1;
     }
-        printf("write %d bytes from file:%d to offset:%d\n",count,fd,file_table[inode].offset);
+    #ifdef DEBUG_
+      printf("write %d bytes from file:%d to offset:%d\n",count,fd,file_table[inode].offset);
+    #endif
     inode_t* node=&file_table[inode];
     write_data(node,node->offset,(char*)buf,count);
     node->offset=node->offset+count;
@@ -138,10 +142,14 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     int inode=ref_table[fd].id;
     if(file_table[inode].refct==0)
     {
-      printf("File not opened\n");
+      #ifdef DEBUG_
+        printf("File not opened\n");
+      #endif
       return -1;
     }
-    printf("read %d bytes from file:%d at offset:%d\n",count,fd,file_table[inode].offset);
+    #ifdef DEBUG_
+      printf("read %d bytes from file:%d at offset:%d\n",count,fd,file_table[inode].offset);
+    #endif
     inode_t* node=&file_table[inode];
     int ret=read_data(node,node->offset,(char*)buf,count);
     node->offset=min(node->offset+count,node->size);
@@ -153,7 +161,9 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     int inode=ref_table[fd].id;
     if(file_table[inode].refct==0)
     {
-      printf("File not opened\n");
+      #ifdef DEBUG_
+        printf("File not opened\n");
+      #endif
       return -1;
     }
     
@@ -173,11 +183,12 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     get_abs_path(pathname,abs_path);
 
     int inode=locate_file(abs_path);
-    printf("inode=%d\n",inode);
     int fd=alloc_fd();
     if(inode==INT_MIN)
     {
-      printf("No such file/directory\n");
+      #ifdef DEBUG_
+        printf("No such file/directory\n");
+      #endif
       return -1;
     }
     else if(inode<0)
@@ -211,7 +222,9 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       }
       else
       {
-        printf("No such file/directory\n");
+        #ifdef DEBUG_
+          printf("No such file/directory\n");
+        #endif
         return -1;
       }
     }
@@ -233,7 +246,9 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     int node=ref_table[fd].id;
     if(!file_table[node].valid)
     {
-      printf("File not opened\n");
+      #ifdef DEBUG_
+        printf("File not opened\n");
+      #endif
       return -1;
     }
     int off=file_table[node].offset;
@@ -317,7 +332,6 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       buf->id=file_table[inode].node;
       buf->type=file_table[inode].type;
       buf->size=file_table[inode].size;
-      printf("id=%d type=%d size=%d\n",buf->id,buf->type,buf->size);
       return 0;
   }
   
@@ -327,13 +341,12 @@ int get_name(const char* path,char* name)//默认path是绝对路径
 
     char abs_path[256];//该文件夹要被创建的路径
     get_abs_path(pathname,abs_path);
-    printf("abs_path:%s\n",abs_path);
     int inode=locate_file(abs_path);
-    printf("inode=%d\n",inode);
-    printf("mkdir inode=%d\n",inode);
     if(inode>=0)
     {
+      #ifdef DEBUG_
       printf("Directory exists\n");
+      #endif
       return -1;
     }
     else
@@ -390,7 +403,6 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     
     int exist_files=0;
     ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&exist_files,4);
-     printf("exist_files:%d\n",exist_files);
     exist_files=exist_files-1;
     struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
    

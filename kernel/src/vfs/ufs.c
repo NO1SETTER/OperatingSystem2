@@ -143,9 +143,9 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     }
     printf("read %d bytes from file:%d at offset:%d\n",count,fd,file_table[inode].offset);
     inode_t* node=&file_table[inode];
-    read_data(node,node->offset,(char*)buf,count);
-    node->offset=node->offset+count;
-    return count;
+    int ret=read_data(node,node->offset,(char*)buf,count);
+    node->offset=min(node->offset+count,node->size);
+    return ret;
   }
 
   int ufs_close(int fd)//只是使该文件描述符无效，不直接使得inode无效

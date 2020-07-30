@@ -119,7 +119,6 @@ int alloc_inode()
 void vfs_test()
 {
   #include "workload.inc"
-  printf("segsegsegseg\n");
   traverse("");
 }
 

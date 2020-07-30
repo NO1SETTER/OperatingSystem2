@@ -8,7 +8,9 @@
 
 sem_t proc_inode_lock;
 
-int PROC_ROOT_ID;
+int PROC_ROOT_ID=0;
+int PROC_MEMINFO_ID;
+int PROC_CPUINFO_ID;
 struct data_block//设定
 {
 char ptr[DATA_SIZE];
@@ -77,7 +79,8 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
         proc_table[node]->data=(struct data_block*)kalloc_safe(sz(data_block));
         strncpy(proc_table[node]->data->ptr,buf,min(count,DATA_SIZE));
         proc_table[node]->data->size=min(count,DATA_SIZE);
-        write_bytes=min(count,DATA_SIZE);
+        strncpy(proc_table[node]->data->ptr,buf,min(count,DATA_SIZE));
+        write_bytes=write_bytes+min(count,DATA_SIZE);
     }
     struct data_block* data=proc_table[node]->data;
     while(data->next!=NULL)
@@ -87,11 +90,38 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
         struct data_block* nblock=(struct data_block*)kalloc_safe(sz(data_block));
         data->next=nblock;
         nblock->prev=data;
+        nblock->next=NULL;
         strncpy(nblock->ptr,buf+write_bytes,min(count-write_bytes,DATA_SIZE));
         nblock->size=min(count-write_bytes,DATA_SIZE);
         write_bytes=write_bytes+min(count-write_bytes,DATA_SIZE);
     }
     return count;
+}
+
+int proc_init(int id,int type,char* path_name)
+{
+  strcpy(proc_table[id]->path_name,path_name);
+  proc_table[id]->proc_type=type;
+  proc_table[id]->size=0;
+  proc_table[id]->offset=0;
+  proc_table[id]->data=NULL;
+  proc_table[id]->valid=1;
+  return 0;
+}
+
+int proc_free(int id)
+{
+    struct data_block* ptr=proc_table[id]->data;
+    struct data_block* prev=ptr;
+    while(ptr)
+    {
+      ptr=ptr->next;
+      kfree_safe(prev);
+      prev=ptr;
+    }
+    free(&proc_table[id]);
+    proc_table[id]=NULL;
+    return 0;
 }
 //standard realizations
   int procfs_write(int fd, void *buf, int count)
@@ -110,6 +140,7 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
       {
           strncpy(buf+read_bytes,data->ptr,min(count-read_bytes,data->size));
           read_bytes=read_bytes+min(count-read_bytes,data->size);
+          data=data->next;
       }
       if(read_bytes<count) return -1;
       return count;
@@ -192,6 +223,23 @@ extern int ufs_mkdir(const char* pathname);
     procfs->ops->unlink=procfs_unlink;
     procfs->ops->fstat=procfs_fstat;
     procfs->ops->mkdir=procfs_mkdir;
+    PROC_ROOT_ID=alloc_proc_inode();
+    PROC_MEMINFO_ID=alloc_proc_inode();
+    PROC_CPUINFO_ID=alloc_proc_inode();
+    proc_init(PROC_ROOT_ID,PROC_ROOT,"/proc");
+    proc_init(PROC_MEMINFO_ID,PROC_MEMINFO,"/proc/meminfo");
+    proc_init(PROC_CPUINFO_ID,PROC_CPUINFO,"/proc/cpuinfo");
+
+    struct ufs_dirent* mem_drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
+    mem_drt->inode=PROC_MEMINFO_ID;
+    strcpy(mem_drt->name,"meminfo");
+    struct ufs_dirent* cpu_drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
+    cpu_drt->inode=PROC_CPUINFO_ID;
+    strcpy(cpu_drt->name,"cpuinfo");
+    proc_write_data(PROC_ROOT_ID,mem_drt,sz(ufs_dirent));
+    proc_write_data(PROC_ROOT_ID,cpu_drt,sz(ufs_dirent));
+    kfree_safe(mem_drt);
+    kfree_safe(cpu_drt);
     return procfs;
   }
   //extra
@@ -201,20 +249,12 @@ int procfs_create(int pid,char* name)//线程创建时调用
     char path[64];
     sprintf(path,"/proc/%d",pid);
     int proc_id1=alloc_proc_inode();
-    strcpy(proc_table[proc_id1]->path_name,path);
-    proc_table[proc_id1]->proc_type=PROC_DIR;
-    proc_table[proc_id1]->size=0;
-    proc_table[proc_id1]->offset=0;
-    proc_table[proc_id1]->valid=1;
+    proc_init(proc_id1,PROC_DIR,path);
     nr_proc=max(nr_proc,proc_id1);
 
     sprintf(path,"/proc/%d/name",pid);
     int proc_id2=alloc_proc_inode();
-    strcpy(proc_table[proc_id2]->path_name,path);
-    proc_table[proc_id2]->proc_type=PROC_NAME;
-    proc_table[proc_id2]->size=0;
-    proc_table[proc_id2]->offset=0;
-    proc_table[proc_id2]->valid=1;
+    proc_init(proc_id2,PROC_NAME,path);
     nr_proc=max(nr_proc,proc_id2);
 
     struct ufs_dirent* drt1=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
@@ -242,16 +282,7 @@ int procfs_teardown(int pid)//线程结束时调用
       }
     }
     if(proc_id1==-1) return -1;
-    struct data_block* ptr1=proc_table[proc_id1]->data;
-    struct data_block* prev1=ptr1;
-    while(ptr1)
-    {
-      ptr1=ptr1->next;
-      kfree_safe(prev1);
-      prev1=ptr1;
-    }
-    free(&proc_table[proc_id1]);
-    proc_table[proc_id1]=NULL;
+    proc_free(proc_id1);
 
     char path2[64];
     strncpy(path2,"/proc/%d/name",pid);
@@ -263,16 +294,7 @@ int procfs_teardown(int pid)//线程结束时调用
       }
     }
     if(proc_id2==-1) return -1;
-    struct data_block* ptr2=proc_table[proc_id2]->data;
-    struct data_block* prev2=ptr2;
-    while(ptr2)
-    {
-      ptr2=ptr2->next;
-      kfree_safe(prev2);
-      prev2=ptr2;
-    }
-    free(&proc_table[proc_id2]);
-    proc_table[proc_id2]=NULL;
+    proc_free(proc_id2);
 
     struct data_block* root_ptr=proc_table[PROC_ROOT_ID]->data;
     while(1)
@@ -287,6 +309,7 @@ int procfs_teardown(int pid)//线程结束时调用
       {
         root_ptr->prev->next=root_ptr->next;
         root_ptr->next->prev=root_ptr->prev;
+        kfree_safe(root_ptr);
         break;
       } 
       root_ptr=root_ptr->next;     

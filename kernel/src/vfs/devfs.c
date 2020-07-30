@@ -1,80 +1,63 @@
 #include<mkfs.h>
 //extensions
-#define DEV_ZERO 0
-#define DEV_NULL 1
-#define DEV_RANDOM 2
-
+char device_name[8][32]={"zero","null","random","input","fb","tty1","tty2","sda"};
 #define EOF -1
+
 struct dev_inode
 {
     int fd;
     int valid;
+    char name[32];
 };
-struct dev_inode dev_table[3];//直接分配好
+
+struct dev_inode dev_table[8];//直接分配好
 
 //standard realizations
-  int devfs_write(int fd, void *buf, int count)
+  int devfs_write(int fd,void *buf, int count)
   {
-      if(fd!=dev_table[DEV_NULL].fd) return -1;
-      if(!dev_table[DEV_NULL].valid) return -1;
-      return 0;
+      if(!dev_table[fd].valid) 
+      {
+        printf("device not opened\n");
+        return -1;}
+      device_t* devv=dev->lookup(dev_table[fd].name);
+    return devv->ops->write(devv,0,buf,count);
   }
 
-  int devfs_read(int fd,  void *buf, int count)
+  int devfs_read(int fd,void *buf, int count)
   {
-      int dev_id=-1;
-      for(int i=0;i<3;i++)
-      { if(dev_table[i].fd==fd)
-          {  dev_id=i;break;
-          }
-      }
-      if(dev_id==-1)
+      if(!dev_table[fd].valid) 
       {
-          printf("device not supported\n");
-          return -1;
-      }
-      switch(dev_id)
-      {
-          case DEV_ZERO:
-            for(int i=0;i<count;i++)  *(char*)(buf+i)=0;
-            return 0;
-          case DEV_NULL:
-            return EOF;
-          case DEV_RANDOM:
-            for(int i=0;i<count;i++)  *(char*)(buf+i)=rand()%256;
-            return 0;
-      }
-      return -1;
+        printf("device not opened\n");
+        return -1;}
+      device_t* devv=dev->lookup(dev_table[fd].name);
+    return devv->ops->read(devv,0,buf,count);
   }
 
   int devfs_close(int fd)
   {
-      for(int i=0;i<3;i++)
-      {
-          if(dev_table[i].fd==fd)
-          {
-              dev_table[i].valid = 0;
-              return 0;
-          }
-      }
-    return -1;
+      dev_table[fd].valid=0;
+      return 0;
   }
 
   int devfs_open(const char *pathname, int flags)
   {
-      int fd=alloc_fd();
-      int dev_id=-1;
-      if(strcmp(pathname,"/dev/zero")==0) dev_id=DEV_ZERO;
-      else if(strcmp(pathname,"/dev/null")==0) dev_id=DEV_NULL;
-      else if(strcmp(pathname,"/dev/random")==0) dev_id=DEV_RANDOM;
-      if(dev_id==-1)
-      {
-          printf("device not supported\n");
-          return -1;
-      }
-      dev_table[dev_id].fd=fd;
-      dev_table[dev_id].valid=1;
-      return 0;
+    char name[32];
+    get_name(pathname,name);
+    int dev_id=-1;  
+    for(int i=0;i<8;i++)
+    {
+        if(strcmp(name,device_name[i])==0)
+        {  dev_id=i;break;
+        }
+    }
+    if(dev_id==-1)
+    {
+        printf("device not supported\n");
+        return -1;}
+    dev_table[dev_id].fd=dev_id;
+    dev_table[dev_id].valid=1;
+    strcpy(dev_table[dev_id].name,name);
+    return dev_id;
   }
 
   int devfs_lseek(int fd, int offset, int whence)

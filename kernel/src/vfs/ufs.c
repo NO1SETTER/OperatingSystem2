@@ -230,6 +230,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     }
     else
     {
+      while(file_table[inode].link_id!=-1) inode=file_table[inode].link_id;//找到本体
       ref_table[fd].id=inode;
     }
 
@@ -272,9 +273,16 @@ int get_name(const char* path,char* name)//默认path是绝对路径
   get_abs_path(newpath,abs_newpath);
   get_abs_path(oldpath,abs_oldpath);
   int old_inode=locate_file(abs_oldpath);
-    assert(old_inode>=0);
   int pre_inode=locate_file(abs_newpath);
-    assert(pre_inode<0&&pre_inode>INT_MIN);
+  
+  if(old_inode<=0||pre_inode>0||pre_inode==INT_MIN)
+  {
+      #ifdef DEBUG_
+        printf("link failed\n");
+      #endif
+      return -1;
+  }
+ 
   
   pre_inode=-pre_inode;
   struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
@@ -284,6 +292,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
   file_table[new_inode].node=new_inode;
   file_table[new_inode].link_id=old_inode;
   file_table[new_inode].valid=1;
+  file_table[old_inode].refct+=1;
   char name[32];
   get_name(abs_newpath,name);
   struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
@@ -298,28 +307,21 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     char abs_path[256];
     get_abs_path(pathname,abs_path);
     int inode=locate_file(abs_path);
-    assert(inode>=0);
-    file_table[inode].valid=0;
-    struct dir_entry* dir=(struct dir_entry*)kalloc_safe(sz(dir_entry));
-    if(file_table[inode].link_id!=-1)//指代被disable
+    if(inode<=0)
     {
-      file_table[inode].valid=0;
-      ufs->dev->ops->read(ufs->dev,Entry(inode),dir,sz(dir_entry));
-      dir->DIR_Valid=0;
-      ufs->dev->ops->write(ufs->dev,Entry(inode),dir,sz(dir_entry)); 
-      
+      #ifdef DEBUG_
+      printf("link doesn't exist\n");
+      #endif
+    }
+
+    file_table[inode].valid=0;
+    if(file_table[inode].link_id!=-1)                         
+    {
       while(file_table[inode].link_id!=-1)
       {inode=file_table[inode].link_id;
       }
     }
-
     file_table[inode].refct-=1;//检查本体需不需要disable
-    if(file_table[inode].refct==0)
-    {
-      ufs->dev->ops->read(ufs->dev,Entry(inode),dir,sz(dir_entry));
-      dir->DIR_Valid=0;
-      ufs->dev->ops->write(ufs->dev,Entry(inode),dir,sz(dir_entry)); 
-    }
     return 0;
   }
 
@@ -338,7 +340,6 @@ int get_name(const char* path,char* name)//默认path是绝对路径
 
   int ufs_mkdir(const char *pathname)
   {
-
     char abs_path[256];//该文件夹要被创建的路径
     get_abs_path(pathname,abs_path);
     int inode=locate_file(abs_path);

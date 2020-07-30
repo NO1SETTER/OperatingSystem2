@@ -41,9 +41,11 @@ static void kmt_init()
   #endif
 }
 
+
+extern int procfs_create(int pid,char* name);
+extern int procfs_teardown(int pid);//线程结束时调用
 //task提前分配好,那么我们用一个指针数组管理所有这些分配好的task
 //_Area{*start,*end;},
-
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
   strcpy(task->name,name);//名字
   task->status=T_READY;//状态
@@ -64,6 +66,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     }
     all_thread[thread_num++]=task;//添加到所有线程中
   kmt->spin_unlock(&thread_ctrl_lock);
+  procfs_create(task->id,task->name);
   #ifdef _DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
   #endif
@@ -74,6 +77,7 @@ static void kmt_teardown(task_t *t)
 {
   kmt->spin_lock(&thread_ctrl_lock);
     t->status=T_DEAD;
+    procfs_teardown(t->id);
   kmt->spin_unlock(&thread_ctrl_lock);
   kfree_safe(t->stack);
 }

@@ -51,7 +51,7 @@ struct inode
   indops_t* ops;//操作
   sem_t sem;//信号量控制互斥
 
-  int valid;//是否有效,一旦被加载,该inode保持有效
+  int valid;//反复强调,这个inode代表的能不能通过此inode的代表的路径访问到磁盘中的本体
   int type;//文件或目录
   int size;//文件大小
   int cid;//第一块的id

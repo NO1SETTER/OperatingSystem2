@@ -2,10 +2,13 @@
 
 #define DEVICES(_) \
   _(0, input_t, "input",    1, &input_ops) \
-  _(1, fb_t,    "fb",       1, &fb_ops) \
-  _(2, tty_t,   "tty1",     1, &tty_ops) \
-  _(3, tty_t,   "tty2",     2, &tty_ops) \
-  _(4, sd_t,    "sda",      1, &sd_ops) \
+  _(1, fb_t,    "fb",       1, &fb_ops)    \
+  _(2, tty_t,   "tty1",     1, &tty_ops)   \
+  _(3, tty_t,   "tty2",     2, &tty_ops)   \
+  _(4, sd_t,    "sda",      1, &sd_ops)    \
+  _(5, int,     "zero",     1, &zero_ops)  \
+  _(6, int,     "null",     1, &null_ops)  \
+  _(7, int,     "random",   1, &random_ops)
 
 #define DEV_CNT(...) + 1
 device_t *devices[0 DEVICES(DEV_CNT)];

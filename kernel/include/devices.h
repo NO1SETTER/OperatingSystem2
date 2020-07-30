@@ -5,7 +5,7 @@ typedef struct devops{
   ssize_t (*read) (device_t *dev, off_t offset, void *buf, size_t count);
   ssize_t (*write)(device_t *dev, off_t offset, const void *buf, size_t count);
 } devops_t;
-extern devops_t tty_ops, fb_ops, sd_ops, input_ops;
+extern devops_t tty_ops, fb_ops, sd_ops, input_ops, zero_ops, null_ops, random_ops;
 
 struct device {
   const char *name;

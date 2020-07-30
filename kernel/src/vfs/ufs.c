@@ -126,6 +126,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       printf("File not opened\n");
       return -1;
     }
+        printf("write %d bytes from file:%d to offset:%d\n",count,fd,file_table[inode].offset);
     inode_t* node=&file_table[inode];
     write_data(node,node->offset,(char*)buf,count);
     node->offset=node->offset+count;
@@ -140,6 +141,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       printf("File not opened\n");
       return -1;
     }
+    printf("read %d bytes from file:%d at offset:%d\n",count,fd,file_table[inode].offset);
     inode_t* node=&file_table[inode];
     read_data(node,node->offset,(char*)buf,count);
     node->offset=node->offset+count;

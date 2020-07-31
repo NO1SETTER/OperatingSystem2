@@ -47,7 +47,7 @@ static void dev_init() {
 #define INIT(id, device_type, dev_name, dev_id, dev_ops) \
   devices[id] = dev_create(sizeof(device_type), dev_name, dev_id, dev_ops); \
   devices[id]->ops->init(devices[id]);
-
+assert(0);
   DEVICES(INIT);
 
   kmt->create(pmm->alloc(sizeof(task_t)), "input-task", dev_input_task, NULL);

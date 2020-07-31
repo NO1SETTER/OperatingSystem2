@@ -10,12 +10,10 @@ static void os_init() {
 
   kmt->init(); // 模块先初始化
   #ifdef DEV_ENABLE
-    assert(0);
     dev->init();
     //kmt->create(task_alloc(), "tty_reader", tty_reader, "tty1");
     //kmt->create(task_alloc(), "tty_reader", tty_reader, "tty2");
   #endif
-    assert(0);
   vfs->init();
   #ifdef VFS_DEBUG
     kmt->create(task_alloc(), "vfs_test"  ,  vfs_test ,  NULL );

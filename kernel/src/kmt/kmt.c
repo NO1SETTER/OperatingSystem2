@@ -66,8 +66,9 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     }
     all_thread[thread_num++]=task;//添加到所有线程中
   kmt->spin_unlock(&thread_ctrl_lock);
-  assert(0);
+
   procfs_create(task->id,task->name);
+    assert(0);
   #ifdef _DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
   #endif

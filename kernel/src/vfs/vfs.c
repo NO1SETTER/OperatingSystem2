@@ -46,7 +46,7 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
       { len2=j;break;
       }
     }
-
+    printf("len1=%d len2=%d\n",len1,len2);
     if(len1!=len2) continue;
     if(strncmp(abs_path,mount_table[i].path,len1)!=0) continue;
     return mount_table[i].fs;

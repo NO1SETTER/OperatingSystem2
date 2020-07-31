@@ -259,7 +259,7 @@ int procfs_create(int pid,char* name)//线程创建时调用
     int proc_id2=alloc_proc_inode();
     proc_init(proc_id2,PROC_NAME,path);
     nr_proc=max(nr_proc,proc_id2);
-assert(0);
+
     struct ufs_dirent* drt1=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
     drt1->inode=proc_id1;
     sprintf(drt1->name,"%d",pid);

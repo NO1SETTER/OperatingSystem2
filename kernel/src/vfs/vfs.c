@@ -27,6 +27,7 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
 {
   char abs_path[256];
   get_abs_path(path,abs_path);
+  printf("abs_path:%s\n",abs_path);
   for(int i=0;i<nr_mnt;i++)//和每一个文件系统作比较
   {
     if(!mount_table[i].valid) continue;

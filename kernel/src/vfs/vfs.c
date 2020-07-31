@@ -19,16 +19,12 @@ void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是�
   }
   assert(next!=-1);
   strcpy(mount_table[next].path,path);
-  printf("%s mounted\n",mount_table[next].path);
   mount_table[next].fs=fs;
   mount_table[next].valid=1;
 }
 
 filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系统
 {
-  printf("%s\n",mount_table[0].path);
-  printf("%s\n",mount_table[1].path);
-  printf("%s\n",mount_table[2].path);
   char abs_path[256];
   get_abs_path(path,abs_path);
   printf("abs_path:%s\n",abs_path);
@@ -36,7 +32,7 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
   {
     if(!mount_table[i].valid) continue;
     assert(mount_table[i].path[0]=='/');
-    printf("mount[%d]:%s\n",i,mount_table[i].path[0]);
+    printf("mount[%d]:%s\n",i,mount_table[i].path);
     int len1=strlen(abs_path),len2=strlen(mount_table[i].path);
     for(int j=1;j<len1;j++)
     {

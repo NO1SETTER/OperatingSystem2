@@ -46,7 +46,8 @@ int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不
   if(ret==-1)
   {
     while(proc_table[nr_proc]&&proc_table[nr_proc]->valid)
-      nr_proc=nr_proc+1;
+      {nr_proc=nr_proc+1;
+      printf("%d\n",nr_proc);}
   }
   assert(0);
   ret=nr_proc;

@@ -156,7 +156,7 @@ int proc_free(int id)
 
   int procfs_open(const char *pathname, int flags)
   {
-    if(!(flags&O_RDONLY))
+    if(flags!=O_RDONLY)
     { printf("Files in procfs are read-only\n");
       return -1;}
     

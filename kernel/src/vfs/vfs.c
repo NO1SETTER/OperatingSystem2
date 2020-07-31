@@ -120,6 +120,7 @@ void vfs_test()
 {
   #include "workload.inc"
   traverse("");
+  #include "proctest.inc"
 }
 
 //standard realizations

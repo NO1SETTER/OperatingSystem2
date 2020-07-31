@@ -39,7 +39,9 @@ int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不
   for(int i=0;i<nr_proc;i++)
   {
     if(proc_table[i]==NULL||(proc_table[i]&&!proc_table[i]->valid))
-    {ret=i;break;}
+    {
+      assert(0);
+      ret=i;break;}
   }
   if(ret==-1)
   {

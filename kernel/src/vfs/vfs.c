@@ -19,6 +19,7 @@ void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是�
   }
   assert(next!=-1);
   strcpy(mount_table[next].path,path);
+  printf("%s mounted\n",mount_table[next].path);
   mount_table[next].fs=fs;
   mount_table[next].valid=1;
 }

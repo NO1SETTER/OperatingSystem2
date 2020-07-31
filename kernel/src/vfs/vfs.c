@@ -150,6 +150,9 @@ extern int ufs_mkdir(const char *pathname);
       int inode=ref_table[fd].id;
       sem_wait(&file_table[inode].sem);
       filesystem_t* fs=file_table[inode].fs;
+      #ifdef DEBUG_
+        printf("fs:%s\n",fs->name);
+      #endif
       ret=fs->ops->write(fd,buf,count);;
       sem_signal(&file_table[inode].sem);
       }
@@ -170,6 +173,9 @@ extern int ufs_mkdir(const char *pathname);
       int inode=ref_table[fd].id;
       sem_wait(&file_table[inode].sem);
       filesystem_t* fs=file_table[inode].fs;
+      #ifdef DEBUG_
+        printf("fs:%s\n",fs->name);
+      #endif
       ret=fs->ops->read(fd,buf,count);;
       sem_signal(&file_table[inode].sem);
       }

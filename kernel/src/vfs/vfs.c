@@ -26,6 +26,9 @@ void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是�
 
 filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系统
 {
+  printf("%s\n",mount_table[0].path);
+  printf("%s\n",mount_table[1].path);
+  printf("%s\n",mount_table[2].path);
   char abs_path[256];
   get_abs_path(path,abs_path);
   printf("abs_path:%s\n",abs_path);

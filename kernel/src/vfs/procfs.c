@@ -36,6 +36,7 @@ int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不
 {
   sem_wait(&proc_inode_lock);
   int ret=-1;
+  assert(0);
   for(int i=0;i<nr_proc;i++)
   {
     printf("%s\n",proc_table[i]->path_name);

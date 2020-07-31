@@ -134,11 +134,6 @@ extern int ufs_mkdir(const char *pathname);
     vfs_mount("/",ufs_init());
     vfs_mount("/proc",procfs_init());
     vfs_mount("/dev",devfs_init());
-
-    sem_init(&inode_lock,"inode_lock",1);
-    sem_init(&proc_inode_lock,"proc_inode_lock",1);
-    sem_init(&fd_lock,"fd_lock",1);
-    sem_init(&cluster_lock,"cluster_lock",1);
   }
   
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd

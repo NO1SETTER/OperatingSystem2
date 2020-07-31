@@ -44,6 +44,10 @@ void dev_input_task();
 void dev_tty_task();
 
 static void dev_init() {
+  sem_init(&inode_lock,"inode_lock",1);
+  sem_init(&proc_inode_lock,"proc_inode_lock",1);
+  sem_init(&fd_lock,"fd_lock",1);
+  sem_init(&cluster_lock,"cluster_lock",1);
 #define INIT(id, device_type, dev_name, dev_id, dev_ops) \
   devices[id] = dev_create(sizeof(device_type), dev_name, dev_id, dev_ops); \
   devices[id]->ops->init(devices[id]);

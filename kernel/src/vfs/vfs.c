@@ -48,6 +48,7 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
     }
 
     if(len1!=len2) continue;
+    printf("haha\n");
     if(strncmp(abs_path,mount_table[i].path,len1)!=0) continue;
     return mount_table[i].fs;
   }//循环内没成功默认返回ufs

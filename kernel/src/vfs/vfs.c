@@ -11,14 +11,6 @@ int max(int a,int b){return a>b?a:b;}
 
 void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是一个可以直接访问的目录
 {
-  for(int i=0;i<nr_mnt;i++)
-  {
-    if(mount_table[i].valid&&strcmp(path,mount_table[i].path)==0) 
-      {
-        printf("This filesystem has been mounted\n");
-        assert(0);
-      }
-  }
   int next=-1;
   for(int i=0;i<nr_mnt;i++)
   { if(!mount_table[i].valid)
@@ -33,21 +25,17 @@ void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是�
 
 filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系统
 {
-  if(path[0]!='/')
-  {
-    char abs_path[256];
-    get_abs_path(path,abs_path);
-    strcpy(abs_path,path);
-  }
+  char abs_path[256];
+  get_abs_path(path,abs_path);
   for(int i=0;i<nr_mnt;i++)//和每一个文件系统作比较
   {
     if(!mount_table[i].valid) continue;
     assert(mount_table[i].path[0]=='/');
     
-    int len1=strlen(path),len2=strlen(mount_table[i].path);
+    int len1=strlen(abs_path),len2=strlen(mount_table[i].path);
     for(int j=1;j<len1;j++)
     {
-      if(path[j]=='/') 
+      if(abs_path[j]=='/') 
       { len1=j;break;
       }
     }
@@ -59,7 +47,7 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
     }
 
     if(len1!=len2) continue;
-    if(strncmp(path,mount_table[i].path,len1)!=0) continue;
+    if(strncmp(abs_path,mount_table[i].path,len1)!=0) continue;
     return mount_table[i].fs;
   }//循环内没成功默认返回ufs
   return ufs;

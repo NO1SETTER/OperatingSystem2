@@ -250,6 +250,7 @@ int procfs_create(int pid,char* name)//线程创建时调用
     sprintf(path,"/proc/%d",pid);
     printf("path:%s\n",path);
     int proc_id1=alloc_proc_inode();
+    assert(0);
     proc_init(proc_id1,PROC_DIR,path);
     nr_proc=max(nr_proc,proc_id1);
 

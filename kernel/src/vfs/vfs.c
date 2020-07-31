@@ -210,6 +210,9 @@ extern int ufs_mkdir(const char *pathname);
       printf("\nopen: %s\n",pathname);
     #endif
     filesystem_t* fs=find_fs(pathname);
+    #ifdef DEBUG_
+      printf("fs:%s\n",fs->name);
+    #endif
     int fd = fs->ops->open(pathname,flags);
     return fd;
   }

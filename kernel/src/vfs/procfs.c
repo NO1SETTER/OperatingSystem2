@@ -34,6 +34,7 @@ struct proc_inode* proc_table[10000];
 int nr_proc=0;
 int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不用管data_block的分配
 {
+  assert(0);
   sem_wait(&proc_inode_lock);
   int ret=-1;
   assert(0);

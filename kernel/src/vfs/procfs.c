@@ -34,10 +34,8 @@ struct proc_inode* proc_table[10000];
 int nr_proc=0;
 int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不用管data_block的分配
 {
-  assert(0);
   sem_wait(&proc_inode_lock);
   int ret=-1;
-  assert(0);
   for(int i=0;i<nr_proc;i++)
   {
     printf("%s\n",proc_table[i]->path_name);
@@ -45,14 +43,11 @@ int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不
     {
       ret=i;break;}
   }
-  assert(0);
   if(ret==-1)
   {
     while(proc_table[nr_proc]&&proc_table[nr_proc]->valid)
-      {nr_proc=nr_proc+1;
-      printf("%d\n",nr_proc);}
+      nr_proc=nr_proc+1;
   }
-  assert(0);
   ret=nr_proc;
   if(!proc_table[ret]) proc_table[ret]=(struct proc_inode*)kalloc_safe(sz(proc_inode));
   proc_table[ret]->valid=1;
@@ -215,7 +210,6 @@ int proc_free(int id)
   {return -1;
   }
 
-extern int ufs_mkdir(const char* pathname);
   filesystem_t* procfs_init()
   {
     procfs=(filesystem_t*)kalloc_safe(sz(filesystem));

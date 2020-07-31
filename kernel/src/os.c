@@ -9,12 +9,13 @@ static void os_init() {
   pmm->init();
 
   kmt->init(); // 模块先初始化
+  vfs->init();
   #ifdef DEV_ENABLE
     dev->init();
     //kmt->create(task_alloc(), "tty_reader", tty_reader, "tty1");
     //kmt->create(task_alloc(), "tty_reader", tty_reader, "tty2");
   #endif
-  vfs->init();
+ 
   #ifdef VFS_DEBUG
     kmt->create(task_alloc(), "vfs_test"  ,  vfs_test ,  NULL );
   #endif

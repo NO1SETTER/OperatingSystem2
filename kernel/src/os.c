@@ -7,6 +7,7 @@ extern void tty_reader(void *arg);
 extern void vfs_test();
 static void os_init() {
   pmm->init();
+  assert(0);
   kmt->init(); // 模块先初始化
   #ifdef DEV_ENABLE
     dev->init();

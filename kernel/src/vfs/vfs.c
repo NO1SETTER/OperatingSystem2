@@ -157,6 +157,7 @@ extern int ufs_mkdir(const char *pathname);
     {
       if(ref_table[fd].thread_id==cur->id)
       { 
+        printf("haha\n");
       filesystem_t* fs=ref_table[fd].fs;
       int inode=ref_table[fd].id;
       sem_wait(&file_table[inode].sem);

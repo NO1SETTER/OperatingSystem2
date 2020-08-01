@@ -200,6 +200,9 @@ extern int ufs_mkdir(const char *pathname);
       printf("fs:%s\n",fs->name);
     #endif
     int fd = fs->ops->open(pathname,flags);
+    #ifdef DEBUG_
+      printf("%s is allocated fd:%d\n",pathname,fd);
+    #endif
     return fd;
   }
 

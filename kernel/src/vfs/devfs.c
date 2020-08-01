@@ -74,6 +74,7 @@ struct dev_inode dev_table[8];//直接分配好
   {
     char name[32];
     get_name(pathname,name);
+    printf("name:%s\n",name);
     int dev_id=-1;  
     for(int i=0;i<8;i++)
     {

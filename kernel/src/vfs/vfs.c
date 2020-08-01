@@ -132,7 +132,7 @@ extern int ufs_mkdir(const char *pathname);
     int ret=-1;
     if(ref_table[fd].valid)
     {
-      if(ref_table[fd].thread_id==_cpu())
+      if(ref_table[fd].thread_id==cur->id)
       { 
       filesystem_t* fs=ref_table[fd].fs;
       int inode=ref_table[fd].id;
@@ -155,7 +155,7 @@ extern int ufs_mkdir(const char *pathname);
     int ret=-1;
     if(ref_table[fd].valid)
     {
-      if(ref_table[fd].thread_id==_cpu())
+      if(ref_table[fd].thread_id==cur->id)
       { 
       filesystem_t* fs=ref_table[fd].fs;
       int inode=ref_table[fd].id;
@@ -178,7 +178,7 @@ extern int ufs_mkdir(const char *pathname);
     int ret=-1;
     if(ref_table[fd].valid)
     {
-      if(ref_table[fd].thread_id==_cpu())
+      if(ref_table[fd].thread_id==cur->id)
       { 
       filesystem_t* fs=ref_table[fd].fs;
       int inode=ref_table[fd].id;
@@ -215,7 +215,7 @@ extern int ufs_mkdir(const char *pathname);
     int ret=-1;
     if(ref_table[fd].valid)
     {
-      if(ref_table[fd].thread_id==_cpu())
+      if(ref_table[fd].thread_id==cur->id)
       { 
       filesystem_t* fs=ref_table[fd].fs;
       int inode=ref_table[fd].id;
@@ -260,7 +260,7 @@ extern int ufs_mkdir(const char *pathname);
     {
       filesystem_t* fs=ref_table[fd].fs;
       printf("fs:%s\n",fs->name);
-      if(ref_table[fd].thread_id==_cpu())
+      if(ref_table[fd].thread_id==cur->id)
         return fs->ops->fstat(fd,buf);
     }
     return -1;

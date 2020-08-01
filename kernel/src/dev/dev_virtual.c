@@ -6,6 +6,7 @@ static int zero_init(device_t *dev)
 
 static ssize_t zero_read(device_t *dev, off_t offset, void *buf, size_t count)
 {
+    assert(0);
     for(int i=0;i<count;i++)
       *(char *)(buf+i)='\0';
     return count;
@@ -21,6 +22,7 @@ static int null_init(device_t *dev)
 
 static ssize_t null_read(device_t *dev, off_t offset, void *buf, size_t count)
 {
+    assert(0);
     return -1;
 }
 static ssize_t null_write(device_t *dev, off_t offset, const void *buf, size_t count)
@@ -33,6 +35,7 @@ static int random_init(device_t *dev)
 
 static ssize_t random_read(device_t *dev, off_t offset, void *buf, size_t count)
 {
+    assert(0);
     for(int i=0;i<count;i++)
       *(char *)(buf+i)=rand()%256;
     return count;

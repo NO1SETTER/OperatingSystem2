@@ -15,28 +15,59 @@ struct dev_inode dev_table[8];//直接分配好
 //standard realizations
   int devfs_write(int fd,void *buf, int count)
   {
-      if(!dev_table[fd].valid) 
-      {
-        printf("device not opened\n");
-        return -1;}
-      device_t* devv=dev->lookup(dev_table[fd].name);
+    int dev_id=-1;
+    for(int i=0;i<8;i++)
+    {
+      if(dev_table[i].valid&&dev_table[i].fd==fd)
+      { dev_id=i;break;
+      }
+    }
+    if(dev_id==-1)
+    {
+      printf("device not supported\n");
+      return -1;
+    }
+    
+    device_t* devv=dev->lookup(dev_table[dev_id].name);
     return devv->ops->write(devv,0,buf,count);
   }
 
   int devfs_read(int fd,void *buf, int count)
   {
-      if(!dev_table[fd].valid) 
-      {
-        printf("device not opened\n");
-        return -1;}
-      device_t* devv=dev->lookup(dev_table[fd].name);
+    int dev_id=-1;
+    for(int i=0;i<8;i++)
+    {
+      if(dev_table[i].valid&&dev_table[i].fd==fd)
+      { dev_id=i;break;
+      }
+    }
+    if(dev_id==-1)
+    {
+      printf("device not supported\n");
+      return -1;
+    }
+    
+    device_t* devv=dev->lookup(dev_table[dev_id].name);
     return devv->ops->read(devv,0,buf,count);
   }
 
   int devfs_close(int fd)
   {
-      dev_table[fd].valid=0;
-      return 0;
+    int dev_id=-1;
+    for(int i=0;i<8;i++)
+    {
+      if(dev_table[i].valid&&dev_table[i].fd==fd)
+      {  dev_id=i;break;
+      }
+    }
+    if(dev_id==-1)
+    {
+      printf("device not opened\n");
+      return -1;
+    }
+    ref_table[fd].valid=0;
+    dev_table[dev_id].valid=0;
+    return 0;
   }
 
   int devfs_open(const char *pathname, int flags)
@@ -54,10 +85,19 @@ struct dev_inode dev_table[8];//直接分配好
     {
         printf("device not supported\n");
         return -1;}
-    dev_table[dev_id].fd=dev_id;
+
+    int fd = alloc_fd();
+    dev_table[dev_id].fd=fd;
     dev_table[dev_id].valid=1;
     strcpy(dev_table[dev_id].name,name);
-    return dev_id;
+
+    ref_table[fd].fd=fd;
+    ref_table[fd].flags=flags;
+    ref_table[fd].id=dev_id;
+    ref_table[fd].thread_id=_cpu();
+    ref_table[fd].fs=devfs;
+    ref_table[fd].valid=1;
+    return fd;
   }
 
   int devfs_lseek(int fd, int offset, int whence)

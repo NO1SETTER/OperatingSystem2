@@ -257,7 +257,9 @@ extern int ufs_mkdir(const char *pathname);
     #endif
     if(ref_table[fd].valid)
     {
+      printf("haha\n");
       filesystem_t* fs=ref_table[fd].fs;
+      printf("fs:%s\n",fs->name);
       if(ref_table[fd].thread_id==_cpu())
         return fs->ops->fstat(fd,buf);
     }

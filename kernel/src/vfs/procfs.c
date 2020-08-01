@@ -133,6 +133,7 @@ int proc_free(int id)
   int procfs_read(int fd, void *buf, int count)
   {
       int node=ref_table[fd].id;
+      printf("node=%d\n",node);
       if(!proc_table[node]->valid)
       {return -1;}
       int read_bytes=0;

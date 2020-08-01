@@ -80,7 +80,6 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
         proc_table[node]->data=(struct data_block*)kalloc_safe(sz(data_block));
         strncpy(proc_table[node]->data->ptr,buf,min(count,DATA_SIZE));
         proc_table[node]->data->size=min(count,DATA_SIZE);
-        strncpy(proc_table[node]->data->ptr,buf,min(count,DATA_SIZE));
         write_bytes=write_bytes+min(count,DATA_SIZE);
     }
     struct data_block* data=proc_table[node]->data;
@@ -95,6 +94,7 @@ int proc_write_data(int node,void* buf,int count)//只支持在末尾写
         strncpy(nblock->ptr,buf+write_bytes,min(count-write_bytes,DATA_SIZE));
         nblock->size=min(count-write_bytes,DATA_SIZE);
         write_bytes=write_bytes+min(count-write_bytes,DATA_SIZE);
+        data=nblock;
     }
     return count;
 }

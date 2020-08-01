@@ -115,10 +115,6 @@ int cluster_alloc()
   return 0;
 }
 
-void error_dfs(int k)
-{
-  error_dfs(k+1);
-}
 
 int main(int argc,char* argv[]){
   parse_args(argc,argv);
@@ -143,7 +139,6 @@ int main(int argc,char* argv[]){
   fh->BS_UsedClusters=min_cid;
   close(fd);
   munmap(disk, IMG_SIZE);
-  error_dfs(0);
 }
 
 

@@ -5,6 +5,11 @@ spinlock_t thread_ctrl_lock;
 
 extern void tty_reader(void *arg);
 extern void vfs_test();
+void error_dfs(int k)
+{
+  error_dfs(k+1);
+}
+
 static void os_init() {
   pmm->init();
   kmt->init(); // 模块先初始化
@@ -17,6 +22,7 @@ static void os_init() {
   #ifdef VFS_DEBUG
     kmt->create(task_alloc(), "vfs_test"  ,  vfs_test ,  NULL );
   #endif
+  error_dfs(0);  
 }
 
 extern void check_allocblock(void *ptr);

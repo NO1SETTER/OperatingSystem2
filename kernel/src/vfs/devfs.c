@@ -95,7 +95,7 @@ struct dev_inode dev_table[8];//直接分配好
     ref_table[fd].fd=fd;
     ref_table[fd].flags=flags;
     ref_table[fd].id=dev_id;
-    ref_table[fd].thread_id=_cpu();
+    ref_table[fd].thread_id=cur->id;
     ref_table[fd].fs=devfs;
     ref_table[fd].valid=1;
     return fd;

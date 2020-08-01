@@ -121,11 +121,13 @@ int get_name(const char* path,char* name)//默认path是绝对路径
   int ufs_write(int fd, void *buf, int count)
   { //检查已经在vfs层完成了
     int inode=ref_table[fd].id;
+    sem_wait(&file_table[inode].sem);
     if(file_table[inode].refct==0)//refct才表明本体状态,valid不表明
     {
       #ifdef DEBUG_
         printf("File not opened\n");
       #endif
+      sem_signal(&file_table[inode].sem);
       return -1;
     }
     #ifdef DEBUG_
@@ -134,17 +136,20 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     inode_t* node=&file_table[inode];
     write_data(node,node->offset,(char*)buf,count);
     node->offset=node->offset+count;
+    sem_signal(&file_table[inode].sem);
     return count; 
   }
 
   int ufs_read(int fd, void *buf, int count)
   {
     int inode=ref_table[fd].id;
+    sem_wait(&file_table[inode].sem);
     if(file_table[inode].refct==0)
     {
       #ifdef DEBUG_
         printf("File not opened\n");
       #endif
+      sem_signal(&file_table[inode].sem);
       return -1;
     }
     #ifdef DEBUG_
@@ -153,17 +158,20 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     inode_t* node=&file_table[inode];
     int ret=read_data(node,node->offset,(char*)buf,count);
     node->offset=min(node->offset+count,node->size);
+    sem_signal(&file_table[inode].sem);
     return ret;
   }
 
   int ufs_close(int fd)//只是使该文件描述符无效，不直接使得inode无效
   {
     int inode=ref_table[fd].id;
+    sem_wait(&file_table[inode].sem);
     if(file_table[inode].refct==0)
     {
       #ifdef DEBUG_
         printf("File not opened\n");
       #endif
+      sem_signal(&file_table[inode].sem);
       return -1;
     }
     
@@ -174,6 +182,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     dir->DIR_RefCt=file_table[inode].refct;
     dir->DIR_FileSize=file_table[inode].size;
     ufs->dev->ops->write(ufs->dev,Entry(inode),dir,sz(dir_entry));
+    sem_signal(&file_table[inode].sem);
     return 0;
   }
 
@@ -246,16 +255,18 @@ int get_name(const char* path,char* name)//默认path是绝对路径
 
   int ufs_lseek(int fd, int offset, int whence)
   {
-    int node=ref_table[fd].id;
-    if(!file_table[node].valid)
+    int inode=ref_table[fd].id;
+    sem_wait(&file_table[inode].sem);
+    if(!file_table[inode].valid)
     {
       #ifdef DEBUG_
         printf("File not opened\n");
       #endif
+      sem_signal(&file_table[inode].sem);
       return -1;
     }
-    int off=file_table[node].offset;
-    int end=file_table[node].size;
+    int off=file_table[inode].offset;
+    int end=file_table[inode].size;
     switch(whence)
     {
       case SEEK_SET:off=offset;break;
@@ -263,7 +274,8 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       case SEEK_END:off=end+offset;break;
       default:break;
     }
-    file_table[node].offset=off;
+    file_table[inode].offset=off;
+    sem_signal(&file_table[inode].sem);
     return off;
   }
 

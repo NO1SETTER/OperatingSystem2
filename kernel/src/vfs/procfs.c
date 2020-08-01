@@ -167,7 +167,11 @@ int proc_free(int id)
         { proc_id=i;break;
         }
     }
-    if(proc_id==-1) return -1;
+    if(proc_id==-1) 
+    {
+      printf("%s not found in procfs\n",pathname);
+      return -1;
+    }
     int fd=alloc_fd();
     ref_table[fd].fd=fd;
     ref_table[fd].flags=flags;

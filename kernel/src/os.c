@@ -22,7 +22,6 @@ static void os_init() {
   #ifdef VFS_DEBUG
     kmt->create(task_alloc(), "vfs_test"  ,  vfs_test ,  NULL );
   #endif
-  error_dfs(0);  
 }
 
 extern void check_allocblock(void *ptr);

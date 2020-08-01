@@ -238,6 +238,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     ref_table[fd].fd=fd;
     ref_table[fd].flags=flags;
     ref_table[fd].thread_id=_cpu();
+    ref_table[fd].fs=ufs;
     ref_table[fd].valid=1;
   
     return fd;

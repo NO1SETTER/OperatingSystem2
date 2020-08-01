@@ -38,7 +38,6 @@ int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不
   int ret=-1;
   for(int i=0;i<nr_proc;i++)
   {
-    printf("%s\n",proc_table[i]->path_name);
     if(proc_table[i]==NULL||(proc_table[i]&&!proc_table[i]->valid))
     {
       ret=i;break;}
@@ -249,7 +248,6 @@ int procfs_create(int pid,char* name)//线程创建时调用
   {
     char path[64];
     sprintf(path,"/proc/%d",pid);
-    printf("path:%s\n",path);
     int proc_id1=alloc_proc_inode();
     proc_init(proc_id1,PROC_DIR,path);
     nr_proc=max(nr_proc,proc_id1);

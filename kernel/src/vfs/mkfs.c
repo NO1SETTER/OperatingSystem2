@@ -11,7 +11,7 @@ int alloc_cluster()
 {
     sem_wait(&cluster_lock);
     if(max_cluster==-1) ufs->dev->ops->read(ufs->dev,FS_START+51,(void*)&max_cluster,4);
-    assert(nr_cluster>=0);
+    //assert(nr_cluster>=0);
     int ret=-1;
     if(nr_cluster) ret=pop_cluster();
     else ret=max_cluster;

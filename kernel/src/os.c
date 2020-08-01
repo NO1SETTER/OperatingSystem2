@@ -5,10 +5,10 @@ spinlock_t thread_ctrl_lock;
 
 extern void tty_reader(void *arg);
 extern void vfs_test();
-void error_dfs(int k)
+/*void error_dfs(int k)
 {
   error_dfs(k+1);
-}
+}*/
 
 static void os_init() {
   pmm->init();

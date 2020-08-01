@@ -2,7 +2,7 @@
 //extensions
 int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支持/.和/..
 {//如果找到了则返回inode,没找到返回上一级inode的负值,上一级inode也没找到则不允许创建返回INT_MIN
-  assert(path_name[0]=='/');
+  //assert(path_name[0]=='/');
   if(strcmp(path_name,"/")==0) return 1;
   inode_t* now_node=&file_table[1];//根目录的inode
   int next_node=-1;
@@ -342,8 +342,8 @@ int get_name(const char* path,char* name)//默认path是绝对路径
   int ufs_fstat(int fd,struct ufs_stat* buf)
   {
       int inode=ref_table[fd].id;
-      filesystem_t* fs=ref_table[fd].fs;
-      assert(fs==ufs);
+      //filesystem_t* fs=ref_table[fd].fs;
+      //assert(fs==ufs);
       
       buf->id=file_table[inode].node;
       buf->type=file_table[inode].type;

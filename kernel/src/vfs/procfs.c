@@ -65,7 +65,7 @@ for(int i=len-1;i>=0;i--)
     {pos=i;
     break;}
 }
-assert(pos!=-1);
+//assert(pos!=-1);
 if(strcmp(pathname+pos,"proc")==0) return PROC_ROOT;
 if(strcmp(pathname+pos,"meminfo")==0) return PROC_MEMINFO;
 if(strcmp(pathname+pos,"cpuinfo")==0) return PROC_CPUINFO;

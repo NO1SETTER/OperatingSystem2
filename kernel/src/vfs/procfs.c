@@ -6,6 +6,7 @@
 #define PROC_NAME 4
 #define DATA_SIZE 32
 
+#define nr_proc 100
 sem_t proc_inode_lock;
 
 int PROC_ROOT_ID=0;
@@ -31,7 +32,6 @@ int valid;
 
 struct proc_inode* proc_table[10000]; 
 
-int nr_proc=0;
 int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不用管data_block的分配
 {
   sem_wait(&proc_inode_lock);
@@ -42,12 +42,10 @@ int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不
     {
       ret=i;break;}
   }
-  if(ret==-1)
-  {
-    while(proc_table[nr_proc]&&proc_table[nr_proc]->valid)
-      nr_proc=nr_proc+1;
-  }
-  ret=nr_proc;
+  if(ret==-1) 
+  {printf("proc num exceeds limit\n");
+    return -1;}
+
   if(!proc_table[ret]) proc_table[ret]=(struct proc_inode*)kalloc_safe(sz(proc_inode));
   proc_table[ret]->valid=1;
   sem_signal(&proc_inode_lock);
@@ -257,12 +255,10 @@ int procfs_create(int pid,char* name)//线程创建时调用
     sprintf(path,"/proc/%d",pid);
     int proc_id1=alloc_proc_inode();
     proc_init(proc_id1,PROC_DIR,path);
-    nr_proc=max(nr_proc,proc_id1);
 
     sprintf(path,"/proc/%d/name",pid);
     int proc_id2=alloc_proc_inode();
     proc_init(proc_id2,PROC_NAME,path);
-    nr_proc=max(nr_proc,proc_id2);
 
     struct ufs_dirent* drt1=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
     drt1->inode=proc_id1;

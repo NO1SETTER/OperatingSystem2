@@ -207,6 +207,8 @@ int get_name(const char* path,char* name)//默认path是绝对路径
         strcpy(drt->name,name);
         write_data(&file_table[inode],file_table[inode].size,(char*)drt,sz(ufs_dirent));
         ref_table[fd].id=new_inode;
+        ref_table[fd].fs=ufs;
+        ref_table[fd].valid=1;
         file_table[new_inode].node=new_inode;
         file_table[new_inode].refct=1;
         file_table[new_inode].offset=0;

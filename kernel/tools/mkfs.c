@@ -115,6 +115,11 @@ int cluster_alloc()
   return 0;
 }
 
+void error_dfs(int k)
+{
+  error_dfs(k+1);
+}
+
 int main(int argc,char* argv[]){
   parse_args(argc,argv);
   fh=(struct fat_header*)(disk+FS_START);
@@ -138,7 +143,7 @@ int main(int argc,char* argv[]){
   fh->BS_UsedClusters=min_cid;
   close(fd);
   munmap(disk, IMG_SIZE);
-  printf("%d files in total\n",inode_ct);
+  error_dfs(0);
 }
 
 

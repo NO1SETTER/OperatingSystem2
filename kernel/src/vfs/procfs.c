@@ -163,6 +163,7 @@ int proc_free(int id)
     int proc_id=-1;
     for(int i=0;i<nr_proc;i++)
     {
+      printf("all proc:%s\n",proc_table[i]->path_name);
         if(proc_table[i]->valid&&strcmp(proc_table[i]->path_name,pathname)==0)
         { proc_id=i;break;
         }

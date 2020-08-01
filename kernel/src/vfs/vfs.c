@@ -108,6 +108,7 @@ void vfs_test()
   traverse("");
   #include "proctest.inc"
   #include "devtest.inc"
+  #include "linktest.inc"
 }
 
 //standard realizations

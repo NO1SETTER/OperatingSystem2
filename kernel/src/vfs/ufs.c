@@ -328,6 +328,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
 
   int ufs_fstat(int fd,struct ufs_stat* buf)
   {
+    assert(0);
       int inode=ref_table[fd].id;
       filesystem_t* fs=ref_table[fd].fs;
       assert(fs==ufs);

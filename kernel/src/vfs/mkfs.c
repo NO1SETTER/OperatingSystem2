@@ -46,7 +46,6 @@ int write_data(inode_t* node,int offset,char* buf,int size)
     printf("Write to file:%d, size:%d\n",node->node,node->size);
     printf("Write %d bytes at offset %d\n",size,offset);
     #endif
-    filesystem_t* fs=node->fs;
     if(offset>node->size)
     {
         #ifdef DEBUG_
@@ -59,11 +58,11 @@ int write_data(inode_t* node,int offset,char* buf,int size)
     int cid = node->cid;
     while(offset>ClusterSize)
     {
-        ufs->dev->ops->read(fs->dev,Fat(cid),&cid,4);
+        ufs->dev->ops->read(ufs->dev,Fat(cid),&cid,4);
         offset=offset-ClusterSize;
     }
     int write_start=Clu(cid)+offset;
-    fs->dev->ops->write(fs->dev,write_start,buf,min(ClusterSize-offset,size));
+    ufs->dev->ops->write(ufs->dev,write_start,buf,min(ClusterSize-offset,size));
     int write_bytes=min(ClusterSize-offset,size);
     int next_id;
     
@@ -71,18 +70,18 @@ int write_data(inode_t* node,int offset,char* buf,int size)
     *(int *)EOF=FAT_EOF;
     while(write_bytes<size)
     {
-         fs->dev->ops->read(fs->dev,Fat(cid),&next_id,4);
+         ufs->dev->ops->read(ufs->dev,Fat(cid),&next_id,4);
         if(next_id==FAT_EOF)
         {
             next_id=alloc_cluster();
-            fs->dev->ops->write(fs->dev,Fat(cid),&next_id,4);
-            fs->dev->ops->write(fs->dev,Fat(next_id),&EOF,4);
+            ufs->dev->ops->write(ufs->dev,Fat(cid),&next_id,4);
+            ufs->dev->ops->write(ufs->dev,Fat(next_id),&EOF,4);
         }
         cid=next_id;
-        fs->dev->ops->write(fs->dev,Clu(cid),buf+write_bytes,min(size,ClusterSize));
+        ufs->dev->ops->write(ufs->dev,Clu(cid),buf+write_bytes,min(size,ClusterSize));
         write_bytes=write_bytes+min(ClusterSize,size);
     }
-    fs->dev->ops->write(fs->dev,Fat(cid),&EOF,4);
+    ufs->dev->ops->write(ufs->dev,Fat(cid),&EOF,4);
     return size;
 }
 
@@ -94,7 +93,6 @@ int read_data(inode_t* node,int offset,char* buf,int size)
     printf("Read from file:%d, size:%d\n",node->node,node->size);
     printf("Read %d bytes at offset %d\n",size,offset);
     #endif
-    filesystem_t* fs=node->fs;
     if(offset+size>node->size)
     {
         #ifdef DEBUG_
@@ -105,20 +103,20 @@ int read_data(inode_t* node,int offset,char* buf,int size)
     int cid=node->cid;
     while(offset>ClusterSize)
     {
-      fs->dev->ops->read(fs->dev,Fat(cid),&cid,4);
+      ufs->dev->ops->read(ufs->dev,Fat(cid),&cid,4);
       offset=offset-ClusterSize;
     }
 
     int read_start=Clu(cid)+offset;
-    fs->dev->ops->read(fs->dev,read_start,buf,min(ClusterSize-offset,size));
+    ufs->dev->ops->read(ufs->dev,read_start,buf,min(ClusterSize-offset,size));
     int read_bytes=min(ClusterSize-offset,size);
     int next_id;
 
     while(read_bytes<size)
     {
-        fs->dev->ops->read(fs->dev,Clu(cid),buf+read_bytes,min(size,ClusterSize));
+        ufs->dev->ops->read(ufs->dev,Clu(cid),buf+read_bytes,min(size,ClusterSize));
         read_bytes=read_bytes+min(ClusterSize,size);
-        fs->dev->ops->read(fs->dev,Fat(cid),&next_id,4);
+        ufs->dev->ops->read(ufs->dev,Fat(cid),&next_id,4);
         if(next_id==FAT_EOF&&read_bytes!=size)
         {
             #ifdef DEBUG_

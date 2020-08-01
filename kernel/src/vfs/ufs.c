@@ -211,7 +211,6 @@ int get_name(const char* path,char* name)//默认path是绝对路径
         file_table[new_inode].refct=1;
         file_table[new_inode].offset=0;
         file_table[new_inode].link_id=-1;
-        file_table[new_inode].fs=ufs;
         file_table[new_inode].valid=1;
         file_table[new_inode].type=T_FILE;//仅允许创建T_FILE类型
         file_table[new_inode].size=0;
@@ -328,7 +327,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
   int ufs_fstat(int fd,struct ufs_stat* buf)
   {
       int inode=ref_table[fd].id;
-      filesystem_t* fs=file_table[inode].fs;
+      filesystem_t* fs=ref_table[fd].fs;
       assert(fs==ufs);
       
       buf->id=file_table[inode].node;
@@ -369,7 +368,6 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       file_table[new_inode].refct=0;
       file_table[new_inode].offset=0;
       file_table[new_inode].link_id=-1;
-      file_table[new_inode].fs=ufs;
       file_table[new_inode].valid=1;
       file_table[new_inode].type=T_DIR;
       file_table[new_inode].size=0;
@@ -415,7 +413,6 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     file_table[i].refct=dir->DIR_RefCt;
     file_table[i].offset=0;
     file_table[i].link_id=-1;
-    file_table[i].fs=ufs;
     char sem_name[32];
     sprintf(sem_name,"semlock_file_%d",i);
     sem_init(&file_table[i].sem,sem_name,1);

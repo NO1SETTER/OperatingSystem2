@@ -133,9 +133,9 @@ extern int ufs_mkdir(const char *pathname);
     {
       if(ref_table[fd].thread_id==_cpu())
       { 
+      filesystem_t* fs=ref_table[fd].fs;
       int inode=ref_table[fd].id;
       sem_wait(&file_table[inode].sem);
-      filesystem_t* fs=file_table[inode].fs;
       #ifdef DEBUG_
         printf("fs:%s\n",fs->name);
       #endif
@@ -156,9 +156,9 @@ extern int ufs_mkdir(const char *pathname);
     {
       if(ref_table[fd].thread_id==_cpu())
       { 
+      filesystem_t* fs=ref_table[fd].fs;
       int inode=ref_table[fd].id;
       sem_wait(&file_table[inode].sem);
-      filesystem_t* fs=file_table[inode].fs;
       #ifdef DEBUG_
         printf("fs:%s\n",fs->name);
       #endif
@@ -179,10 +179,10 @@ extern int ufs_mkdir(const char *pathname);
     {
       if(ref_table[fd].thread_id==_cpu())
       { 
+      filesystem_t* fs=ref_table[fd].fs;
       int inode=ref_table[fd].id;
       sem_wait(&file_table[inode].sem);
-      filesystem_t* fs=file_table[inode].fs;
-      ret=fs->ops->close(fd);;
+      ret=fs->ops->close(fd);
       sem_signal(&file_table[inode].sem);
       }
     }
@@ -216,9 +216,9 @@ extern int ufs_mkdir(const char *pathname);
     {
       if(ref_table[fd].thread_id==_cpu())
       { 
+      filesystem_t* fs=ref_table[fd].fs;
       int inode=ref_table[fd].id;
       sem_wait(&file_table[inode].sem);
-      filesystem_t* fs=file_table[inode].fs;
       ret=fs->ops->lseek(fd,offset,whence);
       sem_signal(&file_table[inode].sem);
       }
@@ -257,8 +257,9 @@ extern int ufs_mkdir(const char *pathname);
     #endif
     if(ref_table[fd].valid)
     {
+      filesystem_t* fs=ref_table[fd].fs;
       if(ref_table[fd].thread_id==_cpu())
-        return ufs->ops->fstat(fd,buf);
+        return fs->ops->fstat(fd,buf);
     }
     return -1;
   }

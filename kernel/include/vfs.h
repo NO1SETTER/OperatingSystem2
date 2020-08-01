@@ -39,7 +39,7 @@ struct fsops
 };
 
 //open时,建立一个inode节点,此后关于文件信息的修改只在inode上完成，只在close时把信息回写到磁盘中
-struct inode
+struct inode//file_table里的都是ufs的文件
 {
   int node;//node的计数,根据node可以直接确定entry的偏移量为Entry(node)
   int fnode;//父目录的inode
@@ -47,7 +47,6 @@ struct inode
   int offset;//指针偏移
 
   int link_id;//对于没有链接到其他文件的文件linkid为-1
-  filesystem_t* fs;//所属于的文件系统
   indops_t* ops;//操作
   sem_t sem;//信号量控制互斥
 
@@ -82,6 +81,7 @@ typedef struct refitem
   int flags;
   int id;
   int thread_id;
+  filesystem_t* fs;//所属于的文件系统
   int valid;
 }ref_t;
 ref_t ref_table[1000];//设定:fd即为下标

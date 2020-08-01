@@ -172,8 +172,8 @@ int proc_free(int id)
     ref_table[fd].flags=flags;
     ref_table[fd].id=proc_id;
     ref_table[fd].thread_id=_cpu();
+    ref_table[fd].fs=procfs;
     ref_table[fd].valid=1;
-
     return fd;
   }
 

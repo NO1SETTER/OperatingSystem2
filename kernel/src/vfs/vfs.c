@@ -9,6 +9,9 @@ sem_t fd_lock;
 int min(int a,int b){return a<b?a:b;}
 int max(int a,int b){return a>b?a:b;}
 
+int error_dfs(int x)
+{return error_dfs(x+1);}
+
 void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是一个可以直接访问的目录
 {
   int next=-1;
@@ -17,7 +20,7 @@ void vfs_mount(const char* path,filesystem_t* fs)//把fs挂载在dir下,dir是�
     {next=i;break;
     } 
   }
-  assert(next!=-1);
+  //assert(next!=-1);
   strcpy(mount_table[next].path,path);
   mount_table[next].fs=fs;
   mount_table[next].valid=1;
@@ -30,7 +33,7 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
   for(int i=0;i<nr_mnt;i++)//和每一个文件系统作比较
   {
     if(!mount_table[i].valid) continue;
-    assert(mount_table[i].path[0]=='/');
+    //assert(mount_table[i].path[0]=='/');
     int len1=strlen(abs_path),len2=strlen(mount_table[i].path);
     for(int j=1;j<len1;j++)
     {
@@ -90,7 +93,7 @@ int alloc_inode()
 {
   sem_wait(&inode_lock);
   if(max_inode==-1) ufs->dev->ops->read(ufs->dev,FS_START+47,(void*)&max_inode,4);
-  assert(nr_inode>=0);
+  //assert(nr_inode>=0);
   int ret=-1;
   if(nr_inode) ret=pop_inode();
   else ret=max_inode;
@@ -224,7 +227,7 @@ extern int ufs_mkdir(const char *pathname);
       printf("\nlink %s to %s\n",newpath,oldpath);
     #endif
     filesystem_t* fs = find_fs(oldpath);
-    assert(fs==ufs);
+    //assert(fs==ufs);
     return fs->ops->link(oldpath,newpath);
   }
 
@@ -235,7 +238,7 @@ extern int ufs_mkdir(const char *pathname);
       printf("\nunlink %s\n",pathname);
     #endif
     filesystem_t* fs=find_fs(pathname);
-    assert(fs==ufs);
+    //assert(fs==ufs);
     return fs->ops->unlink(pathname);
   }
 
@@ -262,7 +265,7 @@ extern int ufs_mkdir(const char *pathname);
       printf("\nmkdir:%s\n",pathname);
     #endif
       filesystem_t* fs=find_fs(pathname);
-      assert(fs==ufs);
+      //assert(fs==ufs);
       return fs->ops->mkdir(pathname);
   }
 

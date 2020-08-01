@@ -105,7 +105,7 @@ void xxd(const char* str,int n);
 filesystem_t* find_fs(const char* path);
 int get_abs_path(const char *path,char* abs_path);
 int get_name(const char* path,char* name);
-
+int error_dfs(int x);
 /*
 对于互斥的保护,由于信号量嵌套起来有一些困难,我采用信号量和自旋锁混用嵌套的方式来实现
 用信号量实现对文件的读写保护,用自旋锁实现对各种id分配的保护以及磁盘读写的保护

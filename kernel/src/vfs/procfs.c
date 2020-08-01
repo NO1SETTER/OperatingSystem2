@@ -121,7 +121,7 @@ int proc_free(int id)
       kfree_safe(prev);
       prev=ptr;
     }
-    free(&proc_table[id]);
+    kfree_safe(&proc_table[id]);
     proc_table[id]=NULL;
     return 0;
 }

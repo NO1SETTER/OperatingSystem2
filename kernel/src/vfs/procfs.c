@@ -250,7 +250,6 @@ int proc_free(int id)
 
 int procfs_create(int pid,char* name)//线程创建时调用
   {
-    printf("creating proc for %d\n",pid);
     char path[64];
     sprintf(path,"/proc/%d",pid);
     int proc_id1=alloc_proc_inode();

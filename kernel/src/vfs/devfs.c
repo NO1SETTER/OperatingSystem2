@@ -24,7 +24,9 @@ struct dev_inode dev_table[8];//直接分配好
     }
     if(dev_id==-1)
     {
+      #ifdef DEBUG_
       printf("device not supported\n");
+      #endif
       return -1;
     }
     
@@ -43,7 +45,9 @@ struct dev_inode dev_table[8];//直接分配好
     }
     if(dev_id==-1)
     {
+      #ifdef DEBUG_
       printf("device not supported\n");
+      #endif
       return -1;
     }
     
@@ -62,7 +66,9 @@ struct dev_inode dev_table[8];//直接分配好
     }
     if(dev_id==-1)
     {
+      #ifdef DEBUG_
       printf("device not opened\n");
+      #endif
       return -1;
     }
     ref_table[fd].valid=0;
@@ -74,7 +80,6 @@ struct dev_inode dev_table[8];//直接分配好
   {
     char name[32];
     get_name(pathname,name);
-    printf("name:%s\n",name);
     int dev_id=-1;  
     for(int i=0;i<8;i++)
     {
@@ -84,8 +89,10 @@ struct dev_inode dev_table[8];//直接分配好
     }
     if(dev_id==-1)
     {
+      #ifdef DEBUG_
         printf("device not supported\n");
-        return -1;}
+      #endif
+      return -1;}
 
     int fd = alloc_fd();
     dev_table[dev_id].fd=fd;

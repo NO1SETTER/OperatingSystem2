@@ -43,7 +43,10 @@ int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不
       ret=i;break;}
   }
   if(ret==-1) 
-  {printf("proc num exceeds limit\n");
+  { 
+    #ifdef DEBUG_
+    printf("proc num exceeds limit\n");
+    #endif
     return -1;}
 
   if(!proc_table[ret]) proc_table[ret]=(struct proc_inode*)kalloc_safe(sz(proc_inode));
@@ -131,7 +134,6 @@ int proc_free(int id)
   int procfs_read(int fd, void *buf, int count)
   {
       int node=ref_table[fd].id;
-      printf("node=%d\n",node);
       if(!proc_table[node]->valid)
       {return -1;}
       int read_bytes=0;
@@ -155,20 +157,24 @@ int proc_free(int id)
   int procfs_open(const char *pathname, int flags)
   {
     if(flags!=O_RDONLY)
-    { printf("Files in procfs are read-only\n");
+    { 
+      #ifdef DEBUG_
+      printf("Files in procfs are read-only\n");
+      #endif
       return -1;}
     
     int proc_id=-1;
     for(int i=0;i<nr_proc;i++)
     {
-      printf("all proc:%s\n",proc_table[i]->path_name);
         if(proc_table[i]->valid&&strcmp(proc_table[i]->path_name,pathname)==0)
         { proc_id=i;break;
         }
     }
     if(proc_id==-1) 
     {
+      #ifdef DEBUG_
       printf("%s not found in procfs\n",pathname);
+      #endif
       return -1;
     }
     int fd=alloc_fd();
@@ -303,7 +309,9 @@ int procfs_teardown(int pid)//线程结束时调用
     {
       if(root_ptr==NULL)
       {
+        #ifdef DEBUG_
         printf("error in /proc");
+        #endif
         return -1;
       }
       struct ufs_dirent* drt=(struct ufs_dirent*)root_ptr->ptr;

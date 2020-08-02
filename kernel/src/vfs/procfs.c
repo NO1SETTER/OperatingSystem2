@@ -65,7 +65,7 @@ for(int i=len-1;i>=0;i--)
     {pos=i;
     break;}
 }
-//assert(pos!=-1);
+assert(pos!=-1);
 if(strcmp(pathname+pos,"proc")==0) return PROC_ROOT;
 if(strcmp(pathname+pos,"meminfo")==0) return PROC_MEMINFO;
 if(strcmp(pathname+pos,"cpuinfo")==0) return PROC_CPUINFO;
@@ -256,7 +256,6 @@ int proc_free(int id)
 
 int procfs_create(int pid,char* name)//线程创建时调用
   {
-    /*
     char path[64];
     sprintf(path,"/proc/%d",pid);
     int proc_id1=alloc_proc_inode();
@@ -275,13 +274,12 @@ int procfs_create(int pid,char* name)//线程创建时调用
     proc_write_data(PROC_ROOT_ID,drt1,sz(ufs_dirent));
     proc_write_data(proc_id1,drt2,sz(ufs_dirent));
     proc_write_data(proc_id2,name,strlen(name));
-    */return 0;
+    return 0;
   }
 
 
 int procfs_teardown(int pid)//线程结束时调用
   {
-    /*
     char path1[64];
     strncpy(path1,"/proc/%d",pid);
     int proc_id1=-1;
@@ -325,6 +323,6 @@ int procfs_teardown(int pid)//线程结束时调用
         break;
       } 
       root_ptr=root_ptr->next;     
-    }*/
+    }
     return 0;
   }

@@ -33,7 +33,7 @@ filesystem_t* find_fs(const char* path)//找到某一个文件所在的文件系
   for(int i=0;i<nr_mnt;i++)//和每一个文件系统作比较
   {
     if(!mount_table[i].valid) continue;
-    //assert(mount_table[i].path[0]=='/');
+    assert(mount_table[i].path[0]=='/');
     int len1=strlen(abs_path),len2=strlen(mount_table[i].path);
     for(int j=1;j<len1;j++)
     {
@@ -109,9 +109,9 @@ void vfs_test()
 {
   #include "workload.inc"
   traverse("");
-  #include "proctest.inc"
-  #include "devtest.inc"
-  #include "linktest.inc"
+  //#include "proctest.inc"
+  //#include "devtest.inc"
+  //#include "linktest.inc"
 }
 
 //standard realizations

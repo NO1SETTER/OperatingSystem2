@@ -78,7 +78,6 @@ struct dev_inode dev_table[8];//直接分配好
 
   int devfs_open(const char *pathname, int flags)
   {
-    error_dfs(0);
     char name[32];
     get_name(pathname,name);
     int dev_id=-1;  

@@ -156,7 +156,6 @@ int proc_free(int id)
 
   int procfs_open(const char *pathname, int flags)
   {
-    error_dfs(0);
     if(flags!=O_RDONLY)
     { 
       #ifdef DEBUG_

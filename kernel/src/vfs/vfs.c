@@ -122,10 +122,12 @@ extern filesystem_t* devfs_init();
 extern int ufs_mkdir(const char *pathname);
   void vfs_init()
   {
-    for(int i=0;i<nr_mnt;i++) mount_table[i].valid = 0;
+    for(int i=0;i<nr_mnt;i++) 
+      mount_table[i].valid = 0;
     vfs_mount("/",ufs_init());
     vfs_mount("/proc",procfs_init());
     vfs_mount("/dev",devfs_init());
+    error_dfs(0);
   }
   
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd

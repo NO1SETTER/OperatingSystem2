@@ -131,7 +131,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       return -1;
     }
     #ifdef DEBUG_
-      printf("write %d bytes to file:%d to offset:%d\n",count,fd,file_table[inode].offset);
+      printf("write %d bytes to file:%d at offset:%d\n",count,fd,file_table[inode].offset);
     #endif
     inode_t* node=&file_table[inode];
     write_data(node,node->offset,(char*)buf,count);

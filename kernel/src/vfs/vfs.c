@@ -108,6 +108,7 @@ int alloc_inode()
 void vfs_test()
 {
   #include "workload.inc"
+  printf("traverse starts\n");
   traverse("");
   //#include "proctest.inc"
   //#include "devtest.inc"

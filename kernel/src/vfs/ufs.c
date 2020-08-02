@@ -26,11 +26,13 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支
     }
     else
     {
-      struct ufs_dirent* drt=(struct ufs_dirent*)kalloc_safe(sz(ufs_dirent));
+      struct ufs_dirent* drt;
       int nr_files=now_node->size/sz(ufs_dirent);
+      char* buf=(char*)kalloc_safe(now_node->size+1);
+      read_data(now_node,0,buf,now_node->size);
       for(int j=0;j<nr_files;j++)
       {
-        read_data(now_node,j*sz(ufs_dirent),(char*)drt,sz(ufs_dirent));
+        drt=(struct ufs_dirent*)(buf+j*sz(ufs_dirent));
         /*for(int k=0;k<depth*2;k++)
           printf(" ");
         printf("drt->name=%s\n",drt->name);*/

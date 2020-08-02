@@ -13,7 +13,7 @@ struct dev_inode
 struct dev_inode dev_table[8];//直接分配好
 
 //standard realizations
-  int devfs_write(int fd,void *buf, int count)
+  int devfs_write(int fd,void* buf, int count)
   {
     int dev_id=-1;
     for(int i=0;i<8;i++)

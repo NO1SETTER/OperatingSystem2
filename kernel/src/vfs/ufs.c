@@ -36,7 +36,7 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支
         #ifdef DEBUG_
         for(int k=0;k<depth*2;k++)
           printf(" ");
-        printf("drt->name=%s\n",drt->name);
+        printf("drt_name=%s\n",drt->name);
         #endif
         if(strcmp(drt->name,cur_name)==0)//找到了
         {

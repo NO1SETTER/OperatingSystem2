@@ -138,9 +138,9 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
           sp_unlock(&cur->lk);
           break;
         }
+                  printf("cur->cpu=%d,cur->status=%d\n",cur->cpu,cur->status);
         if(round>100*_ncpu()&&cur->cpu==_cpu()&&cur->status==T_READY)
         {
-          printf("cur->cpu=%d,cur->status=%d\n",cur->cpu,cur->status);
           cur->status=T_RUNNING;
           cur->ct+=1;
           sp_unlock(&cur->lk);

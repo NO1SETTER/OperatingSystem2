@@ -73,7 +73,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
   #ifdef VFS_ENABLE
     procfs_create(task->id,task->name);
   #endif
-  #ifdef _DEBUG
+  #ifdef KMT_DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
   #endif
   return 0;
@@ -106,7 +106,7 @@ _Context* kmt_context_save(_Event ev,_Context* c)
 {
   kmt->spin_lock(&cur->lk);
     cur->ctx=c;
-    #ifdef _DEBUG
+    #ifdef KMT
       printf("CPU#%d save context for %s\n",_cpu(),cur->name);
     #endif
   kmt->spin_unlock(&cur->lk);
@@ -117,7 +117,7 @@ _Context* kmt_context_save(_Event ev,_Context* c)
 
 _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上下文,要保存下来
 {
-      #ifdef _DEBUG
+      #ifdef KMT
         printf("CPU#%d Schedule\n",_cpu());
       #endif
       if(cur->id==-1)
@@ -156,7 +156,7 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
       }
 
 
-      #ifdef _DEBUG
+      #ifdef KMT
         printf("CPU#%d Scheduled to %s\n",_cpu(),cur->name);
       #endif
       return cur->ctx;

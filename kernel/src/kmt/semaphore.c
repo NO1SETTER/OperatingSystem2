@@ -45,7 +45,7 @@ void sem_init(sem_t *sem, const char *name, int value)
 void sem_wait(sem_t *sem)
 {
   kmt->spin_lock(&sem->lock);//sem->lock用于控制一切对sem的修改
-  #ifdef _DEBUG
+  #ifdef KMT_DEBUG
   printf("Task %s running on CPU#%d\n",cur->name,_cpu());
   printf("wait:%s->val = %d\n",sem->name,sem->val);
   #endif
@@ -56,7 +56,7 @@ void sem_wait(sem_t *sem)
         cur->status=T_WAITING;
         cur->sem_ct=cur->sem_ct+1;//只有被阻塞的才需要增加sem_ct
         sem->waiter[sem->wnum++]=cur->id;
-        #ifdef _DEBUG
+        #ifdef KMT
           printf("%s blocked\n",cur->name);
         #endif
       kmt->spin_unlock(&cur->lk);
@@ -72,7 +72,7 @@ void sem_signal(sem_t *sem)
 {
   kmt->spin_lock(&sem->lock);
   sem->val=sem->val+1;
-  #ifdef _DEBUG
+  #ifdef KMT
   printf("Task %s running on CPU#%d\n",cur->name,_cpu());
   printf("signal: %s->val = %d\n",sem->name,sem->val);
   #endif
@@ -96,7 +96,7 @@ void sem_signal(sem_t *sem)
         if(tsk->sem_ct==0)
           tsk->status=T_READY;//刚恢复活跃的线程一定尚未被调度
       kmt->spin_unlock(&tsk->lk);
-      #ifdef _DEBUG
+      #ifdef KMT
         printf("%s activated\n",all_thread[sem->waiter[no]]->name);
       #endif
       for(int i=no;i<sem->wnum-1;i++)//无论该线程有没有被唤醒，它都不受此sem的限制,因此从waiter中移除

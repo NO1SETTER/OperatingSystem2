@@ -9,12 +9,12 @@
     {
         while(1)
         {
-        P(&empty);
+        //P(&empty);
         printf("(");
         #ifdef _DEBUG_
           printf("from %s\n",cur->name);
         #endif
-        V(&fill);
+        //V(&fill);
         }
     }
 

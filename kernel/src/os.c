@@ -20,7 +20,7 @@ static void os_init() {
   #endif
   vfs->init();
   #ifdef VFS_DEBUG
-    kmt->create(task_alloc(), "vfs_test"  ,  vfs_test ,  NULL );
+    //kmt->create(task_alloc(), "vfs_test"  ,  vfs_test ,  NULL );
   #endif
 }
 

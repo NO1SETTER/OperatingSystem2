@@ -1,7 +1,7 @@
 #include<common.h>
 #define P kmt->sem_wait
 #define V kmt->sem_signal
-#define PRINT_THREAD
+//#define PRINT_THREAD
 #ifdef KMT_TEST
     sem_t empty;
     sem_t fill;

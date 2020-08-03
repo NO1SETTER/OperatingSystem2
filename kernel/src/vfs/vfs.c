@@ -104,14 +104,13 @@ int alloc_inode()
   return ret;
 }
 
-//#include "traverse.inc"
+#include "traverse.inc"
 void vfs_test()
 {
-  assert(0);
   #include "workload.inc"
-  //printf("traverse starts\n");
-  //traverse("");
-  #include "proctest.inc"
+  printf("traverse starts\n");
+  traverse("");
+  //#include "proctest.inc"
   //#include "devtest.inc"
   //#include "linktest.inc"
 }

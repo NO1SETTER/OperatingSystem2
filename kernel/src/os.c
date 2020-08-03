@@ -13,8 +13,8 @@ extern void vfs_test();
 static void os_init() {
   pmm->init();
   kmt->init(); // 模块先初始化
+  //dev->init();
   #ifdef DEV_ENABLE
-    dev->init();
     //kmt->create(task_alloc(), "tty_reader", tty_reader, "tty1");
     //kmt->create(task_alloc(), "tty_reader", tty_reader, "tty2");
   #endif
@@ -112,7 +112,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   //panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");
   #ifdef _DEBUG
-    printf("Task %s on CPU#%d is about to return from event %d\n",current->name,_cpu(),ev.event);
+    printf("Task %s on CPU#%d is about to return from event %d\n",cur->name,_cpu(),ev.event);
   #endif
 
   return next;

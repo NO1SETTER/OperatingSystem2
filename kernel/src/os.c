@@ -19,9 +19,8 @@ static void os_init() {
     //kmt->create(task_alloc(), "tty_reader", tty_reader, "tty2");
   #endif
   vfs->init();
-      assert(0);
   #ifdef VFS_DEBUG
-    //kmt->create(task_alloc(), "vfs_test"  ,  vfs_test ,  NULL );
+    kmt->create(task_alloc(), "vfs_test"  ,  vfs_test ,  NULL );
   #endif
 }
 

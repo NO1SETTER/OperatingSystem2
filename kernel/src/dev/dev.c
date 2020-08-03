@@ -43,10 +43,6 @@ static device_t *dev_create(size_t size, const char* name, int id, devops_t *ops
 void dev_input_task();
 void dev_tty_task();
 
-void test_null()
-{
-  while(1);
-}
 static void dev_init() {
   sem_init(&inode_lock,"inode_lock",1);
   sem_init(&proc_inode_lock,"proc_inode_lock",1);
@@ -57,7 +53,6 @@ static void dev_init() {
   devices[id]->ops->init(devices[id]);
 
   DEVICES(INIT);
-  //kmt->create(pmm->alloc(sizeof(task_t)),"test-null",test_null,NULL);
   //kmt->create(pmm->alloc(sizeof(task_t)), "input-task", dev_input_task, NULL);
   //kmt->create(pmm->alloc(sizeof(task_t)), "tty-task",   dev_tty_task,   NULL);
 }

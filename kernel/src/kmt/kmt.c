@@ -66,7 +66,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     }
     else
     {
-     // task->next = task;
+      task->next = task;
     }
     all_thread[thread_num++]=task;//添加到所有线程中
   kmt->spin_unlock(&thread_ctrl_lock);

@@ -122,6 +122,7 @@ extern filesystem_t* devfs_init();
 extern int ufs_mkdir(const char *pathname);
   void vfs_init()
   {
+    assert(0);
     for(int i=0;i<nr_mnt;i++) 
       mount_table[i].valid = 0;
     vfs_mount("/",ufs_init());

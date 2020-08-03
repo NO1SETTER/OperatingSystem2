@@ -13,13 +13,21 @@ extern void vfs_test();
 static void os_init() {
   pmm->init();
   kmt->init(); // 模块先初始化
-  dev->init();
+  
   #ifdef DEV_ENABLE
-    //kmt->create(task_alloc(), "tty_reader", tty_reader, "tty1");
-    //kmt->create(task_alloc(), "tty_reader", tty_reader, "tty2");
+    dev->init();
   #endif
-  vfs->init();
-  #ifdef VFS_DEBUG
+
+  #ifdef DEV_TEST
+    kmt->create(task_alloc(), "tty_reader", tty_reader, "tty1");
+    kmt->create(task_alloc(), "tty_reader", tty_reader, "tty2");
+  #endif
+  
+  #ifdef VFS_ENABLE
+    vfs->init();
+  #endif
+  
+  #ifdef VFS_TEST
     kmt->create(task_alloc(), "vfs_test"  ,  vfs_test ,  NULL );
   #endif
 }

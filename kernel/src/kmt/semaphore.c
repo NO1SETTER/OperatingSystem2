@@ -2,7 +2,7 @@
 #define P kmt->sem_wait
 #define V kmt->sem_signal
 #define _DEBUG_
-#ifdef _DEBUG_LOCAL
+#ifdef KMT_TEST
     sem_t empty;
     sem_t fill;
     void producer(void *arg)

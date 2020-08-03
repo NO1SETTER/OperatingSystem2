@@ -107,6 +107,7 @@ int alloc_inode()
 //#include "traverse.inc"
 void vfs_test()
 {
+  assert(0);
   #include "workload.inc"
   //printf("traverse starts\n");
   //traverse("");

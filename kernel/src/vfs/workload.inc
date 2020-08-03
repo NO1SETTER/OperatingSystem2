@@ -1,3 +1,4 @@
+printf("filesystem init start!\n");
 vfs->mkdir("/etw1ld63cgzmq");
 vfs->chdir("etw1ld63cgzmq");
 vfs->mkdir("/etw1ld63cgzmq/d9afza5vpuemop");
@@ -23,6 +24,12 @@ vfs->chdir("jcf8z7r7pn0r2");
 }
 {
   int fd = vfs->open("/etw1ld63cgzmq/jcf8z7r7pn0r2/a3.txt", O_CREAT | O_WRONLY);
+  char buf_1[100]="qazxswedcvfrtgb";
+  char buf_2[100];
+  vfs->write(fd,buf_1,20);
+  vfs->lseek(fd,0,SEEK_SET);
+  vfs->read(fd,buf_2,20);
+  printf("read result:%s\n",buf_2);
   if (fd > 0) vfs->close(fd);
 }
 {
@@ -142,6 +149,7 @@ vfs->chdir("4pdtl7etzvt0");
   int fd = vfs->open("/h51ctvjkyfefmod/4pdtl7etzvt0/c-2.txt", O_CREAT | O_WRONLY);
   if (fd > 0) vfs->close(fd);
 }
+
 vfs->chdir("..");
 {
   int fd = vfs->open("/h51ctvjkyfefmod/b1.txt", O_CREAT | O_RDWR);
@@ -249,6 +257,7 @@ vfs->chdir("/jw3f4nsa23antht8/ulfg8tkyjiou6ppl");
   int fd = vfs->open("/jw3f4nsa23antht8/ulfg8tkyjiou6ppl/b2.txt", O_CREAT | O_RDWR);
   if (fd > 0) vfs->close(fd);
 }
+
 vfs->chdir("..");
 vfs->mkdir("/jw3f4nsa23antht8/fp2x7dy0a0u2nx");
 vfs->chdir("fp2x7dy0a0u2nx");

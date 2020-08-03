@@ -1,5 +1,5 @@
 # Building kernel [x86_64-qemu] with AM_HOME {/home/ebata/os-workbench/kernel/../abstract-machine}
-+ CC src/vfs/vfs.c
++ CC src/kmt/kmt.c
 # Building lib-am [x86_64-qemu]
 # Building lib-klib [x86_64-qemu]
 # Creating binary image [x86_64-qemu]
@@ -8,696 +8,5397 @@
 + CREATE -> build/kernel-x86_64-qemu
 /home/ebata/img/load
 Got 117 MiB heap: [0xb00000, 0x8000000)
-exist_files:86
+Task mainthread_0 running on CPU#0
+wait:tty lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: tty lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:tty lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:fb->val = 1
+Task mainthread_0 running on CPU#0
+signal: fb->val = 1
+Task mainthread_0 running on CPU#0
+signal: tty lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:tty lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: tty lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:tty lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:fb->val = 1
+Task mainthread_0 running on CPU#0
+signal: fb->val = 1
+Task mainthread_0 running on CPU#0
+signal: tty lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: sda_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:proc_inode_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: proc_inode_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:proc_inode_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: proc_inode_lock->val = 1
+Task mainthread_0 running on CPU#0
+wait:proc_inode_lock->val = 1
+Task mainthread_0 running on CPU#0
+signal: proc_inode_lock->val = 1
+ task 0:vfs_test created:0xb04000
+Task mainthread_0 on CPU#0 trap with event 2
+mainthread_0 set trapped with status:2
+
+Ready and nonblock threads: vfs_test
+CPU#0 save context for mainthread_0
+Task mainthread_0 running on CPU#0
+signal: keyboard-interrupt->val = 1
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+filesystem init start!
 
 mkdir:/etw1ld63cgzmq
-inode=-1
-mkdir inode=-1
+Task vfs_test on CPU#0 trap with event 2
+mainthread_0 set free from trap with status:2
+vfs_test set trapped with status:2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 2
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+Read from file:1, size:672
+Read 672 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:1, size:672
 Write 32 bytes at offset 672
-First Cluster at 256
 
-change current dir of thread:2 from / to /etw1ld63cgzmq
-cur_path is /etw1ld63cgzmq
+chdir thread:0 from / to /etw1ld63cgzmq
 
 mkdir:/etw1ld63cgzmq/d9afza5vpuemop
-inode=-86
-mkdir inode=-86
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:86, size:0
 Write 32 bytes at offset 0
-First Cluster at 476
 
-change current dir of thread:2 from /etw1ld63cgzmq to /etw1ld63cgzmq/d9afza5vpuemop
-cur_path is /etw1ld63cgzmq/d9afza5vpuemop
+chdir thread:0 from /etw1ld63cgzmq to /etw1ld63cgzmq/d9afza5vpuemop
 
 open: /etw1ld63cgzmq/d9afza5vpuemop/b3.txt
-inode=-87
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+Read from file:87, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 3
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:87, size:0
 Write 32 bytes at offset 0
-First Cluster at 477
-file:/etw1ld63cgzmq/d9afza5vpuemop/b3.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/d9afza5vpuemop/b3.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /etw1ld63cgzmq/d9afza5vpuemop/a-3.txt
-inode=-87
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+Read from file:87, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:87, size:32
 Write 32 bytes at offset 32
-First Cluster at 477
-file:/etw1ld63cgzmq/d9afza5vpuemop/a-3.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/d9afza5vpuemop/a-3.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /etw1ld63cgzmq/d9afza5vpuemop/a2.txt
-inode=-87
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+Read from file:87, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b3.txt
+    drt_name=a-3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:87, size:64
 Write 32 bytes at offset 64
-First Cluster at 477
-file:/etw1ld63cgzmq/d9afza5vpuemop/a2.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/d9afza5vpuemop/a2.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-change current dir of thread:2 from /etw1ld63cgzmq/d9afza5vpuemop to /etw1ld63cgzmq
-cur_path is /etw1ld63cgzmq
+chdir thread:0 from /etw1ld63cgzmq/d9afza5vpuemop to /etw1ld63cgzmq
 
 mkdir:/etw1ld63cgzmq/jcf8z7r7pn0r2
-inode=-86
-mkdir inode=-86
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 4
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:86, size:32
 Write 32 bytes at offset 32
-First Cluster at 476
 
-change current dir of thread:2 from /etw1ld63cgzmq to /etw1ld63cgzmq/jcf8z7r7pn0r2
-cur_path is /etw1ld63cgzmq/jcf8z7r7pn0r2
+chdir thread:0 from /etw1ld63cgzmq to /etw1ld63cgzmq/jcf8z7r7pn0r2
 
 open: /etw1ld63cgzmq/jcf8z7r7pn0r2/b1.txt
-inode=-91
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+Read from file:91, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:91, size:0
 Write 32 bytes at offset 0
-First Cluster at 481
-file:/etw1ld63cgzmq/jcf8z7r7pn0r2/b1.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/jcf8z7r7pn0r2/b1.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /etw1ld63cgzmq/jcf8z7r7pn0r2/a3.txt
-inode=-91
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+Read from file:91, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:91, size:32
 Write 32 bytes at offset 32
-First Cluster at 481
-file:/etw1ld63cgzmq/jcf8z7r7pn0r2/a3.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/jcf8z7r7pn0r2/a3.txt is allocated fd:1
+
+write to fd:1
+fs:ufs
+write 20 bytes to file:1 at offset:0
+Write to file:93, size:0
+Write 20 bytes at offset 0
+
+lseek fd:1
+
+read from fd:1
+fs:ufs
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 5
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+read 20 bytes from file:1 at offset:0
+Read from file:93, size:20
+Read 20 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+read result:qazxswedcvfrtgb
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /etw1ld63cgzmq/jcf8z7r7pn0r2/a2.txt
-inode=-91
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+Read from file:91, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b1.txt
+    drt_name=a3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:91, size:64
 Write 32 bytes at offset 64
-First Cluster at 481
-file:/etw1ld63cgzmq/jcf8z7r7pn0r2/a2.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/jcf8z7r7pn0r2/a2.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /etw1ld63cgzmq/jcf8z7r7pn0r2/a-1.txt
-inode=-91
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+Read from file:91, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b1.txt
+    drt_name=a3.txt
+    drt_name=a2.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:91, size:96
 Write 32 bytes at offset 96
-First Cluster at 481
-file:/etw1ld63cgzmq/jcf8z7r7pn0r2/a-1.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/jcf8z7r7pn0r2/a-1.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /etw1ld63cgzmq/jcf8z7r7pn0r2/a-3.txt
-inode=-91
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+Read from file:91, size:128
+Read 128 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b1.txt
+    drt_name=a3.txt
+    drt_name=a2.txt
+    drt_name=a-1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:91, size:128
 Write 32 bytes at offset 128
-First Cluster at 481
-file:/etw1ld63cgzmq/jcf8z7r7pn0r2/a-3.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/jcf8z7r7pn0r2/a-3.txt is allocated fd:1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 6
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-change current dir of thread:2 from /etw1ld63cgzmq/jcf8z7r7pn0r2 to /etw1ld63cgzmq
-cur_path is /etw1ld63cgzmq
+chdir thread:0 from /etw1ld63cgzmq/jcf8z7r7pn0r2 to /etw1ld63cgzmq
 
-mkdir:/etw1ld63cgzmq/1dgjoc8ebhmhzf
-inode=-86
-mkdir inode=-86
+mkdir:1dgjoc8ebhmhzf
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:86, size:64
 Write 32 bytes at offset 64
-First Cluster at 476
 
-change current dir of thread:2 from /etw1ld63cgzmq to /etw1ld63cgzmq/1dgjoc8ebhmhzf
-cur_path is /etw1ld63cgzmq/1dgjoc8ebhmhzf
+chdir thread:0 from /etw1ld63cgzmq to /etw1ld63cgzmq/1dgjoc8ebhmhzf
 
 open: /etw1ld63cgzmq/1dgjoc8ebhmhzf/a3.txt
-inode=-97
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+  drt_name=1dgjoc8ebhmhzf
+Read from file:97, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:97, size:0
 Write 32 bytes at offset 0
-First Cluster at 487
-file:/etw1ld63cgzmq/1dgjoc8ebhmhzf/a3.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/1dgjoc8ebhmhzf/a3.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /etw1ld63cgzmq/1dgjoc8ebhmhzf/a-3.txt
-inode=-97
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+dTask vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 7
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+rt_name=etw1ld63cgzmq
+Read from file:86, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+  drt_name=1dgjoc8ebhmhzf
+Read from file:97, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=a3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:97, size:32
 Write 32 bytes at offset 32
-First Cluster at 487
-file:/etw1ld63cgzmq/1dgjoc8ebhmhzf/a-3.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/1dgjoc8ebhmhzf/a-3.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /etw1ld63cgzmq/1dgjoc8ebhmhzf/a1.txt
-inode=-97
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+  drt_name=1dgjoc8ebhmhzf
+Read from file:97, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=a3.txt
+    drt_name=a-3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:97, size:64
 Write 32 bytes at offset 64
-First Cluster at 487
-file:/etw1ld63cgzmq/1dgjoc8ebhmhzf/a1.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/1dgjoc8ebhmhzf/a1.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-change current dir of thread:2 from /etw1ld63cgzmq/1dgjoc8ebhmhzf to /etw1ld63cgzmq
-cur_path is /etw1ld63cgzmq
+chdir thread:0 from /etw1ld63cgzmq/1dgjoc8ebhmhzf to /etw1ld63cgzmq
 
 open: /etw1ld63cgzmq/a-1.txt
-inode=-86
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+  drt_name=1dgjoc8ebhmhzf
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:86, size:96
 Write 32 bytes at offset 96
-First Cluster at 476
-file:/etw1ld63cgzmq/a-1.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/a-1.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /etw1ld63cgzmq/a-3.txt
-inode=-86
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:128
+Read 128 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+  drt_name=1dgjoc8ebhmhzf
+  drt_name=a-1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:86, size:128
 Write 32 bytes at offset 128
-First Cluster at 476
-file:/etw1ld63cgzmq/a-3.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/a-3.txt is allocated fd:1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 8
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /etw1ld63cgzmq/a1.txt
-inode=-86
+fs:ufs
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Read from file:86, size:160
+Read 160 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=d9afza5vpuemop
+  drt_name=jcf8z7r7pn0r2
+  drt_name=1dgjoc8ebhmhzf
+  drt_name=a-1.txt
+  drt_name=a-3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:86, size:160
 Write 32 bytes at offset 160
-First Cluster at 476
-file:/etw1ld63cgzmq/a1.txt in fs:ufs is allocated a fd:1
+/etw1ld63cgzmq/a1.txt is allocated fd:1
 
 close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-change current dir of thread:2 from /etw1ld63cgzmq to 
-cur_path is 
+chdir thread:0 from /etw1ld63cgzmq to /
 
-mkdir:/h51ctvjkyfefmod
-inode=-1
-mkdir inode=-1
+mkdir:h51ctvjkyfefmod
+Read from file:1, size:704
+Read 704 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:1, size:704
 Write 32 bytes at offset 704
-First Cluster at 256
 
-change current dir of thread:2 from  to /h51ctvjkyfefmod
-cur_path is /h51ctvjkyfefmod
+chdir thread:0 from / to /h51ctvjkyfefmod
 
-mkdir:/h51ctvjkyfefmod/vc8rip4wswit
-inode=-104
-mkdir inode=-104
+mkdir:vc8rip4wswit
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:104, size:0
 Write 32 bytes at offset 0
-First Cluster at 494
+Task vfs_test on CPU#0 trap with event 2
 
-change current dir of thread:2 from /h51ctvjkyfefmod to /h51ctvjkyfefmod/vc8rip4wswit
-cur_path is /h51ctvjkyfefmod/vc8rip4wswit
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 9
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+
+chdir thread:0 from /h51ctvjkyfefmod to /h51ctvjkyfefmod/vc8rip4wswit
 
 open: /h51ctvjkyfefmod/vc8rip4wswit/c-1.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/vc8rip4wswit/c-1.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+Read from file:105, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:105, size:0
+Write 32 bytes at offset 0
+/h51ctvjkyfefmod/vc8rip4wswit/c-1.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /h51ctvjkyfefmod/vc8rip4wswit/c3.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/vc8rip4wswit/c3.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+Read from file:105, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=c-1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:105, size:32
+Write 32 bytes at offset 32
+/h51ctvjkyfefmod/vc8rip4wswit/c3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /h51ctvjkyfefmod/vc8rip4wswit/b3.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/vc8rip4wswit/b3.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+dTask vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 10
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+rt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+Read from file:105, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=c-1.txt
+    drt_name=c3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:105, size:64
+Write 32 bytes at offset 64
+/h51ctvjkyfefmod/vc8rip4wswit/b3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /h51ctvjkyfefmod/vc8rip4wswit/c-2.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/vc8rip4wswit/c-2.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+Read from file:105, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=c-1.txt
+    drt_name=c3.txt
+    drt_name=b3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:105, size:96
+Write 32 bytes at offset 96
+/h51ctvjkyfefmod/vc8rip4wswit/c-2.txt is allocated fd:1
 
-change current dir of thread:2 from /h51ctvjkyfefmod/vc8rip4wswit to /h51ctvjkyfefmod
-cur_path is /h51ctvjkyfefmod
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+chdir thread:0 from /h51ctvjkyfefmod/vc8rip4wswit to /h51ctvjkyfefmod
 
 mkdir:/h51ctvjkyfefmod/2759ac5ut3d0m
-inode=-104
-mkdir inode=-104
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:104, size:32
 Write 32 bytes at offset 32
-First Cluster at 494
 
-change current dir of thread:2 from /h51ctvjkyfefmod to /h51ctvjkyfefmod/2759ac5ut3d0m
-cur_path is /h51ctvjkyfefmod/2759ac5ut3d0m
+chdir thread:0 from /h51ctvjkyfefmod to /h51ctvjkyfefmod/2759ac5ut3d0m
 
 open: /h51ctvjkyfefmod/2759ac5ut3d0m/c-3.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/2759ac5ut3d0m/c-3.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+dTask vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 11
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+rt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+Read from file:110, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:110, size:0
+Write 32 bytes at offset 0
+/h51ctvjkyfefmod/2759ac5ut3d0m/c-3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /h51ctvjkyfefmod/2759ac5ut3d0m/a2.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/2759ac5ut3d0m/a2.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+Read from file:110, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=c-3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:110, size:32
+Write 32 bytes at offset 32
+/h51ctvjkyfefmod/2759ac5ut3d0m/a2.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /h51ctvjkyfefmod/2759ac5ut3d0m/b3.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/2759ac5ut3d0m/b3.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+Read from file:110, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=c-3.txt
+    drt_name=a2.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:110, size:64
+Write 32 bytes at offset 64
+/h51ctvjkyfefmod/2759ac5ut3d0m/b3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 12
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
 
 open: /h51ctvjkyfefmod/2759ac5ut3d0m/b-2.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/2759ac5ut3d0m/b-2.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+Read from file:110, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=c-3.txt
+    drt_name=a2.txt
+    drt_name=b3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:110, size:96
+Write 32 bytes at offset 96
+/h51ctvjkyfefmod/2759ac5ut3d0m/b-2.txt is allocated fd:1
 
-change current dir of thread:2 from /h51ctvjkyfefmod/2759ac5ut3d0m to /h51ctvjkyfefmod
-cur_path is /h51ctvjkyfefmod
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+chdir thread:0 from /h51ctvjkyfefmod/2759ac5ut3d0m to /h51ctvjkyfefmod
 
 mkdir:/h51ctvjkyfefmod/mtrlg4zfbr2h
-inode=-104
-mkdir inode=-104
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:104, size:64
 Write 32 bytes at offset 64
-First Cluster at 494
 
-change current dir of thread:2 from /h51ctvjkyfefmod to /h51ctvjkyfefmod/mtrlg4zfbr2h
-cur_path is /h51ctvjkyfefmod/mtrlg4zfbr2h
+chdir thread:0 from /h51ctvjkyfefmod to /h51ctvjkyfefmod/mtrlg4zfbr2h
 
 open: /h51ctvjkyfefmod/mtrlg4zfbr2h/b1.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/mtrlg4zfbr2h/b1.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+  drt_name=mtrlg4zfbr2h
+Read from file:115, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 13
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+Write to file:115, size:0
+Write 32 bytes at offset 0
+/h51ctvjkyfefmod/mtrlg4zfbr2h/b1.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /h51ctvjkyfefmod/mtrlg4zfbr2h/a-1.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/mtrlg4zfbr2h/a-1.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+  drt_name=mtrlg4zfbr2h
+Read from file:115, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:115, size:32
+Write 32 bytes at offset 32
+/h51ctvjkyfefmod/mtrlg4zfbr2h/a-1.txt is allocated fd:1
 
-change current dir of thread:2 from /h51ctvjkyfefmod/mtrlg4zfbr2h to /h51ctvjkyfefmod
-cur_path is /h51ctvjkyfefmod
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+chdir thread:0 from /h51ctvjkyfefmod/mtrlg4zfbr2h to /h51ctvjkyfefmod
 
 mkdir:/h51ctvjkyfefmod/xc531x8lnysaij
-inode=-104
-mkdir inode=-104
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+  drt_name=mtrlg4zfbr2h
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:104, size:96
 Write 32 bytes at offset 96
-First Cluster at 494
 
-change current dir of thread:2 from /h51ctvjkyfefmod to /h51ctvjkyfefmod/xc531x8lnysaij
-cur_path is /h51ctvjkyfefmod/xc531x8lnysaij
+chdir thread:0 from /h51ctvjkyfefmod to /h51ctvjkyfefmod/xc531x8lnysaij
 
 open: /h51ctvjkyfefmod/xc531x8lnysaij/a1.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/xc531x8lnysaij/a1.txt in fs:ufs is allocated a fd:-1
-
-open: /h51ctvjkyfefmod/xc531x8lnysaij/c3.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/xc531x8lnysaij/c3.txt in fs:ufs is allocated a fd:-1
-
-change current dir of thread:2 from /h51ctvjkyfefmod/xc531x8lnysaij to /h51ctvjkyfefmod
-cur_path is /h51ctvjkyfefmod
-
-mkdir:/h51ctvjkyfefmod/4pdtl7etzvt0
-inode=-104
-mkdir inode=-104
-Write to file:104, size:128
-Write 32 bytes at offset 128
-First Cluster at 494
-
-change current dir of thread:2 from /h51ctvjkyfefmod to /h51ctvjkyfefmod/4pdtl7etzvt0
-cur_path is /h51ctvjkyfefmod/4pdtl7etzvt0
-
-open: /h51ctvjkyfefmod/4pdtl7etzvt0/a3.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/4pdtl7etzvt0/a3.txt in fs:ufs is allocated a fd:-1
-
-open: /h51ctvjkyfefmod/4pdtl7etzvt0/a-3.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/4pdtl7etzvt0/a-3.txt in fs:ufs is allocated a fd:-1
-
-open: /h51ctvjkyfefmod/4pdtl7etzvt0/c-2.txt
-inode=-2147483648
-No such file/directory
-file:/h51ctvjkyfefmod/4pdtl7etzvt0/c-2.txt in fs:ufs is allocated a fd:-1
-
-change current dir of thread:2 from /h51ctvjkyfefmod/4pdtl7etzvt0 to /h51ctvjkyfefmod
-cur_path is /h51ctvjkyfefmod
-
-open: /h51ctvjkyfefmod/b1.txt
-inode=-104
-Write to file:104, size:160
-Write 32 bytes at offset 160
-First Cluster at 494
-file:/h51ctvjkyfefmod/b1.txt in fs:ufs is allocated a fd:16
-
-close fd:16
-
-change current dir of thread:2 from /h51ctvjkyfefmod to 
-cur_path is 
-
-mkdir:/hsiysh7mcz2xm3
-inode=-1
-mkdir inode=-1
-Write to file:1, size:736
-Write 32 bytes at offset 736
-First Cluster at 256
-
-change current dir of thread:2 from  to /hsiysh7mcz2xm3
-cur_path is /hsiysh7mcz2xm3
-
-mkdir:/hsiysh7mcz2xm3/cnjgm3yx8jg5j
-inode=-111
-mkdir inode=-111
-Write to file:111, size:0
-Write 32 bytes at offset 0
-First Cluster at 501
-
-change current dir of thread:2 from /hsiysh7mcz2xm3 to /hsiysh7mcz2xm3/cnjgm3yx8jg5j
-cur_path is /hsiysh7mcz2xm3/cnjgm3yx8jg5j
-
-open: /hsiysh7mcz2xm3/cnjgm3yx8jg5j/b-2.txt
-inode=-2147483648
-No such file/directory
-file:/hsiysh7mcz2xm3/cnjgm3yx8jg5j/b-2.txt in fs:ufs is allocated a fd:-1
-
-open: /hsiysh7mcz2xm3/cnjgm3yx8jg5j/a-3.txt
-inode=-2147483648
-No such file/directory
-file:/hsiysh7mcz2xm3/cnjgm3yx8jg5j/a-3.txt in fs:ufs is allocated a fd:-1
-
-open: /hsiysh7mcz2xm3/cnjgm3yx8jg5j/b2.txt
-inode=-2147483648
-No such file/directory
-file:/hsiysh7mcz2xm3/cnjgm3yx8jg5j/b2.txt in fs:ufs is allocated a fd:-1
-
-change current dir of thread:2 from /hsiysh7mcz2xm3/cnjgm3yx8jg5j to /hsiysh7mcz2xm3
-cur_path is /hsiysh7mcz2xm3
-
-mkdir:/hsiysh7mcz2xm3/ef7ceoicta2vkj3
-inode=-111
-mkdir inode=-111
-Write to file:111, size:32
-Write 32 bytes at offset 32
-First Cluster at 501
-
-change current dir of thread:2 from /hsiysh7mcz2xm3 to /hsiysh7mcz2xm3/ef7ceoicta2vkj3
-cur_path is /hsiysh7mcz2xm3/ef7ceoicta2vkj3
-
-open: /hsiysh7mcz2xm3/ef7ceoicta2vkj3/b2.txt
-inode=-113
-Write to file:113, size:0
-Write 32 bytes at offset 0
-First Cluster at 503
-file:/hsiysh7mcz2xm3/ef7ceoicta2vkj3/b2.txt in fs:ufs is allocated a fd:19
-
-close fd:19
-
-open: /hsiysh7mcz2xm3/ef7ceoicta2vkj3/c-1.txt
-inode=-113
-Write to file:113, size:32
-Write 32 bytes at offset 32
-First Cluster at 503
-file:/hsiysh7mcz2xm3/ef7ceoicta2vkj3/c-1.txt in fs:ufs is allocated a fd:19
-
-close fd:19
-
-open: /hsiysh7mcz2xm3/ef7ceoicta2vkj3/a-2.txt
-inode=-113
-Write to file:113, size:64
-Write 32 bytes at offset 64
-First Cluster at 503
-file:/hsiysh7mcz2xm3/ef7ceoicta2vkj3/a-2.txt in fs:ufs is allocated a fd:19
-
-close fd:19
-
-open: /hsiysh7mcz2xm3/ef7ceoicta2vkj3/c3.txt
-inode=-113
-Write to file:113, size:96
-Write 32 bytes at offset 96
-First Cluster at 503
-file:/hsiysh7mcz2xm3/ef7ceoicta2vkj3/c3.txt in fs:ufs is allocated a fd:19
-
-close fd:19
-
-change current dir of thread:2 from /hsiysh7mcz2xm3/ef7ceoicta2vkj3 to /hsiysh7mcz2xm3
-cur_path is /hsiysh7mcz2xm3
-
-mkdir:/hsiysh7mcz2xm3/dkipsvdc40j5fjw
-inode=-111
-mkdir inode=-111
-Write to file:111, size:64
-Write 32 bytes at offset 64
-First Cluster at 501
-
-change current dir of thread:2 from /hsiysh7mcz2xm3 to /hsiysh7mcz2xm3/dkipsvdc40j5fjw
-cur_path is /hsiysh7mcz2xm3/dkipsvdc40j5fjw
-
-open: /hsiysh7mcz2xm3/dkipsvdc40j5fjw/a-3.txt
-inode=-118
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:128
+Read 128 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+  drt_name=mtrlg4zfbr2h
+  drt_name=xc531x8lnysaij
+Read from file:118, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:118, size:0
 Write 32 bytes at offset 0
-First Cluster at 508
-file:/hsiysh7mcz2xm3/dkipsvdc40j5fjw/a-3.txt in fs:ufs is allocated a fd:19
+/h51ctvjkyfefmod/xc531x8lnysaij/a1.txt is allocated fd:1
+Task vfs_test on CPU#0 trap with event 2
 
-close fd:19
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 14
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
 
-open: /hsiysh7mcz2xm3/dkipsvdc40j5fjw/c2.txt
-inode=-118
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+open: /h51ctvjkyfefmod/xc531x8lnysaij/c3.txt
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:128
+Read 128 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+  drt_name=mtrlg4zfbr2h
+  drt_name=xc531x8lnysaij
+Read from file:118, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=a1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:118, size:32
 Write 32 bytes at offset 32
-First Cluster at 508
-file:/hsiysh7mcz2xm3/dkipsvdc40j5fjw/c2.txt in fs:ufs is allocated a fd:19
+/h51ctvjkyfefmod/xc531x8lnysaij/c3.txt is allocated fd:1
 
-close fd:19
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-open: /hsiysh7mcz2xm3/dkipsvdc40j5fjw/c-3.txt
-inode=-118
-Write to file:118, size:64
-Write 32 bytes at offset 64
-First Cluster at 508
-file:/hsiysh7mcz2xm3/dkipsvdc40j5fjw/c-3.txt in fs:ufs is allocated a fd:19
+chdir thread:0 from /h51ctvjkyfefmod/xc531x8lnysaij to /h51ctvjkyfefmod
 
-close fd:19
-
-open: /hsiysh7mcz2xm3/dkipsvdc40j5fjw/b2.txt
-inode=-118
-Write to file:118, size:96
-Write 32 bytes at offset 96
-First Cluster at 508
-file:/hsiysh7mcz2xm3/dkipsvdc40j5fjw/b2.txt in fs:ufs is allocated a fd:19
-
-close fd:19
-
-change current dir of thread:2 from /hsiysh7mcz2xm3/dkipsvdc40j5fjw to /hsiysh7mcz2xm3
-cur_path is /hsiysh7mcz2xm3
-
-open: /hsiysh7mcz2xm3/b-1.txt
-inode=-111
-Write to file:111, size:96
-Write 32 bytes at offset 96
-First Cluster at 501
-file:/hsiysh7mcz2xm3/b-1.txt in fs:ufs is allocated a fd:19
-
-close fd:19
-
-open: /hsiysh7mcz2xm3/a-3.txt
-inode=-111
-Write to file:111, size:128
+mkdir:/h51ctvjkyfefmod/4pdtl7etzvt0
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:128
+Read 128 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+  drt_name=mtrlg4zfbr2h
+  drt_name=xc531x8lnysaij
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:104, size:128
 Write 32 bytes at offset 128
-First Cluster at 501
-file:/hsiysh7mcz2xm3/a-3.txt in fs:ufs is allocated a fd:19
 
-close fd:19
+chdir thread:0 from /h51ctvjkyfefmod to /h51ctvjkyfefmod/4pdtl7etzvt0
 
-open: /hsiysh7mcz2xm3/c1.txt
-inode=-111
-Write to file:111, size:160
+open: /h51ctvjkyfefmod/4pdtl7etzvt0/a3.txt
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:160
+Read 160 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+  drt_name=mtrlg4zfbr2h
+  drt_name=xc531x8lnysaij
+  drt_name=4pdtl7etzvt0
+Read from file:121, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:121, size:0
+Write 32 bytes at offset 0
+/h51ctvjkyfefmod/4pdtl7etzvt0/a3.txt is allocated fd:1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 15
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+open: /h51ctvjkyfefmod/4pdtl7etzvt0/a-3.txt
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:160
+Read 160 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+  drt_name=mtrlg4zfbr2h
+  drt_name=xc531x8lnysaij
+  drt_name=4pdtl7etzvt0
+Read from file:121, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=a3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:121, size:32
+Write 32 bytes at offset 32
+/h51ctvjkyfefmod/4pdtl7etzvt0/a-3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+open: /h51ctvjkyfefmod/4pdtl7etzvt0/c-2.txt
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:160
+Read 160 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+  drt_name=mtrlg4zfbr2h
+  drt_name=xc531x8lnysaij
+  drt_name=4pdtl7etzvt0
+Read from file:121, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=a3.txt
+    drt_name=a-3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:121, size:64
+Write 32 bytes at offset 64
+/h51ctvjkyfefmod/4pdtl7etzvt0/c-2.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+chdir thread:0 from /h51ctvjkyfefmod/4pdtl7etzvt0 to /h51ctvjkyfefmod
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 16
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+
+open: /h51ctvjkyfefmod/b1.txt
+fs:ufs
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Read from file:104, size:160
+Read 160 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=vc8rip4wswit
+  drt_name=2759ac5ut3d0m
+  drt_name=mtrlg4zfbr2h
+  drt_name=xc531x8lnysaij
+  drt_name=4pdtl7etzvt0
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:104, size:160
 Write 32 bytes at offset 160
-First Cluster at 501
-file:/hsiysh7mcz2xm3/c1.txt in fs:ufs is allocated a fd:19
+/h51ctvjkyfefmod/b1.txt is allocated fd:1
 
-close fd:19
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-open: /hsiysh7mcz2xm3/a3.txt
-inode=-111
-Write to file:111, size:192
-Write 32 bytes at offset 192
-First Cluster at 501
-file:/hsiysh7mcz2xm3/a3.txt in fs:ufs is allocated a fd:19
+chdir thread:0 from /h51ctvjkyfefmod to /
 
-close fd:19
+mkdir:/hsiysh7mcz2xm3
+Read from file:1, size:736
+Read 736 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:1, size:736
+Write 32 bytes at offset 736
 
-change current dir of thread:2 from /hsiysh7mcz2xm3 to 
-cur_path is 
+chdir thread:0 from / to /hsiysh7mcz2xm3
 
-mkdir:/jw3f4nsa23antht8
-inode=-1
-mkdir inode=-1
-Write to file:1, size:768
-Write 32 bytes at offset 768
-First Cluster at 256
+mkdir:cnjgm3yx8jg5j
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:126, size:0
+Write 32 bytes at offset 0
 
-change current dir of thread:2 from  to /jw3f4nsa23antht8
-cur_path is /jw3f4nsa23antht8
+chdir thread:0 from /hsiysh7mcz2xm3 to /hsiysh7mcz2xm3/cnjgm3yx8jg5j
 
-mkdir:/jw3f4nsa23antht8/6706thj11fg0
-inode=-127
-mkdir inode=-127
+open: /hsiysh7mcz2xm3/cnjgm3yx8jg5j/b-2.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+Read from file:127, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:127, size:0
 Write 32 bytes at offset 0
-First Cluster at 517
+/hsiysh7mcz2xm3/cnjgm3yx8jg5j/b-2.txt is allocated fd:1
+Task vfs_test on CPU#0 trap with event 2
 
-change current dir of thread:2 from /jw3f4nsa23antht8 to /jw3f4nsa23antht8/6706thj11fg0
-cur_path is /jw3f4nsa23antht8/6706thj11fg0
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 17
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
 
-open: /jw3f4nsa23antht8/6706thj11fg0/a-1.txt
-inode=-2147483648
-No such file/directory
-file:/jw3f4nsa23antht8/6706thj11fg0/a-1.txt in fs:ufs is allocated a fd:-1
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-change current dir of thread:2 from /jw3f4nsa23antht8/6706thj11fg0 to /jw3f4nsa23antht8
-cur_path is /jw3f4nsa23antht8
-
-mkdir:/jw3f4nsa23antht8/b5uqfwehwbwwlao
-inode=-127
-mkdir inode=-127
+open: /hsiysh7mcz2xm3/cnjgm3yx8jg5j/a-3.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+Read from file:127, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b-2.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:127, size:32
 Write 32 bytes at offset 32
-First Cluster at 517
+/hsiysh7mcz2xm3/cnjgm3yx8jg5j/a-3.txt is allocated fd:1
 
-change current dir of thread:2 from /jw3f4nsa23antht8 to /jw3f4nsa23antht8/b5uqfwehwbwwlao
-cur_path is /jw3f4nsa23antht8/b5uqfwehwbwwlao
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-open: /jw3f4nsa23antht8/b5uqfwehwbwwlao/a2.txt
-inode=-2147483648
-No such file/directory
-file:/jw3f4nsa23antht8/b5uqfwehwbwwlao/a2.txt in fs:ufs is allocated a fd:-1
-
-change current dir of thread:2 from /jw3f4nsa23antht8/b5uqfwehwbwwlao to /jw3f4nsa23antht8
-cur_path is /jw3f4nsa23antht8
-
-mkdir:/jw3f4nsa23antht8/asxbojl3h4wq
-inode=-127
-mkdir inode=-127
+open: /hsiysh7mcz2xm3/cnjgm3yx8jg5j/b2.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+Read from file:127, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b-2.txt
+    drt_name=a-3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:127, size:64
 Write 32 bytes at offset 64
-First Cluster at 517
+/hsiysh7mcz2xm3/cnjgm3yx8jg5j/b2.txt is allocated fd:1
 
-change current dir of thread:2 from /jw3f4nsa23antht8 to /jw3f4nsa23antht8/asxbojl3h4wq
-cur_path is /jw3f4nsa23antht8/asxbojl3h4wq
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-open: /jw3f4nsa23antht8/asxbojl3h4wq/a-3.txt
-inode=-2147483648
-No such file/directory
-file:/jw3f4nsa23antht8/asxbojl3h4wq/a-3.txt in fs:ufs is allocated a fd:-1
+chdir thread:0 from /hsiysh7mcz2xm3/cnjgm3yx8jg5j to /hsiysh7mcz2xm3
 
-change current dir of thread:2 from /jw3f4nsa23antht8/asxbojl3h4wq to /jw3f4nsa23antht8
-cur_path is /jw3f4nsa23antht8
+mkdir:/hsiysh7mcz2xm3/ef7ceoicta2vkj3
+Read from file:1, size:768
+Read 768 bytes at offseTask vfs_test on CPU#0 trap with event 2
 
-mkdir:/jw3f4nsa23antht8/ulfg8tkyjiou6ppl
-inode=-127
-mkdir inode=-127
-Write to file:127, size:96
-Write 32 bytes at offset 96
-First Cluster at 517
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 18
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+t 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:126, size:32
+Write 32 bytes at offset 32
 
-change current dir of thread:2 from /jw3f4nsa23antht8 to /jw3f4nsa23antht8/ulfg8tkyjiou6ppl
-cur_path is /jw3f4nsa23antht8/ulfg8tkyjiou6ppl
+chdir thread:0 from /hsiysh7mcz2xm3 to /hsiysh7mcz2xm3/ef7ceoicta2vkj3
 
-open: /jw3f4nsa23antht8/ulfg8tkyjiou6ppl/b2.txt
-inode=-131
+open: /hsiysh7mcz2xm3/ef7ceoicta2vkj3/b2.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+Read from file:131, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:131, size:0
 Write 32 bytes at offset 0
-First Cluster at 521
-file:/jw3f4nsa23antht8/ulfg8tkyjiou6ppl/b2.txt in fs:ufs is allocated a fd:22
+/hsiysh7mcz2xm3/ef7ceoicta2vkj3/b2.txt is allocated fd:1
 
-close fd:22
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-change current dir of thread:2 from /jw3f4nsa23antht8/ulfg8tkyjiou6ppl to /jw3f4nsa23antht8
-cur_path is /jw3f4nsa23antht8
+open: /hsiysh7mcz2xm3/ef7ceoicta2vkj3/c-1.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+Read from file:131, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b2.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:131, size:32
+Write 32 bytes at offset 32
+/hsiysh7mcz2xm3/ef7ceoicta2vkj3/c-1.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 19
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+
+open: /hsiysh7mcz2xm3/ef7ceoicta2vkj3/a-2.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+Read from file:131, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b2.txt
+    drt_name=c-1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:131, size:64
+Write 32 bytes at offset 64
+/hsiysh7mcz2xm3/ef7ceoicta2vkj3/a-2.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+open: /hsiysh7mcz2xm3/ef7ceoicta2vkj3/c3.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+Read from file:131, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=b2.txt
+    drt_name=c-1.txt
+    drt_name=a-2.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:131, size:96
+Write 32 bytes at offset 96
+/hsiysh7mcz2xm3/ef7ceoicta2vkj3/c3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+chdir thread:0 from /hsiysh7mcz2xm3/ef7ceoicta2vkj3 to /hsiysh7mcz2xm3
+
+mkdir:dkipsvdc40j5fjw
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:126, size:64
+Write 32 bytes at offset 64
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 20
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+
+chdir thread:0 from /hsiysh7mcz2xm3 to /hsiysh7mcz2xm3/dkipsvdc40j5fjw
+
+open: /hsiysh7mcz2xm3/dkipsvdc40j5fjw/a-3.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+  drt_name=dkipsvdc40j5fjw
+Read from file:136, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:136, size:0
+Write 32 bytes at offset 0
+/hsiysh7mcz2xm3/dkipsvdc40j5fjw/a-3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+open: /hsiysh7mcz2xm3/dkipsvdc40j5fjw/c2.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+  drt_name=dkipsvdc40j5fjw
+Read from file:136, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=a-3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:136, size:32
+Write 32 bytes at offset 32
+/hsiysh7mcz2xm3/dkipsvdc40j5fjw/c2.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+open: /hsiysh7mcz2xm3/dkipsvdc40j5fjw/c-3.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 21
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+  drt_name=dkipsvdc40j5fjw
+Read from file:136, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=a-3.txt
+    drt_name=c2.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:136, size:64
+Write 32 bytes at offset 64
+/hsiysh7mcz2xm3/dkipsvdc40j5fjw/c-3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+open: /hsiysh7mcz2xm3/dkipsvdc40j5fjw/b2.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+  drt_name=dkipsvdc40j5fjw
+Read from file:136, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=a-3.txt
+    drt_name=c2.txt
+    drt_name=c-3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:136, size:96
+Write 32 bytes at offset 96
+/hsiysh7mcz2xm3/dkipsvdc40j5fjw/b2.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+chdir thread:0 from /hsiysh7mcz2xm3/dkipsvdc40j5fjw to /hsiysh7mcz2xm3
+
+open: /hsiysh7mcz2xm3/b-1.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+  drt_name=dkipsvdc40j5fjw
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:126, size:96
+Write 32 bytes at offset 96
+/hsiysh7mcz2xm3/b-1.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+open: /hsiysh7mcz2xm3/a-3.txt
+fs:ufs
+Read from file:1, size:768
+RTask vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 22
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+ead 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:128
+Read 128 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+  drt_name=dkipsvdc40j5fjw
+  drt_name=b-1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:126, size:128
+Write 32 bytes at offset 128
+/hsiysh7mcz2xm3/a-3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+open: /hsiysh7mcz2xm3/c1.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:160
+Read 160 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+  drt_name=dkipsvdc40j5fjw
+  drt_name=b-1.txt
+  drt_name=a-3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:126, size:160
+Write 32 bytes at offset 160
+/hsiysh7mcz2xm3/c1.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+open: /hsiysh7mcz2xm3/a3.txt
+fs:ufs
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Read from file:126, size:192
+Read 192 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=cnjgm3yx8jg5j
+  drt_name=ef7ceoicta2vkj3
+  drt_name=dkipsvdc40j5fjw
+  drt_name=b-1.txt
+  drt_name=a-3.txt
+  drt_name=c1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:126, size:192
+Write 32 bytes at offset 192
+/hsiysh7mcz2xm3/a3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 23
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+
+chdir thread:0 from /hsiysh7mcz2xm3 to /
+
+mkdir:/jw3f4nsa23antht8
+Read from file:1, size:768
+Read 768 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:1, size:768
+Write 32 bytes at offset 768
+
+chdir thread:0 from / to /jw3f4nsa23antht8
+
+mkdir:6706thj11fg0
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:145, size:0
+Write 32 bytes at offset 0
+
+chdir thread:0 from /jw3f4nsa23antht8 to /jw3f4nsa23antht8/6706thj11fg0
+
+open: /jw3f4nsa23antht8/6706thj11fg0/a-1.txt
+fs:ufs
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+Read from file:146, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:146, size:0
+Write 32 bytes at offset 0
+/jw3f4nsa23antht8/6706thj11fg0/a-1.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+chdir thread:0 from /jw3f4nsa23antht8/6706thj11fg0 to /jw3f4nsa23antht8
+
+mkdir:b5uqfwehwbwwlao
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+dTask vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 24
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+rt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:145, size:32
+Write 32 bytes at offset 32
+
+chdir thread:0 from /jw3f4nsa23antht8 to /jw3f4nsa23antht8/b5uqfwehwbwwlao
+
+open: /jw3f4nsa23antht8/b5uqfwehwbwwlao/a2.txt
+fs:ufs
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+Read from file:148, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:148, size:0
+Write 32 bytes at offset 0
+/jw3f4nsa23antht8/b5uqfwehwbwwlao/a2.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+chdir thread:0 from /jw3f4nsa23antht8/b5uqfwehwbwwlao to /jw3f4nsa23antht8
+
+mkdir:/jw3f4nsa23antht8/asxbojl3h4wq
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:64
+Read 64 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:145, size:64
+Write 32 bytes at offset 64
+
+chdir thread:0 from /jw3f4nsa23antht8 to /jw3f4nsa23antht8/asxbojl3h4wq
+
+open: /jw3f4nsa23antht8/asxbojl3h4wq/a-3.txt
+fs:ufs
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+  drt_name=asxbojl3h4wq
+Read from file:150, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:150, size:0
+Write 32 bytes at offset 0
+/jw3f4nsa23antht8/asxbojl3h4wq/a-3.txt is allocated fd:1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 25
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+chdir thread:0 from /jw3f4nsa23antht8/asxbojl3h4wq to /jw3f4nsa23antht8
+
+mkdir:ulfg8tkyjiou6ppl
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:96
+Read 96 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+  drt_name=asxbojl3h4wq
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:145, size:96
+Write 32 bytes at offset 96
+
+chdir thread:0 from /jw3f4nsa23antht8 to /jw3f4nsa23antht8/ulfg8tkyjiou6ppl
+
+open: /jw3f4nsa23antht8/ulfg8tkyjiou6ppl/b2.txt
+fs:ufs
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:128
+Read 128 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+  drt_name=asxbojl3h4wq
+  drt_name=ulfg8tkyjiou6ppl
+Read from file:152, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:152, size:0
+Write 32 bytes at offset 0
+/jw3f4nsa23antht8/ulfg8tkyjiou6ppl/b2.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 26
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+
+chdir thread:0 from /jw3f4nsa23antht8/ulfg8tkyjiou6ppl to /jw3f4nsa23antht8
 
 mkdir:/jw3f4nsa23antht8/fp2x7dy0a0u2nx
-inode=-127
-mkdir inode=-127
-Write to file:127, size:128
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:128
+Read 128 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+  drt_name=asxbojl3h4wq
+  drt_name=ulfg8tkyjiou6ppl
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:145, size:128
 Write 32 bytes at offset 128
-First Cluster at 517
 
-change current dir of thread:2 from /jw3f4nsa23antht8 to /jw3f4nsa23antht8/fp2x7dy0a0u2nx
-cur_path is /jw3f4nsa23antht8/fp2x7dy0a0u2nx
+chdir thread:0 from /jw3f4nsa23antht8 to /jw3f4nsa23antht8/fp2x7dy0a0u2nx
 
 open: /jw3f4nsa23antht8/fp2x7dy0a0u2nx/c-2.txt
-inode=-2147483648
-No such file/directory
-file:/jw3f4nsa23antht8/fp2x7dy0a0u2nx/c-2.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:160
+Read 160 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+  drt_name=asxbojl3h4wq
+  drt_name=ulfg8tkyjiou6ppl
+  drt_name=fp2x7dy0a0u2nx
+Read from file:154, size:0
+Read 0 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:154, size:0
+Write 32 bytes at offset 0
+/jw3f4nsa23antht8/fp2x7dy0a0u2nx/c-2.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /jw3f4nsa23antht8/fp2x7dy0a0u2nx/b3.txt
-inode=-2147483648
-No such file/directory
-file:/jw3f4nsa23antht8/fp2x7dy0a0u2nx/b3.txt in fs:ufs is allocated a fd:-1
+fs:ufs
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:160
+Read 160 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+  drt_name=asxbojl3h4wq
+  drt_name=ulfg8tkyjiou6ppl
+  drt_name=fp2x7dy0a0u2nx
+Read from file:154, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+    drt_name=c-2.txTask vfs_test on CPU#0 trap with event 2
 
-change current dir of thread:2 from /jw3f4nsa23antht8/fp2x7dy0a0u2nx to /jw3f4nsa23antht8
-cur_path is /jw3f4nsa23antht8
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 27
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+t
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:154, size:32
+Write 32 bytes at offset 32
+/jw3f4nsa23antht8/fp2x7dy0a0u2nx/b3.txt is allocated fd:1
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+
+chdir thread:0 from /jw3f4nsa23antht8/fp2x7dy0a0u2nx to /jw3f4nsa23antht8
 
 open: /jw3f4nsa23antht8/a1.txt
-inode=-127
-Write to file:127, size:160
+fs:ufs
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:160
+Read 160 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+  drt_name=asxbojl3h4wq
+  drt_name=ulfg8tkyjiou6ppl
+  drt_name=fp2x7dy0a0u2nx
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:145, size:160
 Write 32 bytes at offset 160
-First Cluster at 517
-file:/jw3f4nsa23antht8/a1.txt in fs:ufs is allocated a fd:24
+/jw3f4nsa23antht8/a1.txt is allocated fd:1
 
-close fd:24
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /jw3f4nsa23antht8/b1.txt
-inode=-127
-Write to file:127, size:192
+fs:ufs
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:192
+Read 192 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+  drt_name=asxbojl3h4wq
+  drt_name=ulfg8tkyjiou6ppl
+  drt_name=fp2x7dy0a0u2nx
+  drt_name=a1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:145, size:192
 Write 32 bytes at offset 192
-First Cluster at 517
-file:/jw3f4nsa23antht8/b1.txt in fs:ufs is allocated a fd:24
+/jw3f4nsa23antht8/b1.txt is allocated fd:1
 
-close fd:24
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /jw3f4nsa23antht8/a2.txt
-inode=-127
-Write to file:127, size:224
+fs:ufs
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.Task vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 28
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Read from file:145, size:224
+Read 224 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=6706thj11fg0
+  drt_name=b5uqfwehwbwwlao
+  drt_name=asxbojl3h4wq
+  drt_name=ulfg8tkyjiou6ppl
+  drt_name=fp2x7dy0a0u2nx
+  drt_name=a1.txt
+  drt_name=b1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
+Write to file:145, size:224
 Write 32 bytes at offset 224
-First Cluster at 517
-file:/jw3f4nsa23antht8/a2.txt in fs:ufs is allocated a fd:24
+/jw3f4nsa23antht8/a2.txt is allocated fd:1
 
-close fd:24
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
-change current dir of thread:2 from /jw3f4nsa23antht8 to 
-cur_path is 
+chdir thread:0 from /jw3f4nsa23antht8 to /
 
 open: /b-3.txt
-inode=-1
+fs:ufs
+Read from file:1, size:800
+Read 800 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:1, size:800
 Write 32 bytes at offset 800
-First Cluster at 256
-file:/b-3.txt in fs:ufs is allocated a fd:24
+/b-3.txt is allocated fd:1
 
-close fd:24
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /b3.txt
-inode=-1
+fs:ufs
+Read from file:1, size:832
+Read 832 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+drt_name=b-3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:1, size:832
 Write 32 bytes at offset 832
-First Cluster at 256
-file:/b3.txt in fs:ufs is allocated a fd:24
+/b3.txt is allocated fd:1
 
-close fd:24
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /c-1.txt
-inode=-1
+fs:ufs
+Read from file:1, size:864
+Read 864 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+drt_name=b-3.txt
+drt_name=b3.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:1, size:864
 Write 32 bytes at offset 864
-First Cluster at 256
-file:/c-1.txt in fs:ufs is allocated a fd:24
+/c-1.txt is allocated fd:1
+Task vfs_test on CPU#0 trap with event 2
 
-close fd:24
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 29
+CPU#0 Schedule
+CPU#0 Scheduled to vfs_test
+Task vfs_test on CPU#0 is about to return from event 2
+
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
 
 open: /c2.txt
-inode=-1
+fs:ufs
+Read from file:1, size:896
+Read 896 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+drt_name=diff-test.c
+drt_name=.reg.c.swn
+drt_name=.reg.c.swj
+drt_name=.reg.c.swm
+drt_name=exec
+drt_name=.reg.c.swh
+drt_name=.reg.c.swl
+drt_name=init.c
+drt_name=reg.c
+drt_name=intr.c
+drt_name=.reg.c.swi
+drt_name=.reg.c.swe
+drt_name=.reg.c.swp
+drt_name=.reg.c.swk
+drt_name=mmu.c
+drt_name=.reg.c.swo
+drt_name=logo.c
+drt_name=.reg.c.swf
+drt_name=.reg.c.swg
+drt_name=decode
+drt_name=etw1ld63cgzmq
+drt_name=h51ctvjkyfefmod
+drt_name=hsiysh7mcz2xm3
+drt_name=jw3f4nsa23antht8
+drt_name=b-3.txt
+drt_name=b3.txt
+drt_name=c-1.txt
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+Task vfs_test running on CPU#0
+wait:inode_lock->val = 1
+Task vfs_test running on CPU#0
+signal: inode_lock->val = 1
 Write to file:1, size:896
 Write 32 bytes at offset 896
-First Cluster at 256
-file:/c2.txt in fs:ufs is allocated a fd:24
+/c2.txt is allocated fd:1
 
-close fd:24
-AM Panic: kernel context returns @ /home/ebata/os-workbench/abstract-machine/am/src/x86/qemu/cte.c:137  
-CPU #0 Halt (01).
+close fd:1
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+traverse starts
+
+open: /
+fs:ufs
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+/ is allocated fd:1
+
+fstat fd:1
+fs:ufs
+
+read from fd:1
+fs:ufs
+read 32 bytes from file:1 at offset:0
+Read from file:1, size:928
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+fname=/include
+
+open: /include
+fs:ufs
+Read from file:1, size:928
+Read 928 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+/include is allocated fd:2
+
+fstat fd:2
+fs:ufs
+
+read from fd:2
+fs:ufs
+read 32 bytes from file:2 at offset:0
+Read from file:2, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+fname=/include/isa
+
+open: /include/isa
+fs:ufs
+Read from file:1, size:928
+Read 928 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+Read from file:2, size:32
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+  drt_name=isa
+Task vfs_test running on CPU#0
+wait:fd_lock->val = 1
+Task vfs_test running on CPU#0
+signal: fd_lock->val = 1
+/include/isa is allocated fd:3
+
+fstat fd:3
+fs:ufs
+
+read from fd:3
+fs:ufs
+read 32 bytes from file:3 at offset:0
+Read from file:3, size:576
+Read 32 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+fname=/include/isa/diff-test.h
+
+open: /include/isa/diff-test.h
+fs:ufs
+Read from file:1, size:928
+Read 928 bytes at offset 0
+Task vfs_test running on CPU#0
+wait:sda_lock->val = 1
+Task vfs_test running on CPU#0
+signal: sda_lock->val = 1
+drt_name=include
+Read from file:2, size:32
+Read 32 bytes at offTask vfs_test on CPU#0 trap with event 2
+
+Ready and nonblock threads:
+CPU#0 save context for vfs_test
+Task vfs_test running on CPU#0
+signal: keyboard-interrupt->val = 30
+CPU#0 Schedule

@@ -43,6 +43,7 @@ int make_dir_entry(int type,int fid,struct dir_entry* dir)//type指示文件/目
 int write_data(inode_t* node,int offset,char* buf,int size)
 {
     #ifdef DEBUG_
+    printf("eip:%p\n",geteip());
     printf("Write to file:%d, size:%d\n",node->node,node->size);
     printf("Write %d bytes at offset %d\n",size,offset);
     #endif
@@ -90,6 +91,7 @@ int write_data(inode_t* node,int offset,char* buf,int size)
 int read_data(inode_t* node,int offset,char* buf,int size)
 {//应该以node中的数据为准,磁盘中的数据可能未更新
     #ifdef DEBUG_
+    printf("eip:%p\n",geteip());
     printf("Read from file:%d, size:%d\n",node->node,node->size);
     printf("Read %d bytes at offset %d\n",size,offset);
     #endif

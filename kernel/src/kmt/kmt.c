@@ -34,6 +34,7 @@ static void kmt_init()
     
     char p[4][3]={"p1","p2","p3","p4"};
     char c[5][3]={"c1","c2","c3","c4","c5"};
+    printf("NMSL\n\n\n\n");
     for(int i=0;i<4;i++)
       kmt->create(task_alloc(), p[i], producer, NULL);
     for(int i=0;i<5;i++)

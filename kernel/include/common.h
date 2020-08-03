@@ -62,7 +62,7 @@ extern spinlock_t thread_ctrl_lock;
 struct semaphore
 {
 spinlock_t lock;
-char name[15];
+char name[20];
 int val;
 int waiter[105];
 int wnum;

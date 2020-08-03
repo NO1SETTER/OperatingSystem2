@@ -47,6 +47,7 @@ extern int procfs_teardown(int pid);//线程结束时调用
 //task提前分配好,那么我们用一个指针数组管理所有这些分配好的task
 //_Area{*start,*end;},
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg) {
+  printf("haha\n");
   strcpy(task->name,name);//名字
   task->status=T_READY;//状态
   task->is_trap=0;

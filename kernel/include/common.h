@@ -3,12 +3,12 @@
 #include <klib-macros.h>
 #include <amdev.h>
 #pragma once
-#define KMT_TEST//控制是否進行測試
+//#define KMT_TEST//控制是否進行測試
 //#define KMT_DEBUG       //控制是否輸出本地測試的調試信息
 
-//#define DEV_ENABLE
+#define DEV_ENABLE
 //#define DEV_TEST
-//#define VFS_ENABLE
+#define VFS_ENABLE
 //#define VFS_TEST
 
 #define STACK_SIZE 4096
@@ -48,7 +48,7 @@ struct task
       struct task* next;//指向all_thread[id+1]
     int sem_ct;
     char cur_path[100];//线程当前所在的路径
-    _Context *ctx;//貌似只要保证它指向栈顶就ok了，上面的可以不管分配在哪里
+      _Context *ctx;//貌似只要保证它指向栈顶就ok了，上面的可以不管分配在哪里
   };
   uint8_t stack[4096];
 };//管理一个线程的信息

@@ -24,7 +24,7 @@ struct dev_inode dev_table[8];//直接分配好
     }
     if(dev_id==-1)
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
       printf("device not supported\n");
       #endif
       return -1;
@@ -45,7 +45,7 @@ struct dev_inode dev_table[8];//直接分配好
     }
     if(dev_id==-1)
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
       printf("device not supported\n");
       #endif
       return -1;
@@ -66,7 +66,7 @@ struct dev_inode dev_table[8];//直接分配好
     }
     if(dev_id==-1)
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
       printf("device not opened\n");
       #endif
       return -1;
@@ -89,7 +89,7 @@ struct dev_inode dev_table[8];//直接分配好
     }
     if(dev_id==-1)
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
         printf("device not supported\n");
       #endif
       return -1;}

@@ -42,13 +42,13 @@ int make_dir_entry(int type,int fid,struct dir_entry* dir)//type指示文件/目
 //向node指向的文件的offset处写入来自buf的size个字节
 int write_data(inode_t* node,int offset,char* buf,int size)
 {
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
     printf("Write to file:%d, size:%d\n",node->node,node->size);
     printf("Write %d bytes at offset %d\n",size,offset);
     #endif
     if(offset>node->size)
     {
-        #ifdef DEBUG_
+        #ifdef VFS_DEBUG
         printf("Write overflow\n");
         #endif
         return -1;
@@ -89,13 +89,13 @@ int write_data(inode_t* node,int offset,char* buf,int size)
 
 int read_data(inode_t* node,int offset,char* buf,int size)
 {//应该以node中的数据为准,磁盘中的数据可能未更新
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
     printf("Read from file:%d, size:%d\n",node->node,node->size);
     printf("Read %d bytes at offset %d\n",size,offset);
     #endif
     if(offset+size>node->size)
     {
-        #ifdef DEBUG_
+        #ifdef VFS_DEBUG
         printf("Read overflow\n");
         #endif
         return -1;
@@ -119,7 +119,7 @@ int read_data(inode_t* node,int offset,char* buf,int size)
         ufs->dev->ops->read(ufs->dev,Fat(cid),&next_id,4);
         if(next_id==FAT_EOF&&read_bytes!=size)
         {
-            #ifdef DEBUG_
+            #ifdef VFS_DEBUG
             printf("read outside file\n");
             #endif
             return -1;

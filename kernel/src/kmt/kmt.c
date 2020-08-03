@@ -28,7 +28,7 @@ static void kmt_init()
   os->on_irq(INT_MIN,_EVENT_NULL,kmt_context_save);
   os->on_irq(INT_MAX,_EVENT_NULL,kmt_schedule);
 
-  #ifdef _DEBUG_LOCAL
+  #ifdef KMT_TEST
     kmt->sem_init(&empty, "empty", 5);  // 缓冲区大小为 5
     kmt->sem_init(&fill,  "fill",  0);
     

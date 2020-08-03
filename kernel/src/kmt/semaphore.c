@@ -1,7 +1,7 @@
 #include<common.h>
 #define P kmt->sem_wait
 #define V kmt->sem_signal
-#define _DEBUG_
+#define PRINT_THREAD
 #ifdef KMT_TEST
     sem_t empty;
     sem_t fill;
@@ -11,7 +11,7 @@
         {
         P(&empty);
         printf("(");
-        #ifdef _DEBUG_
+        #ifdef PRINT_THREAD
           printf("from %s\n",cur->name);
         #endif
         V(&fill);
@@ -24,7 +24,7 @@
         {
         P(&fill);
         printf(")");
-        #ifdef _DEBUG_
+        #ifdef PRINT_THREAD
           printf("from %s\n",cur->name);
         #endif
         V(&empty);

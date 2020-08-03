@@ -132,7 +132,7 @@ extern int ufs_mkdir(const char *pathname);
   //read和write的前提都是在cur中open过了,那么需要到cur中去找fd
   int vfs_write(int fd, void *buf, int count)
   {
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("\nwrite to fd:%d\n",fd);
     #endif
     int ret=-1;
@@ -141,7 +141,7 @@ extern int ufs_mkdir(const char *pathname);
       if(ref_table[fd].thread_id==cur->id)
       { 
       filesystem_t* fs=ref_table[fd].fs;
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
         printf("fs:%s\n",fs->name);
       #endif
       ret=fs->ops->write(fd,buf,count);;
@@ -152,7 +152,7 @@ extern int ufs_mkdir(const char *pathname);
 
   int vfs_read(int fd, void *buf, int count)
   {
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("\nread from fd:%d\n",fd);
     #endif
     int ret=-1;
@@ -161,7 +161,7 @@ extern int ufs_mkdir(const char *pathname);
       if(ref_table[fd].thread_id==cur->id)
       { 
       filesystem_t* fs=ref_table[fd].fs;
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
         printf("fs:%s\n",fs->name);
       #endif
       ret=fs->ops->read(fd,buf,count);;
@@ -172,7 +172,7 @@ extern int ufs_mkdir(const char *pathname);
 
   int vfs_close(int fd)
   { 
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("\nclose fd:%d\n",fd);
     #endif
     int ret=-1;
@@ -190,15 +190,15 @@ extern int ufs_mkdir(const char *pathname);
   //设定是根据pathname直接可以确定它属于哪个文件系统?
   int vfs_open(const char *pathname, int flags)
   {
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("\nopen: %s\n",pathname);
     #endif
     filesystem_t* fs=find_fs(pathname);
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("fs:%s\n",fs->name);
     #endif
     int fd = fs->ops->open(pathname,flags);
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("%s is allocated fd:%d\n",pathname,fd);
     #endif
     return fd;
@@ -206,7 +206,7 @@ extern int ufs_mkdir(const char *pathname);
 
   int vfs_lseek(int fd, int offset, int whence)
   {
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("\nlseek fd:%d\n",fd);
     #endif
     int ret=-1;
@@ -225,7 +225,7 @@ extern int ufs_mkdir(const char *pathname);
   //link_table每个项存储一个pathname和指向的id
   int vfs_link(const char *oldpath, const char *newpath)//创建ref
   {
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("\nlink %s to %s\n",newpath,oldpath);
     #endif
     filesystem_t* fs = find_fs(oldpath);
@@ -236,7 +236,7 @@ extern int ufs_mkdir(const char *pathname);
 
   int vfs_unlink(const char *pathname)
   {
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("\nunlink %s\n",pathname);
     #endif
     filesystem_t* fs=find_fs(pathname);
@@ -247,7 +247,7 @@ extern int ufs_mkdir(const char *pathname);
   
   int vfs_fstat(int fd, struct ufs_stat *buf)
   {
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("\nfstat fd:%d\n",fd);
     #endif
     if(ref_table[fd].valid)
@@ -263,7 +263,7 @@ extern int ufs_mkdir(const char *pathname);
 
   int vfs_mkdir(const char *pathname)
   {
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("\nmkdir:%s\n",pathname);
     #endif
       filesystem_t* fs=find_fs(pathname);
@@ -275,7 +275,7 @@ extern int ufs_mkdir(const char *pathname);
   {
     char abs_path[256];
     get_abs_path(path,abs_path);
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
     printf("\nchdir thread:%d from %s to %s\n",cur->id,cur->cur_path,abs_path);
     #endif
     strcpy(cur->cur_path,abs_path);
@@ -284,7 +284,7 @@ extern int ufs_mkdir(const char *pathname);
 
   int vfs_dup(int fd)
   {
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("\n dup:%d\n",fd);
     #endif
     int new_id=alloc_fd();

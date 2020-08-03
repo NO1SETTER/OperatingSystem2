@@ -33,7 +33,7 @@ int locate_file(char* path_name)//默认传进来的都是绝对路径,需要支
       for(int j=0;j<nr_files;j++)
       {
         drt=(struct ufs_dirent*)(buf+j*sz(ufs_dirent));
-        #ifdef DEBUG_
+        #ifdef VFS_DEBUG
         for(int k=0;k<depth*2;k++)
           printf(" ");
         printf("drt_name=%s\n",drt->name);
@@ -128,13 +128,13 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     //sem_wait(&file_table[inode].sem);
     if(file_table[inode].refct==0)//refct才表明本体状态,valid不表明
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
         printf("File not opened\n");
       #endif
       //sem_signal(&file_table[inode].sem);
       return -1;
     }
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("write %d bytes to file:%d at offset:%d\n",count,fd,file_table[inode].offset);
     #endif
     inode_t* node=&file_table[inode];
@@ -150,13 +150,13 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     //sem_wait(&file_table[inode].sem);
     if(file_table[inode].refct==0)
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
         printf("File not opened\n");
       #endif
       //sem_signal(&file_table[inode].sem);
       return -1;
     }
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
       printf("read %d bytes from file:%d at offset:%d\n",count,fd,file_table[inode].offset);
     #endif
     inode_t* node=&file_table[inode];
@@ -172,7 +172,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     //sem_wait(&file_table[inode].sem);
     if(file_table[inode].refct==0)
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
         printf("File not opened\n");
       #endif
       //sem_signal(&file_table[inode].sem);
@@ -199,7 +199,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     int fd=alloc_fd();
     if(inode==INT_MIN)
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
         printf("No such file/directory\n");
       #endif
       return -1;
@@ -236,7 +236,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
       }
       else
       {
-        #ifdef DEBUG_
+        #ifdef VFS_DEBUG
           printf("No such file/directory\n");
         #endif
         return -1;
@@ -263,7 +263,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     //sem_wait(&file_table[inode].sem);
     if(!file_table[inode].valid)
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
         printf("File not opened\n");
       #endif
       //sem_signal(&file_table[inode].sem);
@@ -295,7 +295,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
   
   if(old_inode<=0||pre_inode>0||pre_inode==INT_MIN)
   {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
         printf("link failed\n");
       #endif
       return -1;
@@ -327,7 +327,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     int inode=locate_file(abs_path);
     if(inode<=0)
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
       printf("link doesn't exist\n");
       #endif
     }
@@ -363,7 +363,7 @@ int get_name(const char* path,char* name)//默认path是绝对路径
     int inode=locate_file(abs_path);
     if(inode>=0)
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
       printf("Directory exists\n");
       #endif
       return -1;

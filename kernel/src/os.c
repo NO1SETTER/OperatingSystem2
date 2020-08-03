@@ -54,7 +54,7 @@ int sane_context(_Context* ctx)//主要通过检查寄存器的合法性判断co
     if(ctx->ds!=16) return 1;
     if(ctx->cs!=8) return 1;
   #endif
-  #ifdef _DEBUG
+  #ifdef KMT_DEBUG
     printf("Vaild Context\n");  
   #endif*/
   return 0;
@@ -73,7 +73,7 @@ void set_trap(task_t* t)
   {
     kmt->spin_lock(&trap_task->lk);
     trap_task->is_trap=0;
-    #ifdef _DEBUG
+    #ifdef KMT_DEBUG
       printf("%s set free from trap with status:%d\n",trap_task->name,trap_task->status);
     #endif
     kmt->spin_unlock(&trap_task->lk);
@@ -81,7 +81,7 @@ void set_trap(task_t* t)
     kmt->spin_lock(&t->lk);
     t->is_trap=1;
     trap_task=t;
-    #ifdef _DEBUG
+    #ifdef KMT_DEBUG
       printf("%s set trapped with status:%d\n",trap_task->name,trap_task->status);
     #endif
     kmt->spin_unlock(&t->lk);
@@ -100,11 +100,11 @@ void print_thread()
 
 static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do_event
 {//整个过程中current栈不能被其他处理器修改!!!
-  #ifdef _DEBUG
+  #ifdef KMT_DEBUG
     printf("Task %s on CPU#%d trap with event %d\n",cur->name,_cpu(),ev.event);
   #endif
     set_trap(cur);
-  #ifdef _DEBUG
+  #ifdef KMT_DEBUG
     print_thread();
   #endif
   _Context *next = NULL;
@@ -119,7 +119,7 @@ static _Context *os_trap(_Event ev,_Context *context)//对应_am_irq_handle + do
   }
   //panic_on(!next, "returning NULL context");
   //panic_on(sane_context(next), "returning to invalid context");
-  #ifdef _DEBUG
+  #ifdef KMT_DEBUG
     printf("Task %s on CPU#%d is about to return from event %d\n",cur->name,_cpu(),ev.event);
   #endif
 

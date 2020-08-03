@@ -2,7 +2,7 @@
 #include<user.h>
 #pragma once
 #define sz(x) sizeof(struct x)
-#define DEBUG_
+#define VFS_DEBUG
 int min(int a,int b);
 int max(int a,int b);
 //以上是mkfs中的实现

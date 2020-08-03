@@ -1,7 +1,6 @@
 #include <common.h>
-//#define _BASIC_DEBUG
+//#define PMM_DEBUG
 //#define _SLAB_ASSIST
-#define _DEBUG
 #define PAGE_SIZE 4096 
 #define STACK_SIZE 4096
 #define BLOCK_AREA_SIZE 0x2000000
@@ -117,7 +116,7 @@ void binsert(struct block* pre,struct block* nxt,bool is_merge)//插入
 
 void print_FreeBlock()
 {
-  #ifdef _DEBUG
+  #ifdef PMM_DEBUG
   sp_lock(&print_lock);
   struct block* ptr=free_head->next;
   printf("Free blocks:\n");
@@ -132,7 +131,7 @@ void print_FreeBlock()
 
 void print_AllocatedBlock()
 {
-  #ifdef _DEBUG
+  #ifdef PMM_DEBUG
   sp_lock(&print_lock);
   struct block* ptr=alloc_head->next;
   printf("Allocated blocks:\n");
@@ -166,7 +165,7 @@ int maxpos=0;//当前已经分配到的最大位置，当mset为空时从这里�
 uintptr_t bstart;
 static void *balloc()//专门给block分配空间用,直接从某一位置开始往上垒不用对齐
 {
-  #ifdef _BASIC_DEBUG
+  #ifdef PMM_DEBUG
   sp_lock(&print_lock);
   printf("CPU#%d BALLOC\n",_cpu());
   sp_unlock(&print_lock);
@@ -190,7 +189,7 @@ static void *balloc()//专门给block分配空间用,直接从某一位置开始
 
 static void bfree(struct block* blk)
 {
-  #ifdef _BASIC_DEBUG
+  #ifdef PMM_DEBUG
   sp_lock(&print_lock);
   printf("CPU#%d BFREE\n",_cpu());
   sp_unlock(&print_lock);
@@ -253,7 +252,7 @@ void check_freeblock()
 static void *slab_kalloc(size_t size,int k)//对于CPU#k的slab_alloc，只用上输出锁
   { 
     #ifdef _SLAB_ASSIST
-    #ifdef _BASIC_DEBUG
+    #ifdef PMM_DEBUG
     printf("CPU#%d SLAB_KALLOC\n",_cpu());
     #endif
     struct block* ptr=slab_free_head[k]->next;
@@ -265,7 +264,7 @@ static void *slab_kalloc(size_t size,int k)//对于CPU#k的slab_alloc，只用�
       //四种情况,靠头，靠尾，既靠头又靠尾，两不靠
       if(valid_addr==ptr->start&&valid_addr+size==ptr->end)
       { 
-        #ifdef _BASIC_DEBUG
+        #ifdef PMM_DEBUG
         sp_lock(&print_lock);
         printf("CPU#%d case 1\n",_cpu());
         sp_unlock(&print_lock);
@@ -277,7 +276,7 @@ static void *slab_kalloc(size_t size,int k)//对于CPU#k的slab_alloc，只用�
       }
       else if(valid_addr==ptr->start)
       { 
-        #ifdef _BASIC_DEBUG
+        #ifdef PMM_DEBUG
         sp_lock(&print_lock);
         printf("CPU#%d case 2\n",_cpu());
         sp_unlock(&print_lock);
@@ -294,7 +293,7 @@ static void *slab_kalloc(size_t size,int k)//对于CPU#k的slab_alloc，只用�
       }
       else if(valid_addr+size==ptr->end)
       { 
-        #ifdef _BASIC_DEBUG
+        #ifdef PMM_DEBUG
         sp_lock(&print_lock);
         printf("CPU#%d case 3\n",_cpu());
         sp_unlock(&print_lock);
@@ -310,7 +309,7 @@ static void *slab_kalloc(size_t size,int k)//对于CPU#k的slab_alloc，只用�
       }
       else
       { 
-        #ifdef _BASIC_DEBUG
+        #ifdef PMM_DEBUG
         sp_lock(&print_lock);
         printf("CPU#%d case 4\n",_cpu());
         sp_unlock(&print_lock);
@@ -339,7 +338,7 @@ static void *slab_kalloc(size_t size,int k)//对于CPU#k的slab_alloc，只用�
 
 static bool slab_kfree(void *ptr,int k) {//从第k个CPU中找到是否有想要删除的对象
   #ifdef _SLAB_ASSIST
-  #ifdef _BASIC_DEBUG
+  #ifdef PMM_DEBUG
   sp_lock(&print_lock);
   printf("CPU#%d KFREE\n",_cpu());
   sp_unlock(&print_lock);
@@ -359,7 +358,7 @@ static bool slab_kfree(void *ptr,int k) {//从第k个CPU中找到是否有想要
         {
           if((loc_ptr->next==NULL)||((loc_ptr->next)->start>=blk_ptr->end))
           { 
-            #ifdef _BASIC_DEBUG
+            #ifdef PMM_DEBUG
             sp_lock(&print_lock);
             printf("CPU#%d case 5\n",_cpu());
             sp_unlock(&print_lock);
@@ -373,7 +372,7 @@ static bool slab_kfree(void *ptr,int k) {//从第k个CPU中找到是否有想要
     }
     blk_ptr=blk_ptr->next;
   }
-  #ifdef _DEBUG
+  #ifdef PMM_DEBUG
   sp_lock(&print_lock);
   printf("Block at %p has not been allocated or already freed\n",ptr);
   sp_unlock(&print_lock);
@@ -385,7 +384,7 @@ static bool slab_kfree(void *ptr,int k) {//从第k个CPU中找到是否有想要
 
 static void *kalloc(size_t size)//对于两个链表的修改，分别用链表大锁锁好
   { 
-    #ifdef _BASIC_DEBUG
+    #ifdef PMM_DEBUG
     sp_lock(&print_lock);
     printf("CPU#%d KALLOC\n",_cpu());
     sp_unlock(&print_lock);
@@ -410,14 +409,14 @@ static void *kalloc(size_t size)//对于两个链表的修改，分别用链表�
       //四种情况,靠头，靠尾，既靠头又靠尾，两不靠
       if(valid_addr==ptr->start&&valid_addr+size==ptr->end)
       { 
-        #ifdef _BASIC_DEBUG
+        #ifdef PMM_DEBUG
         sp_lock(&print_lock);
         printf("CPU#%d case 1\n",_cpu());
         sp_unlock(&print_lock);
         #endif
       bdelete(ptr);
       binsert(alloc_head,ptr,0);//整个节点直接挪过来
-      #ifdef _DEBUG
+      #ifdef PMM_DEBUG
       //print_FreeBlock();
       //print_AllocatedBlock();
       check_freeblock();
@@ -428,7 +427,7 @@ static void *kalloc(size_t size)//对于两个链表的修改，分别用链表�
       }
       else if(valid_addr==ptr->start)
       { 
-        #ifdef _BASIC_DEBUG
+        #ifdef PMM_DEBUG
         sp_lock(&print_lock);
         printf("CPU#%d case 2\n",_cpu());
         sp_unlock(&print_lock);
@@ -440,7 +439,7 @@ static void *kalloc(size_t size)//对于两个链表的修改，分别用链表�
         alloc_blk->end=valid_addr+size;
         alloc_blk->size=size;
         binsert(alloc_head,alloc_blk,0);
-        #ifdef _DEBUG
+        #ifdef PMM_DEBUG
         //print_FreeBlock();
         //print_AllocatedBlock();
         check_freeblock();
@@ -451,7 +450,7 @@ static void *kalloc(size_t size)//对于两个链表的修改，分别用链表�
       }
       else if(valid_addr+size==ptr->end)
       { 
-        #ifdef _BASIC_DEBUG
+        #ifdef PMM_DEBUG
         sp_lock(&print_lock);
         printf("CPU#%d case 3\n",_cpu());
         sp_unlock(&print_lock);
@@ -463,7 +462,7 @@ static void *kalloc(size_t size)//对于两个链表的修改，分别用链表�
         alloc_blk->end=valid_addr+size;
         alloc_blk->size=size;
         binsert(alloc_head,alloc_blk,0);
-        #ifdef _DEBUG
+        #ifdef PMM_DEBUG
         //print_FreeBlock();
         //print_AllocatedBlock();
         check_freeblock();
@@ -474,7 +473,7 @@ static void *kalloc(size_t size)//对于两个链表的修改，分别用链表�
       }
       else
       { 
-        #ifdef _BASIC_DEBUG
+        #ifdef PMM_DEBUG
         sp_lock(&print_lock);
         printf("CPU#%d case 4\n",_cpu());
         sp_unlock(&print_lock);
@@ -491,7 +490,7 @@ static void *kalloc(size_t size)//对于两个链表的修改，分别用链表�
         alloc_blk->end=valid_addr+size;
         alloc_blk->size=size;
         binsert(alloc_head,alloc_blk,0);
-        #ifdef _DEBUG
+        #ifdef PMM_DEBUG
         //print_FreeBlock();
         //print_AllocatedBlock();
         check_freeblock();
@@ -508,7 +507,7 @@ static void *kalloc(size_t size)//对于两个链表的修改，分别用链表�
 }
 
 static void kfree(void *ptr) {
-  #ifdef _BASIC_DEBUG
+  #ifdef PMM_DEBUG
   sp_lock(&print_lock);
   printf("CPU#%d KFREE\n",_cpu());
   sp_unlock(&print_lock);
@@ -535,13 +534,13 @@ static void kfree(void *ptr) {
         {
           if((loc_ptr->next==NULL)||((loc_ptr->next)->start>=blk_ptr->end))
           { 
-            #ifdef _BASIC_DEBUG
+            #ifdef PMM_DEBUG
             sp_lock(&print_lock);
             printf("CPU#%d case 5\n",_cpu());
             sp_unlock(&print_lock);
             #endif
             binsert(loc_ptr,blk_ptr,1);
-            #ifdef _DEBUG
+            #ifdef PMM_DEBUG
             //print_FreeBlock();
             //print_AllocatedBlock();
             check_freeblock();
@@ -556,7 +555,7 @@ static void kfree(void *ptr) {
     }
     blk_ptr=blk_ptr->next;
   }
-  #ifdef _DEBUG
+  #ifdef PMM_DEBUG
   sp_lock(&print_lock);
   printf("Block at %p has not been allocated or already freed\n",ptr);
   sp_unlock(&print_lock);

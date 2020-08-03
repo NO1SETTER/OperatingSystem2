@@ -44,7 +44,7 @@ int alloc_proc_inode()//要完成proc_inode的分配和空间的申请,但是不
   }
   if(ret==-1) 
   { 
-    #ifdef DEBUG_
+    #ifdef VFS_DEBUG
     printf("proc num exceeds limit\n");
     #endif
     return -1;}
@@ -158,7 +158,7 @@ int proc_free(int id)
   {
     if(flags!=O_RDONLY)
     { 
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
       printf("Files in procfs are read-only\n");
       #endif
       return -1;}
@@ -172,7 +172,7 @@ int proc_free(int id)
     }
     if(proc_id==-1) 
     {
-      #ifdef DEBUG_
+      #ifdef VFS_DEBUG
       printf("%s not found in procfs\n",pathname);
       #endif
       return -1;
@@ -309,7 +309,7 @@ int procfs_teardown(int pid)//线程结束时调用
     {
       if(root_ptr==NULL)
       {
-        #ifdef DEBUG_
+        #ifdef VFS_DEBUG
         printf("error in /proc");
         #endif
         return -1;

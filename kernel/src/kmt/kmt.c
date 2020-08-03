@@ -140,11 +140,12 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
         }
         if(round>100*_ncpu()&&cur->cpu==_cpu()&&cur->status==T_READY)
         {
+          printf("cur->cpu=%d,cur->status=%d\n",cur->cpu,cur->status);
           cur->status=T_RUNNING;
           cur->ct+=1;
           sp_unlock(&cur->lk);
           break;/*如果跑了很多轮仍然找不到可用的其他线程，并且当前陷入线程
-          是可用的，那么我们选取它作为下一个线程,is_trap仍然保持并在下次自陷时舒心*/
+          是可用的，那么我们选取它作为下一个线程,is_trap仍然保持并在下次自陷时苏醒*/
         }
         kmt->spin_unlock(&cur->lk);
         cur=cur->next;

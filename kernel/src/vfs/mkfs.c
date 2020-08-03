@@ -45,7 +45,6 @@ int write_data(inode_t* node,int offset,char* buf,int size)
     #ifdef DEBUG_
     printf("Write to file:%d, size:%d\n",node->node,node->size);
     printf("Write %d bytes at offset %d\n",size,offset);
-        printf("eip:%p\n",geteip());
     #endif
     if(offset>node->size)
     {
@@ -93,7 +92,6 @@ int read_data(inode_t* node,int offset,char* buf,int size)
     #ifdef DEBUG_
     printf("Read from file:%d, size:%d\n",node->node,node->size);
     printf("Read %d bytes at offset %d\n",size,offset);
-        printf("eip:%p\n",geteip());
     #endif
     if(offset+size>node->size)
     {

@@ -33,12 +33,11 @@ static void kmt_init()
     kmt->sem_init(&fill,  "fill",  0);
     
     char p[4][3]={"p1","p2","p3","p4"};
-    //char c[5][3]={"c1","c2","c3","c4","c5"};
-     kmt->create(task_alloc(), p[0], producer, NULL);
-   /* for(int i=0;i<4;i++)
+    char c[5][3]={"c1","c2","c3","c4","c5"};
+    for(int i=0;i<4;i++)
       kmt->create(task_alloc(), p[i], producer, NULL);
     for(int i=0;i<5;i++)
-      kmt->create(task_alloc(), c[i], consumer, NULL);*/
+      kmt->create(task_alloc(), c[i], consumer, NULL);
   #endif
 }
 
@@ -68,7 +67,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     all_thread[thread_num++]=task;//添加到所有线程中
   kmt->spin_unlock(&thread_ctrl_lock);
   #ifdef VFS_ENABLE
-   procfs_create(task->id,task->name);
+    procfs_create(task->id,task->name);
   #endif
   #ifdef _DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);

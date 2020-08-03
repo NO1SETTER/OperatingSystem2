@@ -9,7 +9,7 @@
 #define DEV_ENABLE
 //#define DEV_TEST
 #define VFS_ENABLE
-//#define VFS_TEST
+#define VFS_TEST
 
 #define STACK_SIZE 4096
 #define INT_MIN -2147483648

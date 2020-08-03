@@ -74,7 +74,7 @@ void sem_signal(sem_t *sem)
   sem->val=sem->val+1;
   #ifdef _DEBUG
   printf("Task %s running on CPU#%d\n",cur->name,_cpu());
-  printf("signal:%s->val = %d\n",sem->name,sem->val);
+  printf("signal: %s->val = %d\n",sem->name,sem->val);
   #endif
     if(sem->wnum)
     {

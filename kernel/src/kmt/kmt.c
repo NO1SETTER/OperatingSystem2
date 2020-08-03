@@ -67,7 +67,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     all_thread[thread_num++]=task;//添加到所有线程中
   kmt->spin_unlock(&thread_ctrl_lock);
   #ifdef VFS_ENABLE
-    //procfs_create(task->id,task->name);
+   procfs_create(task->id,task->name);
   #endif
   #ifdef _DEBUG
     printf(" task %d:%s created:%p\n",task->id,task->name,(void *)task);
@@ -80,7 +80,7 @@ static void kmt_teardown(task_t *t)
   kmt->spin_lock(&thread_ctrl_lock);
     t->status=T_DEAD;
     #ifdef VFS_ENABLE
-    //procfs_teardown(t->id);
+    procfs_teardown(t->id);
     #endif
   kmt->spin_unlock(&thread_ctrl_lock);
   kfree_safe(t->stack);

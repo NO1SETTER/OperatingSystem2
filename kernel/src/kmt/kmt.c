@@ -64,6 +64,10 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
       all_thread[thread_num-1]->next=task;//设置链表形成环路
       task->next=all_thread[0];
     }
+    else
+    {
+      task->next = task;
+    }
     all_thread[thread_num++]=task;//添加到所有线程中
   kmt->spin_unlock(&thread_ctrl_lock);
   #ifdef VFS_ENABLE
@@ -138,7 +142,6 @@ _Context* kmt_schedule(_Event ev,_Context* c)//传入的c是current的最新上�
           sp_unlock(&cur->lk);
           break;
         }
-                  printf("cur->cpu=%d,cur->status=%d\n",cur->cpu,cur->status);
         if(round>100*_ncpu()&&cur->cpu==_cpu()&&cur->status==T_READY)
         {
           cur->status=T_RUNNING;
